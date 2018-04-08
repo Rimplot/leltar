@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$config_full = parse_ini_file('../../../config.ini');
+$config_full = parse_ini_file('D:/wamp/www/config.ini', true);
 $config = $config_full['db_offline'];
 
 $db['default'] = array(
