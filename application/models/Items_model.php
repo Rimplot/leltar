@@ -20,6 +20,10 @@ class Items_model extends CI_Model
         } else {
             $this->db->where('items.id = ' . $id);
             $query = $this->db->get();
+
+            if ($this->db->error()['code']) {
+                show_404();
+            }
             
             return $query->row_array();
         }
