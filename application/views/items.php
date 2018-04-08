@@ -15,7 +15,7 @@
       <th scope="row"><?php echo $item['id']; ?></th>
       <td><?php echo $item['name']; ?></td>
       <td><?php echo $item['barcode']; ?></td>
-      <td><?php echo $item['category_id']; ?></td>
+      <td><?php echo $item['category']; ?></td>
     </tr>
 <?php endforeach; ?>
   </tbody>
