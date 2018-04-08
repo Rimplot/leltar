@@ -28,4 +28,16 @@ class Items_model extends CI_Model
             return $query->row_array();
         }
     }
+
+    public function set_items()
+    {
+        $data = array(
+            'id' => $this->input->post('id'),
+            'name' => $this->input->post('name'),
+            'barcode' => $this->input->post('barcode'),
+            'category_id' => $this->input->post('category_id')
+        );
+
+        return $this->db->replace('items', $data);
+    }
 }
