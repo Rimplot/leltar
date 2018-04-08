@@ -10,13 +10,11 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($items as $item) : ?>
     <tr>
       <th scope="row"><?php echo $item['id']; ?></th>
       <td><?php echo $item['name']; ?></td>
       <td><?php echo $item['barcode']; ?></td>
       <td><?php echo $item['category']; ?></td>
     </tr>
-<?php endforeach; ?>
   </tbody>
 </table>
