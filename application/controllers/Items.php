@@ -1,10 +1,10 @@
 <?php
 
-class Pages extends CI_Controller
+class Items extends CI_Controller
 {
     public function index() {
-        $data['page'] = 'home';
-        $data['page_title'] = "Főoldal";
+        $data['page'] = 'items';
+        $data['page_title'] = "Eszközök";
 
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);

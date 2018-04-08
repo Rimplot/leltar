@@ -1,10 +1,10 @@
 <?php
 
-class Pages extends CI_Controller
+class Categories extends CI_Controller
 {
     public function index() {
-        $data['page'] = 'home';
-        $data['page_title'] = "Főoldal";
+        $data['page'] = 'categories';
+        $data['page_title'] = "Kategóriák";
 
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);
