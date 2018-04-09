@@ -26,7 +26,7 @@ class Items extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->items_model->set_items();
-            $this->view($id);
+            redirect('/items/' . $id . '/success');
         }
     }
 
@@ -41,13 +41,8 @@ class Items extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function view($id = false)
+    public function view($id = false, $msg = null)
     {
-        if ($id === false) {
-            $this->index();
-            return;
-        }
-
         $data['page'] = 'item';
         $data['page_title'] = "Eszköz";
         $data['item'] = $this->items_model->get_items($id);
