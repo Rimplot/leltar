@@ -5,6 +5,9 @@
     <title><?php echo $page_title; ?> | Leltár</title>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/styles.css" />
+    <script src="<?php echo base_url(); ?>assets/javascript/jquery-3.3.1.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/javascript/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/javascript/scripts.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
