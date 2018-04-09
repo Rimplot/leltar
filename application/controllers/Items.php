@@ -48,6 +48,7 @@ class Items extends CI_Controller
         $data['item'] = $this->items_model->get_items($id);
 
         $this->load->view('templates/header', $data);
+        if ($msg == 'success') $this->load->view('success');
         $this->load->view($data['page'], $data);
         $this->load->view('templates/footer');
     }

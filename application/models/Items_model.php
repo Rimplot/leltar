@@ -21,7 +21,7 @@ class Items_model extends CI_Model
             $this->db->where('items.id = ' . $id);
             $query = $this->db->get();
 
-            if ($this->db->error()['code']) {
+            if ($this->db->error()['code'] || !$query->num_rows()) {
                 show_404();
             }
             
