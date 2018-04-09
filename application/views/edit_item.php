@@ -1,8 +1,10 @@
 <h2><?php echo $page_title; ?></h2>
 
-<?php echo validation_errors(); ?>
+<?php echo validation_errors('<div class="alert alert-danger alert-dismissible">' .
+                             '<button type="button" class="close">&times;</button>' .
+                             '<strong>Hiba!</strong> ', '</div>'); ?>
 
-<?php echo form_open('items/edit/' . $item['id'] . '?success'); ?>
+<?php echo form_open('items/edit/' . $item['id']); ?>
 
 <div class="form-group">
     <table class="table">
