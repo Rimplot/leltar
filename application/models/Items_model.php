@@ -7,6 +7,19 @@ class Items_model extends CI_Model
         $this->load->database();
     }
 
+    public function add_item()
+    {
+        $data = array(
+            'name' => $this->input->post('name'),
+            'barcode' => $this->input->post('barcode'),
+            'category_id' => $this->input->post('category_id')
+        );
+
+        $this->db->insert('items', $data);
+
+        return $this->db->insert_id();
+    }
+
     public function get_items($id = false)
     {
         $this->db->select('items.*, category.name AS category');

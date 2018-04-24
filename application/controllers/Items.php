@@ -8,6 +8,27 @@ class Items extends CI_Controller
         $this->load->model('items_model');
     }
 
+    public function add()
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('name', 'Név', 'required');
+        $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
+
+        $data['page'] = 'add_item';
+        $data['page_title'] = "Eszköz hozzáadása";
+
+        if ($this->form_validation->run() === false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view($data['page'], $data);
+            $this->load->view('templates/footer');
+        } else {
+            $id = $this->items_model->add_item();
+            redirect('/items/' . $id . '/success');
+        }
+    }
+
     public function edit($id = false)
     {
         $this->load->helper('form');
