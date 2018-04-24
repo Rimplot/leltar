@@ -1,4 +1,11 @@
-<h2><?php echo $page_title; ?></h2>
+<div class="row">
+    <div class="col-md-8">
+        <h2><?php echo $page_title; ?></h2>
+    </div>
+    <div class="col-md-4">
+        <a href="<?php echo base_url(); ?>items/add" class="btn btn-info float-right">Új eszköz hozzáadása</a>
+    </div>
+</div>
 
 <table class="table">
   <thead>
