@@ -20,6 +20,14 @@ class Items_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    public function delete_item($id = null)
+    {
+        if ($id !== null) {
+            $data['id'] = $id;
+            $this->db->delete('items', $data);
+        }
+    }
+
     public function get_items($id = false)
     {
         $this->db->select('items.*, category.name AS category');

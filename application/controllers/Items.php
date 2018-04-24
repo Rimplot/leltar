@@ -29,6 +29,12 @@ class Items extends CI_Controller
         }
     }
 
+    public function delete($id)
+    {
+        $this->items_model->delete_item($id);
+        redirect('items');
+    }
+
     public function edit($id = false)
     {
         $this->load->helper('form');
