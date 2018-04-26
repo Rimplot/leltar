@@ -14,6 +14,8 @@
       <th scope="col">Név</th>
       <th scope="col">Vonalkód</th>
       <th scope="col">Kategória</th>
+      <th scope="col">Utoljára leltározva</th>
+      <th scope="col">Hely</th>
     </tr>
   </thead>
   <tbody>
@@ -23,6 +25,8 @@
       <td><?php echo $item['name']; ?></td>
       <td><?php echo $item['barcode']; ?></td>
       <td><?php echo $item['category']; ?></td>
+      <td><?php echo $item['last_seen']['time']; ?></td>
+      <td><?php echo $item['last_seen']['storage_name']; ?></td>
     </tr>
 <?php endforeach; ?>
   </tbody>

@@ -36,14 +36,36 @@ class Items_model extends CI_Model
 
         if ($id === false) {
             $query = $this->db->get();
+            $result = $query->result_array();
 
-            return $query->result_array();
+            for ($i = 0; $i < count($result); $i++) {
+                $result[$i]['last_seen'] = $this->get_last_seen($result[$i]['id']);
+            }
+
+            return $result;
         } else {
             $this->db->where('items.id = ' . $id);
             $query = $this->db->get();
 
             if ($this->db->error()['code'] || !$query->num_rows()) {
                 show_404();
+            }
+            
+            return $query->row_array();
+        }
+    }
+
+    public function get_last_seen($id = null) {
+        if ($id !== null) {
+            $this->db->select('inventory.*, storage.name AS storage_name');
+            $this->db->from('inventory');
+            $this->db->where('equipment_id', $id);
+            $this->db->where('latest', 1);
+            $this->db->join('storage', 'storage.id = inventory.storage_id');
+            $query = $this->db->get();
+
+            if ($this->db->error()['code']) {
+                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
             }
             
             return $query->row_array();
