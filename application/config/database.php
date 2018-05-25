@@ -73,8 +73,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$config_full = parse_ini_file('D:/wamp/www/config.ini', true);
-$config = $config_full['db_offline'];
+if (file_exists('D:/wamp/www/config.ini')) {
+    $config_full = parse_ini_file('D:/wamp/www/config.ini', true);
+    $config = $config_full['db_offline'];
+}
+else {
+    $config = parse_ini_string('
+        host = db101.websupport.sk:3312
+        username = leltar
+        password = 0x5jbpoiMHQ6hSVdbM
+        database = leltar
+    ');
+}
 
 $db['default'] = array(
 	'dsn'	=> '',
