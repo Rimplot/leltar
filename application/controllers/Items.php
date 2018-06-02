@@ -73,6 +73,7 @@ class Items extends CI_Controller
         $data['page'] = 'item';
         $data['page_title'] = "Eszköz";
         $data['item'] = $this->items_model->get_items($id);
+        $data['inventory_history'] = $this->items_model->get_item_history($id);
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');

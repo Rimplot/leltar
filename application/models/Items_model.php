@@ -55,6 +55,23 @@ class Items_model extends CI_Model
         }
     }
 
+    public function get_item_history($id = null) {
+        if ($id !== null) {
+            $this->db->select('inventory.time, storage.name AS storage');
+            $this->db->from('inventory');
+            $this->db->where('equipment_id', $id);
+            $this->db->order_by('time', 'DESC');
+            $this->db->join('storage', 'storage.id = inventory.storage_id');
+            $query = $this->db->get();
+
+            if ($this->db->error()['code']) {
+                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
+            }
+            
+            return $query->result_array();
+        }
+    }
+
     public function get_last_seen($id = null) {
         if ($id !== null) {
             $this->db->select('inventory.*, storage.name AS storage_name');

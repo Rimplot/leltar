@@ -23,3 +23,25 @@
         </tr>
     </tbody>
 </table>
+
+<h4>Előzmények</h4>
+<?php if (/* !is_null($inventory_history) && */ count($inventory_history)) : ?>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Raktár</th>
+                <th scope="col">Időpont</th>
+            </tr>
+        </thead>
+        <tbody>
+                <?php foreach ($inventory_history as $row) : ?>
+                <tr>
+                    <td><?php echo $row['storage']; ?></td>
+                    <td><?php echo $row['time']; ?></td>
+                </tr>
+                <?php endforeach;?>
+        </tbody>
+    </table>
+<?php else : ?>
+    <p>Ez az eszköz még nem volt leltárazva.</p>
+<?php endif; ?>
