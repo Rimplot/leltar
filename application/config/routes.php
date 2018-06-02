@@ -56,6 +56,12 @@ $route['items/(:num)/view'] = 'items/view/$1';
 $route['items/(:num)/edit'] = 'items/edit/$1';
 $route['items/(:num)/(:any)'] = 'items/view/$1/$2';
 
+$route['categories/view'] = 'categories';
+$route['categories/(:num)'] = 'categories/view/$1';
+$route['categories/(:num)/view'] = 'categories/view/$1';
+$route['categories/(:num)/edit'] = 'categories/edit/$1';
+$route['categories/(:num)/(:any)'] = 'categories/view/$1/$2';
+
 $route['default_controller'] = 'pages';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
