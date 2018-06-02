@@ -18,7 +18,7 @@
             <td><?php echo $item['category']; ?></td>
             <th class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'items/edit/' . $item['id']; ?>">Módosítás</a>
-                <a class="btn btn-danger" href="<?php echo base_url() . 'items/delete/' . $item['id']; ?>">Törlés</a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>
             </th>
         </tr>
     </tbody>
@@ -45,3 +45,24 @@
 <?php else : ?>
     <p>Ez az eszköz még nem volt leltárazva.</p>
 <?php endif; ?>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Eszköz törlése</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Az eszköz törlésével minden hozzárendelt adatot eltávolítasz a rendszerből. Biztosan folytatni szeretnéd?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Mégsem</button>
+                <a href="<?php echo base_url() . 'items/delete/' . $item['id']; ?>" class="btn btn-danger">Törlés</a>
+            </div>
+        </div>
+    </div>
+</div>
