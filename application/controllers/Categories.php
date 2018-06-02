@@ -2,11 +2,17 @@
 
 class Categories extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('categories_model');
+    }
+
     public function index()
     {
         $data['page'] = 'categories';
         $data['page_title'] = "Kategóriák";
-        //$data['items'] = $this->categories_model->get_categories();
+        $data['categories'] = $this->categories_model->get_categories();
 
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);
@@ -17,7 +23,8 @@ class Categories extends CI_Controller
     {
         $data['page'] = 'category';
         $data['page_title'] = "Kategória";
-        //$data['category'] = $this->categories_model->get_categories($id);
+        $data['category'] = $this->categories_model->get_categories($id);
+        $data['items'] = $this->categories_model->get_items_in_category($id);
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');
