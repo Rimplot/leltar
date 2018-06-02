@@ -59,7 +59,7 @@ class Items_model extends CI_Model
         if ($id !== null) {
             $this->db->select('inventory.time, storages.name AS storage');
             $this->db->from('inventory');
-            $this->db->where('equipment_id', $id);
+            $this->db->where('item_id', $id);
             $this->db->order_by('time', 'DESC');
             $this->db->join('storages', 'storages.id = inventory.storage_id');
             $query = $this->db->get();
@@ -76,7 +76,7 @@ class Items_model extends CI_Model
         if ($id !== null) {
             $this->db->select('inventory.*, storages.name AS storage_name');
             $this->db->from('inventory');
-            $this->db->where('equipment_id', $id);
+            $this->db->where('item_id', $id);
             $this->db->where('latest', 1);
             $this->db->join('storages', 'storages.id = inventory.storage_id');
             $query = $this->db->get();
