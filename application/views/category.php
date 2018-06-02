@@ -7,6 +7,7 @@
             <th scope="col">Név</th>
             <th scope="col">Szülő kategória</th>
             <th scope="col">Eszközök száma</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +16,10 @@
             <td><?php echo $category['name']; ?></td>
             <td><?php echo $category['parent']; ?></td>
             <td><?php echo $category['item_num']; ?></td>
+            <td class="float-right">
+                <a class="btn btn-primary" href="<?php echo base_url() . 'categories/edit/' . $category['id']; ?>">Módosítás</a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>
+            </td>
         </tr>
     </tbody>
 </table>
@@ -40,7 +45,7 @@
         </tbody>
     </table>
 <?php else : ?>
-    <p>Ez az eszköz még nem volt leltárazva.</p>
+    <p>Ez a kategória még nincs hozzárendelve egy eszközhöz sem.</p>
 <?php endif; ?>
 
 <!-- Delete Modal -->
@@ -48,17 +53,17 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Eszköz törlése</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Kategória törlése</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Az eszköz törlésével minden hozzárendelt adatot eltávolítasz a rendszerből. Biztosan folytatni szeretnéd?
+                A kategória törlésével az összes hozzárendelt eszköz átkerül a szülőkategóriába, ha azonban ilyen nincs, akkor kategória nélkül marad. Biztosan folytatni szeretnéd?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Mégsem</button>
-                <a href="<?php echo base_url() . 'items/delete/' . $item['id']; ?>" class="btn btn-danger">Törlés</a>
+                <a href="<?php echo base_url() . 'categories/delete/' . $category['id']; ?>" class="btn btn-danger">Törlés</a>
             </div>
         </div>
     </div>

@@ -14,7 +14,7 @@ class Categories_model extends CI_Model
             'parent' => $this->input->post('parent')
         );
 
-        $this->db->insert('categories', $data);
+        $this->db->insert('category', $data);
 
         return $this->db->insert_id();
     }
@@ -23,7 +23,7 @@ class Categories_model extends CI_Model
     {
         if ($id !== null) {
             $data['id'] = $id;
-            $this->db->delete('categories', $data);
+            $this->db->delete('category', $data);
         }
     }
 
@@ -75,14 +75,14 @@ class Categories_model extends CI_Model
         }
     }
 
-    public function set_categories()
+    public function set_category()
     {
         $data = array(
             'id' => $this->input->post('id'),
             'name' => $this->input->post('name'),
-            'barcode' => $this->input->post('parent')
+            'parent' => $this->input->post('parent')
         );
 
-        return $this->db->replace('categories', $data);
+        return $this->db->replace('category', $data);
     }
 }

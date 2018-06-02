@@ -8,6 +8,53 @@ class Categories extends CI_Controller
         $this->load->model('categories_model');
     }
 
+    public function add()
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('name', 'Név', 'required');
+
+        $data['page'] = 'add_category';
+        $data['page_title'] = "Kategória hozzáadása";
+
+        if ($this->form_validation->run() === false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view($data['page'], $data);
+            $this->load->view('templates/footer');
+        } else {
+            $id = $this->categories_model->add_category();
+            redirect('/categories/' . $id . '/success');
+        }
+    }
+
+    public function delete($id)
+    {
+        $this->categories_model->delete_category($id);
+        redirect('categories');
+    }
+
+    public function edit($id = false)
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('name', 'Név', 'required');
+
+        $data['page'] = 'edit_category';
+        $data['page_title'] = "Kategória szerkesztése";
+        $data['category'] = $this->categories_model->get_categories($id);
+
+        if ($this->form_validation->run() === false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view($data['page'], $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->categories_model->set_category();
+            redirect('/categories/' . $id . '/success');
+        }
+    }
+
     public function index()
     {
         $data['page'] = 'categories';
