@@ -30,9 +30,9 @@ class Items_model extends CI_Model
 
     public function get_items($id = false)
     {
-        $this->db->select('items.*, category.name AS category');
+        $this->db->select('items.*, categories.name AS category');
         $this->db->from('items');
-        $this->db->join('category', 'category.id = items.category_id');
+        $this->db->join('categories', 'categories.id = items.category_id');
 
         if ($id === false) {
             $query = $this->db->get();
@@ -57,11 +57,11 @@ class Items_model extends CI_Model
 
     public function get_item_history($id = null) {
         if ($id !== null) {
-            $this->db->select('inventory.time, storage.name AS storage');
+            $this->db->select('inventory.time, storages.name AS storage');
             $this->db->from('inventory');
             $this->db->where('equipment_id', $id);
             $this->db->order_by('time', 'DESC');
-            $this->db->join('storage', 'storage.id = inventory.storage_id');
+            $this->db->join('storages', 'storages.id = inventory.storage_id');
             $query = $this->db->get();
 
             if ($this->db->error()['code']) {
@@ -74,11 +74,11 @@ class Items_model extends CI_Model
 
     public function get_last_seen($id = null) {
         if ($id !== null) {
-            $this->db->select('inventory.*, storage.name AS storage_name');
+            $this->db->select('inventory.*, storages.name AS storage_name');
             $this->db->from('inventory');
             $this->db->where('equipment_id', $id);
             $this->db->where('latest', 1);
-            $this->db->join('storage', 'storage.id = inventory.storage_id');
+            $this->db->join('storages', 'storages.id = inventory.storage_id');
             $query = $this->db->get();
 
             if ($this->db->error()['code']) {

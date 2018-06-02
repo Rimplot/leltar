@@ -14,7 +14,7 @@ class Categories_model extends CI_Model
             'parent' => $this->input->post('parent')
         );
 
-        $this->db->insert('category', $data);
+        $this->db->insert('categories', $data);
 
         return $this->db->insert_id();
     }
@@ -23,15 +23,15 @@ class Categories_model extends CI_Model
     {
         if ($id !== null) {
             $data['id'] = $id;
-            $this->db->delete('category', $data);
+            $this->db->delete('categories', $data);
         }
     }
 
     public function get_categories($id = false)
     {
         $this->db->select('c1.id AS id, c1.name AS name, c2.name AS parent, c2.id AS parent_id');
-        $this->db->from('category c1');
-        $this->db->join('category c2', 'c1.parent = c2.id');
+        $this->db->from('categories c1');
+        $this->db->join('categories c2', 'c1.parent = c2.id');
 
         if ($id === false) {
             $this->db->where('c1.id <> 0');
@@ -83,6 +83,6 @@ class Categories_model extends CI_Model
             'parent' => $this->input->post('parent')
         );
 
-        return $this->db->replace('category', $data);
+        return $this->db->replace('categories', $data);
     }
 }
