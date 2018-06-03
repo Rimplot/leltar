@@ -22,7 +22,7 @@
     </tbody>
 </table>
 
-<h4>Eszközök, amelyeket utoljára itt voltak leltárazva</h4>
+<h4>Eszközök, amelyek utoljára itt voltak leltárazva</h4>
 <?php if (/* !is_null($inventory_history) && */ count($items)) : ?>
     <table class="table">
         <thead>
@@ -36,9 +36,9 @@
         <tbody>
             <?php foreach ($items as $item) : ?>
                 <tr>
-                    <th scope="row"><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['id']; ?></a></th>
-                    <td><?php echo $item['name']; ?></td>
-                    <td><?php echo $item['category']; ?></td>
+                    <th scope="row"><?php echo $item['id']; ?></th>
+                    <td><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['name']; ?></a></td>
+                    <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></td>
                     <td><?php echo $item['time']; ?></td>
                 </tr>
             <?php endforeach; ?>

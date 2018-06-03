@@ -52,9 +52,9 @@ class Storages_model extends CI_Model
         }
     }
 
-    public function get_items_last_seen_in_category($id = null) {
+    public function get_items_last_seen_in_storage($id = null) {
         if ($id !== null) {
-            $this->db->select('items.id, items.name AS name, categories.name AS category, inventory.time');
+            $this->db->select('items.*, items.name AS name, categories.name AS category, inventory.time');
             $this->db->from('inventory');
             $this->db->where('latest = 1');
             $this->db->where('storage_id', $id);

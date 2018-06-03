@@ -18,8 +18,8 @@
     <tbody>
         <?php foreach ($storages as $storage) : ?>
             <tr>
-                <th scope="row"><a href="<?php echo base_url() . 'storages/' . $storage['id']; ?>"><?php echo $storage['id']; ?></a></th>
-                <td><?php echo $storage['name']; ?></td>
+                <th scope="row"><?php echo $storage['id']; ?></th>
+                <td><a href="<?php echo base_url() . 'storages/' . $storage['id']; ?>"><?php echo $storage['name']; ?></a></td>
                 <td><?php echo $storage['address']; ?></td>
             </tr>
         <?php endforeach; ?>
