@@ -21,7 +21,7 @@
     <tbody>
         <?php foreach ($items as $item) : ?>
             <tr>
-                <th scope="row"><a href="<?php echo base_url() . 'items/view/' . $item['id']; ?>"><?php echo $item['id']; ?></a></th>
+                <th scope="row"><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['id']; ?></a></th>
                 <td><?php echo $item['name']; ?></td>
                 <td><?php echo $item['barcode']; ?></td>
                 <td><?php echo $item['category']; ?></td>

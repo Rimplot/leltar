@@ -18,7 +18,7 @@
     <tbody>
         <?php foreach ($storages as $storage) : ?>
             <tr>
-                <th scope="row"><a href="<?php echo base_url() . 'storages/view/' . $storage['id']; ?>"><?php echo $storage['id']; ?></a></th>
+                <th scope="row"><a href="<?php echo base_url() . 'storages/' . $storage['id']; ?>"><?php echo $storage['id']; ?></a></th>
                 <td><?php echo $storage['name']; ?></td>
                 <td><?php echo $storage['address']; ?></td>
             </tr>

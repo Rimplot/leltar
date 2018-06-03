@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         <tr>
-            <th scope="row"><a href="<?php echo base_url() . 'storages/view/' . $storage['id']; ?>"><?php echo $storage['id']; ?></a></th>
+            <th scope="row"><a href="<?php echo base_url() . 'storages/' . $storage['id']; ?>"><?php echo $storage['id']; ?></a></th>
             <td><?php echo $storage['name']; ?></td>
             <td><?php echo $storage['address']; ?></td>
             <td class="float-right">
@@ -36,7 +36,7 @@
         <tbody>
             <?php foreach ($items as $item) : ?>
                 <tr>
-                    <th scope="row"><a href="<?php echo base_url() . 'items/view/' . $item['id']; ?>"><?php echo $item['id']; ?></a></th>
+                    <th scope="row"><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['id']; ?></a></th>
                     <td><?php echo $item['name']; ?></td>
                     <td><?php echo $item['category']; ?></td>
                     <td><?php echo $item['time']; ?></td>
