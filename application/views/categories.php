@@ -19,9 +19,9 @@
     <tbody>
         <?php foreach ($categories as $category) : ?>
             <tr>
-                <th scope="row"><a href="<?php echo base_url() . 'categories/view/' . $category['id']; ?>"><?php echo $category['id']; ?></a></th>
-                <td><?php echo $category['name']; ?></td>
-                <td><?php echo $category['parent']; ?></td>
+                <th scope="row"><?php echo $category['id']; ?></th>
+                <td><a href="<?php echo base_url() . 'categories/' . $category['id']; ?>"><?php echo $category['name']; ?></a></td>
+                <td><a href="<?php echo base_url() . 'categories/' . $category['parent_id']; ?>"><?php echo $category['parent']; ?></a></td>
                 <td><?php echo $category['item_num']; ?></td>
             </tr>
         <?php endforeach; ?>

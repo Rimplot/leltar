@@ -11,9 +11,9 @@
     </thead>
     <tbody>
         <tr>
-            <th scope="row"><a href="<?php echo base_url() . 'storages/view/' . $storage['id']; ?>"><?php echo $storage['id']; ?></a></th>
+            <th scope="row"><?php echo $storage['id']; ?></th>
             <td><?php echo $storage['name']; ?></td>
-            <td><?php echo $storage['address']; ?></td>
+            <td><a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($storage['address']); ?>" target="_blank"><?php echo $storage['address']; ?></td>
             <td class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'storages/edit/' . $storage['id']; ?>">Módosítás</a>
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#archiveModal">Archiválás</button>
@@ -22,7 +22,7 @@
     </tbody>
 </table>
 
-<h4>Eszközök, amelyeket utoljára itt voltak leltárazva</h4>
+<h4>Eszközök, amelyek utoljára itt voltak leltárazva</h4>
 <?php if (/* !is_null($inventory_history) && */ count($items)) : ?>
     <table class="table">
         <thead>
@@ -36,9 +36,9 @@
         <tbody>
             <?php foreach ($items as $item) : ?>
                 <tr>
-                    <th scope="row"><a href="<?php echo base_url() . 'items/view/' . $item['id']; ?>"><?php echo $item['id']; ?></a></th>
-                    <td><?php echo $item['name']; ?></td>
-                    <td><?php echo $item['category']; ?></td>
+                    <th scope="row"><?php echo $item['id']; ?></th>
+                    <td><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['name']; ?></a></td>
+                    <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></td>
                     <td><?php echo $item['time']; ?></td>
                 </tr>
             <?php endforeach; ?>

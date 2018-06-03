@@ -18,9 +18,9 @@
     <tbody>
         <?php foreach ($storages as $storage) : ?>
             <tr>
-                <th scope="row"><a href="<?php echo base_url() . 'storages/view/' . $storage['id']; ?>"><?php echo $storage['id']; ?></a></th>
-                <td><?php echo $storage['name']; ?></td>
-                <td><?php echo $storage['address']; ?></td>
+                <th scope="row"><?php echo $storage['id']; ?></th>
+                <td><a href="<?php echo base_url() . 'storages/' . $storage['id']; ?>"><?php echo $storage['name']; ?></a></td>
+                <td><a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($storage['address']); ?>" target="_blank"><?php echo $storage['address']; ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

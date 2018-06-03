@@ -12,9 +12,9 @@
     </thead>
     <tbody>
         <tr>
-            <th scope="row"><a href="<?php echo base_url() . 'categories/view/' . $category['id']; ?>"><?php echo $category['id']; ?></a></th>
+            <th scope="row"><?php echo $category['id']; ?></th>
             <td><?php echo $category['name']; ?></td>
-            <td><?php echo $category['parent']; ?></td>
+            <td><a href="<?php echo base_url() . 'categories/' . $category['parent_id']; ?>"><?php echo $category['parent']; ?></a></td>
             <td><?php echo $category['item_num']; ?></td>
             <td class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'categories/edit/' . $category['id']; ?>">Módosítás</a>
@@ -37,8 +37,8 @@
         <tbody>
             <?php foreach ($items as $item) : ?>
                 <tr>
-                    <th scope="row"><a href="<?php echo base_url() . 'items/view/' . $item['id']; ?>"><?php echo $item['id']; ?></a></th>
-                    <td><?php echo $item['name']; ?></td>
+                    <th scope="row"><?php echo $item['id']; ?></th>
+                    <td><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['name']; ?></a></td>
                     <td><?php echo $item['barcode']; ?></td>
                 </tr>
             <?php endforeach; ?>

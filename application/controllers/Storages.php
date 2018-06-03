@@ -71,7 +71,7 @@ class Storages extends CI_Controller
         $data['page'] = 'storage';
         $data['page_title'] = "Raktár";
         $data['storage'] = $this->storages_model->get_storages($id);
-        $data['items'] = $this->storages_model->get_items_last_seen_in_category($id);
+        $data['items'] = $this->storages_model->get_items_last_seen_in_storage($id);
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');

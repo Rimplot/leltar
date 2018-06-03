@@ -57,7 +57,7 @@ class Items_model extends CI_Model
 
     public function get_item_history($id = null) {
         if ($id !== null) {
-            $this->db->select('inventory.time, storages.name AS storage');
+            $this->db->select('inventory.*, storages.name AS storage');
             $this->db->from('inventory');
             $this->db->where('item_id', $id);
             $this->db->order_by('time', 'DESC');
