@@ -68,7 +68,7 @@ class Ajax_model extends CI_Model
                     $this->db->replace('inventory', $data);
 
                     // get back the details of the updated added row
-                    $this->db->select('inventory.*, items.name, items.barcode, categories.name AS category, storages.name AS storage');
+                    $this->db->select('inventory.*, items.name, items.barcode, items.category_id, categories.name AS category, storages.name AS storage');
                     $this->db->from('inventory');
                     $this->db->where('inventory.id', $inventory['id']);
                     $this->db->join('items', 'items.id = inventory.item_id');

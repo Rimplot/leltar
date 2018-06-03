@@ -90,17 +90,17 @@
 								$row.prependTo('#results > tbody');
 								var $rowData = $row.children().filter('td');
 								$rowData.eq(4).text(data.time);
-								$rowData.eq(5).text(data.storage);
+								$rowData.eq(5).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + '</a>');
 							}
 							else {
 								$('#results').find('tbody').prepend(
                                     '<tr id="' + data.barcode + '">' +
                                         '<td>' + data.id + '</td>' +
-                                        '<td>' + data.name + '</td>' +
+                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'items/' + data.item_id + '">' + data.name + '</a></td>' +
                                         '<td>' + data.barcode + '</td>' +
-                                        '<td>' + data.category + '</td>' +
+                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'categories/' + data.category_id + '">' + data.category + '<a/></td>' +
                                         '<td>' + data.time + '</td>' +
-                                        '<td>' + data.storage + '</td>' +
+                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + '</a></td>' +
                                     '</tr>');
 							}
 						}
