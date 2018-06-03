@@ -16,6 +16,22 @@
 <p id="text" class="d-none">Listening to barcode scanner...</p>
 
 
+<table class="table" id="results">
+    <thead>
+        <tr>
+            <th scope="col">Azonosító</th>
+            <th scope="col">Név</th>
+            <th scope="col">Vonalkód</th>
+            <th scope="col">Kategória</th>
+            <th scope="col">Utoljára leltározva</th>
+            <th scope="col">Hely</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--<td colspan="6">Még egy eszköz sem volt most leltárazva.</td>-->
+    </tbody>
+</table>
+
 
 <script>
 	$(document).ready(function(){
@@ -68,7 +84,25 @@
 					},
 					success: function(data) {
 						if (data.success) {
-							// success
+							var $row = $('#' + barcode);
+							var storageName = $('option[value="' + storage + '"').eq(0).text();
+							if ($row.length) {
+								$row.prependTo('#results > tbody');
+								var $rowData = $row.children().filter('td');
+								$rowData.eq(4).text(data.time);
+								$rowData.eq(5).text(data.storage);
+							}
+							else {
+								$('#results').find('tbody').prepend(
+                                    '<tr id="' + data.barcode + '">' +
+                                        '<td>' + data.id + '</td>' +
+                                        '<td>' + data.name + '</td>' +
+                                        '<td>' + data.barcode + '</td>' +
+                                        '<td>' + data.category + '</td>' +
+                                        '<td>' + data.time + '</td>' +
+                                        '<td>' + data.storage + '</td>' +
+                                    '</tr>');
+							}
 						}
 						else {
 							alert('Ismeretlen eszköz');
