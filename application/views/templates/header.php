@@ -18,8 +18,8 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-        <li class="nav-item<?php echo ($page == 'home') ? ' active' : '' ?> ">
-            <a class="nav-link" href="<?php echo base_url(); ?>">Főoldal</span></a>
+        <li class="nav-item<?php echo ($page == 'inventory') ? ' active' : '' ?> ">
+            <a class="nav-link" href="<?php echo base_url(); ?>inventory">Leltárazás</span></a>
         </li>
         <li class="nav-item<?php echo ($page == 'items') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>items">Eszközök</a>
