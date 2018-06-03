@@ -5,7 +5,7 @@ class Inventory extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('items_model');
+        $this->load->model('storages_model');
     }
 
     public function add()
@@ -61,7 +61,7 @@ class Inventory extends CI_Controller
     {
         $data['page'] = 'inventory';
         $data['page_title'] = "Leltárazás";
-        //$data['items'] = $this->items_model->get_items();
+        $data['storages'] = $this->storages_model->get_storages();
 
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);
