@@ -15,10 +15,12 @@
 
 <p id="text" class="d-none">Listening to barcode scanner...</p>
 
+
+
 <script>
 	$(document).ready(function(){
 		var scanning = false;
-		var lastKeypressTime;
+        var timeout = null;
 
 		var $stopBtn = $('#btnStop');
 		var $startBtn = $('#btnStart');
@@ -51,6 +53,8 @@
 
 		$barcodeTextInput.keypress(function(e){
 			if (e.which === 13) {
+                timeout = null;
+
 				var barcode = $(this).val().toUpperCase();
 				var storage = $storageSelect.val();
 
@@ -63,8 +67,16 @@
 						'storage': storage
 					},
 					success: function(data) {
-                        alert('Siker!');
-					}
+						if (data.success) {
+							// success
+						}
+						else {
+							alert('Ismeretlen eszköz');
+						}
+					},
+                    error: function(data) {
+                        alert('Hiba! Nincs kapcsolat az adatbázissal.')
+                    }
 				});
 
 				$(this).val('');
@@ -79,12 +91,10 @@
 		});
 
 		$barcodeTextInput.keyup(function (e) {
-			e.preventDefault();
-			var elapsedTime = new Date().getTime() - lastKeypressTime;
-			lastKeypressTime = new Date().getTime();
-
-			if (elapsedTime > 100)
-				$(this).val(String.fromCharCode(e.which));
+			clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                $barcodeTextInput.val('');
+            }, 100);
 		});
 	});
 </script>

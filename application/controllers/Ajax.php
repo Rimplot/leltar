@@ -9,7 +9,9 @@ class Ajax extends CI_Controller
     }
 
     public function inventory() {
+        $result = $this->ajax_model->inventory($this->input->post('barcode'), $this->input->post('storage'));
+        
         header('Content-Type: application/json');
-        echo json_encode($this->ajax_model->inventory($this->input->post('barcode'), $this->input->post('storage')));
+        echo json_encode($result);
     }
 }
