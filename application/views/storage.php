@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         <tr>
-            <th scope="row"><a href="<?php echo base_url() . 'storages/' . $storage['id']; ?>"><?php echo $storage['id']; ?></a></th>
+            <th scope="row"><?php echo $storage['id']; ?></th>
             <td><?php echo $storage['name']; ?></td>
             <td><?php echo $storage['address']; ?></td>
             <td class="float-right">

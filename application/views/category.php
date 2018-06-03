@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         <tr>
-            <th scope="row"><a href="<?php echo base_url() . 'categories/' . $category['id']; ?>"><?php echo $category['id']; ?></a></th>
+            <th scope="row"><?php echo $category['id']; ?></th>
             <td><?php echo $category['name']; ?></td>
             <td><?php echo $category['parent']; ?></td>
             <td><?php echo $category['item_num']; ?></td>
