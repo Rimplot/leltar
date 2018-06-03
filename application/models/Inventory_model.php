@@ -1,6 +1,6 @@
 <?php
 
-class Ajax_model extends CI_Model
+class Inventory_model extends CI_Model
 {
     public function __construct()
     {
