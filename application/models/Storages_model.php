@@ -19,11 +19,13 @@ class Storages_model extends CI_Model
         return $this->db->insert_id();
     }
 
-    public function delete_storage($id = null)
+    public function archive_storage($id = null)
     {
         if ($id !== null) {
-            $data['id'] = $id;
-            $this->db->delete('storages', $data);
+            $data = array('archived' => 1);
+            $this->db->where('id', $id);
+    
+            return $this->db->update('storages', $data);
         }
     }
 
@@ -72,11 +74,12 @@ class Storages_model extends CI_Model
     public function set_storage()
     {
         $data = array(
-            'id' => $this->input->post('id'),
             'name' => $this->input->post('name'),
-            'parent' => $this->input->post('parent')
+            'address' => $this->input->post('address')
         );
 
-        return $this->db->replace('storage', $data);
+        $this->db->where('id', $this->input->post('id'));
+
+        return $this->db->update('storages', $data);
     }
 }

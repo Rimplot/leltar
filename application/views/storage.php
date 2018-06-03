@@ -16,7 +16,7 @@
             <td><?php echo $storage['address']; ?></td>
             <td class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'storages/edit/' . $storage['id']; ?>">Módosítás</a>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#archiveModal">Archiválás</button>
             </td>
         </tr>
     </tbody>
@@ -49,21 +49,21 @@
 <?php endif; ?>
 
 <!-- Delete Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="archiveModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Kategória törlése</h5>
+                <h5 class="modal-title" id="archiveModalLabel">Raktár archiválása</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                A kategória törlésével az összes hozzárendelt eszköz átkerül a szülőkategóriába, ha azonban ilyen nincs, akkor kategória nélkül marad. Biztosan folytatni szeretnéd?
+                A raktár archiválásával elrejted azt a leltárazáskor kiválaszható helyek közül, de az itt készített ellenőrzések eredményei továbbra is megtekinthetőek maradnak. A művelet később is viszavonható. Biztosan folytatni szeretnéd?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Mégsem</button>
-                <a href="<?php echo base_url() . 'categories/delete/' . $category['id']; ?>" class="btn btn-danger">Törlés</a>
+                <a href="<?php echo base_url() . 'storages/archive/' . $storage['id']; ?>" class="btn btn-warning">Archiválás</a>
             </div>
         </div>
     </div>
