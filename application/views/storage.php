@@ -13,7 +13,7 @@
         <tr>
             <th scope="row"><?php echo $storage['id']; ?></th>
             <td><?php echo $storage['name']; ?></td>
-            <td><?php echo $storage['address']; ?></td>
+            <td><a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($storage['address']); ?>" target="_blank"><?php echo $storage['address']; ?></td>
             <td class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'storages/edit/' . $storage['id']; ?>">Módosítás</a>
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#archiveModal">Archiválás</button>

@@ -20,7 +20,7 @@
             <tr>
                 <th scope="row"><?php echo $storage['id']; ?></th>
                 <td><a href="<?php echo base_url() . 'storages/' . $storage['id']; ?>"><?php echo $storage['name']; ?></a></td>
-                <td><?php echo $storage['address']; ?></td>
+                <td><a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($storage['address']); ?>" target="_blank"><?php echo $storage['address']; ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
