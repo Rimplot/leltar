@@ -21,12 +21,12 @@
     <tbody>
         <?php foreach ($items as $item) : ?>
             <tr>
-                <th scope="row"><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['id']; ?></a></th>
-                <td><?php echo $item['name']; ?></td>
+                <th scope="row"><?php echo $item['id']; ?></th>
+                <td><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['name']; ?></a></td>
                 <td><?php echo $item['barcode']; ?></td>
-                <td><?php echo $item['category']; ?></td>
+                <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></a></td>
                 <td><?php echo $item['last_seen']['time']; ?></td>
-                <td><?php echo $item['last_seen']['storage_name']; ?></td>
+                <td><a href="<?php echo base_url() . 'storages/' . $item['last_seen']['storage_id']; ?>"><?php echo $item['last_seen']['storage_name']; ?></a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

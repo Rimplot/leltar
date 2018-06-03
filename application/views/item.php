@@ -15,7 +15,7 @@
             <th scope="row"><?php echo $item['id']; ?></th>
             <td><?php echo $item['name']; ?></td>
             <td><?php echo $item['barcode']; ?></td>
-            <td><?php echo $item['category']; ?></td>
+            <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></td>
             <th class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'items/edit/' . $item['id']; ?>">Módosítás</a>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>
@@ -36,7 +36,7 @@
         <tbody>
                 <?php foreach ($inventory_history as $row) : ?>
                 <tr>
-                    <td><?php echo $row['storage']; ?></td>
+                    <td><a href="<?php echo base_url() . 'storages/' . $row['storage_id']; ?>"><?php echo $row['storage']; ?></a></td>
                     <td><?php echo $row['time']; ?></td>
                 </tr>
                 <?php endforeach;?>
