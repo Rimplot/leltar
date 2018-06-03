@@ -54,7 +54,18 @@
 				var barcode = $(this).val().toUpperCase();
 				var storage = $storageSelect.val();
 
-                // handle database updates here
+				$.ajax({
+					url: "<?php echo base_url(); ?>" + "ajax/inventory",
+					type: "post",
+					dataType: "json",
+					data: {
+						'barcode': barcode,
+						'storage': storage
+					},
+					success: function(data) {
+                        alert('Siker!');
+					}
+				});
 
 				$(this).val('');
 				return false;
