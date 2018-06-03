@@ -45,7 +45,7 @@
         </tbody>
     </table>
 <?php else : ?>
-    <p>Ez a kategória még nincs hozzárendelve egy eszközhöz sem.</p>
+    <p>Nincs egy eszköz sem, amit ebben a raktárban leltároztunk utoljára.</p>
 <?php endif; ?>
 
 <!-- Delete Modal -->
