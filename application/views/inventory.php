@@ -28,7 +28,20 @@
         </tr>
     </thead>
     <tbody>
-        <!--<td colspan="6">Még egy eszköz sem volt most leltárazva.</td>-->
+        <?php if (count($inventory) > 0) : ?>
+            <?php foreach($inventory as $item) : ?>
+                <tr id="<?php echo $item['barcode']; ?>">
+                    <th scope="row"><?php echo $item['id']; ?></th>
+                    <td><a href="<?php echo base_url() . 'items/' . $item['item_id']; ?>"><?php echo $item['name']; ?></a></td>
+                    <td><?php echo $item['barcode']; ?></td>
+                    <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></a></td>
+                    <td><?php echo $item['time']; ?></td>
+                    <td><a href="<?php echo base_url() . 'storages/' . $item['storage_id']; ?>"><?php echo $item['storage']; ?></a></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr><td colspan="6">Még egy eszköz sem volt most leltárazva.</td></tr>
+        <?php endif; ?>
     </tbody>
 </table>
 
@@ -89,13 +102,13 @@
 							if ($row.length) {
 								$row.prependTo('#results > tbody');
 								var $rowData = $row.children().filter('td');
-								$rowData.eq(4).text(data.time);
-								$rowData.eq(5).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + '</a>');
+								$rowData.eq(3).text(data.time);
+								$rowData.eq(4).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + '</a>');
 							}
 							else {
 								$('#results').find('tbody').prepend(
                                     '<tr id="' + data.barcode + '">' +
-                                        '<td>' + data.id + '</td>' +
+                                        '<th scope="row">' + data.id + '</th>' +
                                         '<td><a href="' + '<?php echo base_url(); ?>' + 'items/' + data.item_id + '">' + data.name + '</a></td>' +
                                         '<td>' + data.barcode + '</td>' +
                                         '<td><a href="' + '<?php echo base_url(); ?>' + 'categories/' + data.category_id + '">' + data.category + '<a/></td>' +
