@@ -22,8 +22,28 @@ class Categories_model extends CI_Model
     public function delete_category($id = null)
     {
         if ($id !== null) {
-            $data['id'] = $id;
-            $this->db->delete('categories', $data);
+            // get the id of the parent category
+            $this->db->select('parent');
+            $this->db->from('categories');
+            $this->db->where('id', $id);
+            $parent_id = $this->db->get()->row_array()['parent'];
+
+            // delete category
+            $this->db->delete('categories', array('id' => $id));
+
+            // get the ids of the items in the deleted category
+            $this->db->select('id');
+            $this->db->from('items');
+            $this->db->where('category_id', $id);
+            $result = $this->db->get()->result_array();
+
+            // put them into the parent category
+            $update_array = $result;
+            
+            for ($i = 0; $i < count($update_array); $i++)
+                $update_array[$i]['category_id'] = $parent_id;
+
+            $this->db->update_batch('items', $update_array, 'id');
         }
     }
 

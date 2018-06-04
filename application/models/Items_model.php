@@ -23,8 +23,8 @@ class Items_model extends CI_Model
     public function delete_item($id = null)
     {
         if ($id !== null) {
-            $data['id'] = $id;
-            $this->db->delete('items', $data);
+            $this->db->delete('items', array('id' => $id));
+            $this->db->delete('inventory', array('item_id' => $id));
         }
     }
 
