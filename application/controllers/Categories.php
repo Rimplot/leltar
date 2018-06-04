@@ -17,6 +17,7 @@ class Categories extends CI_Controller
 
         $data['page'] = 'add_category';
         $data['page_title'] = "Kategória hozzáadása";
+        $data['categories'] = $this->categories_model->get_categories();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
@@ -44,6 +45,7 @@ class Categories extends CI_Controller
         $data['page'] = 'edit_category';
         $data['page_title'] = "Kategória szerkesztése";
         $data['category'] = $this->categories_model->get_categories($id);
+        $data['categories'] = $this->categories_model->get_categories();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);

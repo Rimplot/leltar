@@ -22,10 +22,14 @@
             <input type="text" class="form-control<?php echo (form_error('barcode')) ? ' is-invalid' : '' ?>" name="barcode" value="<?php echo set_value('barcode'); ?>">
             <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
         </div>
-        <div class="form-group<?php echo (form_error('category_id')) ? ' has-danger' : '' ?>">
+        <div class="form-group">
             <label class="form-control-label">Kategória</label>
-            <input type="text" class="form-control<?php echo (form_error('category_id')) ? ' is-invalid' : '' ?>" name="category_id" value="<?php echo set_value('category_id'); ?>">
-            <div class="invalid-feedback"><?php echo form_error('category_id'); ?></div>
+            <select name="category_id" title="Kategória" class="form-control">
+                <option value="0" <?php echo (set_value('category_id') == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
+                <?php foreach ($categories as $category) : ?>
+                    <option value="<?php echo $category['id']; ?>" <?php echo (set_value('category_id') == $category['id']) ? 'selected' : '' ; ?>><?php echo $category['name']; ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div class="form-group">
             <input type="submit" name="submit" class="btn btn-primary" value="Mentés" />
