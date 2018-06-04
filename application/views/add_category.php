@@ -17,10 +17,14 @@
             <input type="text" class="form-control<?php echo (form_error('name')) ? ' is-invalid' : '' ?>" name="name" value="<?php echo set_value('name'); ?>">
             <div class="invalid-feedback"><?php echo form_error('name'); ?></div>
         </div>
-        <div class="form-group<?php echo (form_error('parent')) ? ' has-danger' : '' ?>">
+        <div class="form-group">
             <label class="form-control-label">Szülő kategória</label>
-            <input type="text" class="form-control<?php echo (form_error('parent')) ? ' is-invalid' : '' ?>" name="parent" value="<?php echo set_value('parent'); ?>">
-            <div class="invalid-feedback"><?php echo form_error('parent'); ?></div>
+            <select name="parent" title="Szülő kategória" class="form-control">
+                <option value="0" <?php echo (set_value('parent') == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
+                <?php foreach ($categories as $category) : ?>
+                    <option value="<?php echo $category['id']; ?>" <?php echo (set_value('parent') == $category['id']) ? 'selected' : '' ; ?>><?php echo $category['name']; ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div class="form-group">
             <input type="submit" name="submit" class="btn btn-primary" value="Mentés" />
