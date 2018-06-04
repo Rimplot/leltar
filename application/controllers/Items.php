@@ -6,6 +6,7 @@ class Items extends CI_Controller
     {
         parent::__construct();
         $this->load->model('items_model');
+        $this->load->model('categories_model');
     }
 
     public function add()
@@ -18,6 +19,7 @@ class Items extends CI_Controller
 
         $data['page'] = 'add_item';
         $data['page_title'] = "Eszköz hozzáadása";
+        $data['categories'] = $this->categories_model->get_categories();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
@@ -46,6 +48,7 @@ class Items extends CI_Controller
         $data['page'] = 'edit_item';
         $data['page_title'] = "Eszköz szerkesztése";
         $data['item'] = $this->items_model->get_items($id);
+        $data['categories'] = $this->categories_model->get_categories();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
