@@ -52,6 +52,16 @@ class Storages_model extends CI_Model
         }
     }
 
+    public function get_archived_storages()
+    {
+        $this->db->select('*');
+        $this->db->from('storages');
+        $this->db->where('archived = 1');
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
     public function get_items_last_seen_in_storage($id = null) {
         if ($id !== null) {
             $this->db->select('items.*, items.name AS name, categories.name AS category, inventory.time');
@@ -68,6 +78,16 @@ class Storages_model extends CI_Model
             }
             
             return $query->result_array();
+        }
+    }
+
+    public function restore_storage($id = null)
+    {
+        if ($id !== null) {
+            $data = array('archived' => 0);
+            $this->db->where('id', $id);
+    
+            return $this->db->update('storages', $data);
         }
     }
 

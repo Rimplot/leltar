@@ -1,12 +1,9 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <h2><?php echo $page_title; ?></h2>
     </div>
-    <div class="col-md-6">
-        <div class="float-right">
-            <a href="<?php echo base_url(); ?>storages/archived" class="btn btn-secondary">Archivált raktárak</a>
-            <a href="<?php echo base_url(); ?>storages/add" class="btn btn-info">Új raktár hozzáadása</a>
-        </div>
+    <div class="col-md-4">
+        <a href="<?php echo base_url(); ?>storages" class="btn btn-secondary float-right">Aktív raktárak</a>
     </div>
 </div>
 
@@ -16,6 +13,7 @@
             <th scope="col">Azonosító</th>
             <th scope="col">Név</th>
             <th scope="col">Cím</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +22,7 @@
                 <th scope="row"><?php echo $storage['id']; ?></th>
                 <td><a href="<?php echo base_url() . 'storages/' . $storage['id']; ?>"><?php echo $storage['name']; ?></a></td>
                 <td><a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($storage['address']); ?>" target="_blank"><?php echo $storage['address']; ?></td>
+                <td><a class="btn btn-outline-primary float-right" href="<?php echo base_url() . 'storages/restore/' . $storage['id']; ?>">Visszaállítás</a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

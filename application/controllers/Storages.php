@@ -31,7 +31,17 @@ class Storages extends CI_Controller
     public function archive($id)
     {
         $this->storages_model->archive_storage($id);
-        redirect('storages');
+        redirect('storages/archived');
+    }
+
+    public function archived() {
+        $data['page'] = 'archived_storages';
+        $data['page_title'] = "Archivált raktárak";
+        $data['storages'] = $this->storages_model->get_archived_storages();
+
+        $this->load->view('templates/header', $data);
+        $this->load->view($data['page'], $data);
+        $this->load->view('templates/footer');
     }
 
     public function edit($id = false)
@@ -64,6 +74,12 @@ class Storages extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);
         $this->load->view('templates/footer');
+    }
+
+    public function restore($id)
+    {
+        $this->storages_model->restore_storage($id);
+        redirect('storages');
     }
 
     public function view($id = false, $msg = null)
