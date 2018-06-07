@@ -18,16 +18,16 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-        <li class="nav-item<?php echo ($page == 'inventory') ? ' active' : '' ?> ">
+        <li class="nav-item<?php echo ($menu == 'inventory') ? ' active' : '' ?> ">
             <a class="nav-link" href="<?php echo base_url(); ?>inventory">Leltárazás</span></a>
         </li>
-        <li class="nav-item<?php echo ($page == 'items') ? ' active' : '' ?>">
+        <li class="nav-item<?php echo ($menu == 'items') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>items">Eszközök</a>
         </li>
-        <li class="nav-item<?php echo ($page == 'categories') ? ' active' : '' ?>">
+        <li class="nav-item<?php echo ($menu == 'categories') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>categories">Kategóriák</a>
         </li>
-        <li class="nav-item<?php echo ($page == 'storages') ? ' active' : '' ?>">
+        <li class="nav-item<?php echo ($menu == 'storages') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>storages">Raktárak</a>
         </li>
         </ul>

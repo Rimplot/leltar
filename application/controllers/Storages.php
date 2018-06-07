@@ -2,10 +2,13 @@
 
 class Storages extends CI_Controller
 {
+    private $menu;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('storages_model');
+        $this->menu = "storages";
     }
 
     public function add()
@@ -17,6 +20,7 @@ class Storages extends CI_Controller
 
         $data['page'] = 'add_storage';
         $data['page_title'] = "Raktár hozzáadása";
+        $data['menu'] = $this->menu;
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
@@ -37,6 +41,7 @@ class Storages extends CI_Controller
     public function archived() {
         $data['page'] = 'archived_storages';
         $data['page_title'] = "Archivált raktárak";
+        $data['menu'] = $this->menu;
         $data['storages'] = $this->storages_model->get_archived_storages();
 
         $this->load->view('templates/header', $data);
@@ -53,6 +58,7 @@ class Storages extends CI_Controller
 
         $data['page'] = 'edit_storage';
         $data['page_title'] = "Raktár szerkesztése";
+        $data['menu'] = $this->menu;
         $data['storage'] = $this->storages_model->get_storages($id);
 
         if ($this->form_validation->run() === false) {
@@ -69,6 +75,7 @@ class Storages extends CI_Controller
     {
         $data['page'] = 'storages';
         $data['page_title'] = "Raktárak";
+        $data['menu'] = $this->menu;
         $data['storages'] = $this->storages_model->get_storages();
 
         $this->load->view('templates/header', $data);
@@ -86,6 +93,7 @@ class Storages extends CI_Controller
     {
         $data['page'] = 'storage';
         $data['page_title'] = "Raktár";
+        $data['menu'] = $this->menu;
         $data['storage'] = $this->storages_model->get_storages($id);
         $data['items'] = $this->storages_model->get_items_last_seen_in_storage($id);
 

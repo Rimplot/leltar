@@ -2,11 +2,14 @@
 
 class Items extends CI_Controller
 {
+    private $menu;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('items_model');
         $this->load->model('categories_model');
+        $this->menu = "items";
     }
 
     public function add()
@@ -19,6 +22,7 @@ class Items extends CI_Controller
 
         $data['page'] = 'add_item';
         $data['page_title'] = "Eszköz hozzáadása";
+        $data['menu'] = $this->menu;
         $data['categories'] = $this->categories_model->get_categories();
 
         if ($this->form_validation->run() === false) {
@@ -47,6 +51,7 @@ class Items extends CI_Controller
 
         $data['page'] = 'edit_item';
         $data['page_title'] = "Eszköz szerkesztése";
+        $data['menu'] = $this->menu;
         $data['item'] = $this->items_model->get_items($id);
         $data['categories'] = $this->categories_model->get_categories();
 
@@ -64,6 +69,7 @@ class Items extends CI_Controller
     {
         $data['page'] = 'items';
         $data['page_title'] = "Eszközök";
+        $data['menu'] = $this->menu;
         $data['items'] = $this->items_model->get_items();
 
         $this->load->view('templates/header', $data);
@@ -75,6 +81,7 @@ class Items extends CI_Controller
     {
         $data['page'] = 'item';
         $data['page_title'] = "Eszköz";
+        $data['menu'] = $this->menu;
         $data['item'] = $this->items_model->get_items($id);
         $data['inventory_history'] = $this->items_model->get_item_history($id);
 
