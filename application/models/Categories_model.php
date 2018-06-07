@@ -49,34 +49,20 @@ class Categories_model extends CI_Model
 
     public function get_categories($id = false)
     {
-        $this->db->select('c1.id AS id, c1.name AS name, c2.name AS parent, c2.id AS parent_id');
+        $this->db->select('c1.id, c1.name, c2.name AS parent, c2.id AS parent_id, COUNT(items.name) AS item_num');
         $this->db->from('categories c1');
-        $this->db->join('categories c2', 'c1.parent = c2.id');
+        $this->db->join('items', 'items.category_id = c1.id', 'LEFT');
+        $this->db->join('categories c2', 'c1.parent = c2.id', 'LEFT');
+        $this->db->group_by('c1.id');
 
         if ($id === false) {
             $this->db->where('c1.id <> 0');
-            $this->db->order_by('id');
             $query = $this->db->get();
-            $result = $query->result_array();
-
-            for ($i = 0; $i < count($result); $i++) {
-                $result[$i]['item_num'] = count($this->get_items_in_category($result[$i]['id']));
-            }
-
-            return $result;
-
             return $query->result_array();
         } else {
             $this->db->where('c1.id = ' . $id);
             $query = $this->db->get();
-            $result = $query->row_array();
-            $result['item_num'] = count($this->get_items_in_category($id));
-
-            if ($this->db->error()['code'] || !$query->num_rows()) {
-                show_404();
-            }
-            
-            return $result;
+            return $query->row_array();
         }
     }
 
