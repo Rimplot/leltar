@@ -22,7 +22,9 @@
             <select name="parent" title="Szülő kategória" class="form-control">
                 <option value="0" <?php echo ($category['parent_id'] == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
                 <?php foreach ($categories as $cat) : ?>
-                    <option value="<?php echo $cat['id']; ?>" <?php echo ($category['parent_id'] == $cat['id']) ? 'selected' : '' ; ?>><?php echo $cat['name']; ?></option>
+                    <?php if ($cat['id'] != $category['id']) : // don't allow a category to be chosen as the parent of itself ?>
+                        <option value="<?php echo $cat['id']; ?>" <?php echo ($category['parent_id'] == $cat['id']) ? 'selected' : '' ; ?>><?php echo $cat['name']; ?></option>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </select>
         </div>
