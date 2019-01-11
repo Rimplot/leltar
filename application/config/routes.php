@@ -62,6 +62,12 @@ $route['categories/(:num)/view'] = 'categories/view/$1';
 $route['categories/(:num)/edit'] = 'categories/edit/$1';
 $route['categories/(:num)/(:any)'] = 'categories/view/$1/$2';
 
+$route['boxes/view'] = 'boxes';
+$route['boxes/(:num)'] = 'boxes/view/$1';
+$route['boxes/(:num)/view'] = 'boxes/view/$1';
+$route['boxes/(:num)/edit'] = 'boxes/edit/$1';
+$route['boxes/(:num)/(:any)'] = 'boxes/view/$1/$2';
+
 $route['storages/view'] = 'storages';
 $route['storages/(:num)'] = 'storages/view/$1';
 $route['storages/(:num)/view'] = 'storages/view/$1';
