@@ -32,6 +32,14 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="form-control-label">Típus</label>
+            <select name="type" title="Típus" class="form-control">
+                <?php for ($i = 0; $i < count(ITEM_TYPES); $i++) : ?>
+                    <option value="<?php echo $i; ?>" <?php echo (set_value('type') == $i) ? 'selected' : '' ; ?>><?php echo ITEM_TYPES[$i]; ?></option>
+                <?php endfor; ?>
+            </select>
+        </div>
+        <div class="form-group">
             <input type="submit" name="submit" class="btn btn-primary" value="Mentés" />
         </div>
     </div>

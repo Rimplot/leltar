@@ -7,6 +7,7 @@
             <th scope="col">Név</th>
             <th scope="col">Vonalkód</th>
             <th scope="col">Kategória</th>
+            <th scope="col">Típus</th>
             <th></th>
         </tr>
         </thead>
@@ -16,6 +17,7 @@
             <td><?php echo $item['name']; ?></td>
             <td><?php echo $item['barcode']; ?></td>
             <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></td>
+            <td><?php echo ITEM_TYPES[$item['type']]; ?></td>
             <th class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'items/edit/' . $item['id']; ?>">Módosítás</a>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>
