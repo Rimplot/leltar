@@ -9,6 +9,7 @@ class Items extends CI_Controller
         parent::__construct();
         $this->load->model('items_model');
         $this->load->model('categories_model');
+        $this->load->model('boxes_model');
         $this->menu = "items";
     }
 
@@ -24,6 +25,7 @@ class Items extends CI_Controller
         $data['page_title'] = "Eszköz hozzáadása";
         $data['menu'] = $this->menu;
         $data['categories'] = $this->categories_model->get_categories();
+        $data['boxes'] = $this->boxes_model->get_boxes();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
@@ -54,6 +56,7 @@ class Items extends CI_Controller
         $data['menu'] = $this->menu;
         $data['item'] = $this->items_model->get_items($id);
         $data['categories'] = $this->categories_model->get_categories();
+        $data['boxes'] = $this->boxes_model->get_boxes();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);

@@ -40,6 +40,15 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="form-control-label">Doboz</label>
+            <select name="box" id="box" title="Doboz" class="form-control">
+                <option value="0">&#60;semmi&#62;</option>
+                <?php foreach ($boxes as $box) : ?>
+                    <option value="<?php echo $box['id']; ?>" <?php echo (set_value('box') == $box['id']) ? 'selected' : '' ; ?>><?php echo $box['name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="form-group">
             <input type="submit" name="submit" class="btn btn-primary" value="Mentés" />
         </div>
     </div>

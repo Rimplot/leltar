@@ -33,10 +33,19 @@
         </div>
         <div class="form-group">
             <label class="form-control-label">Típus</label>
-            <select name="type" title="Típus" class="form-control">
+            <select name="type" id="type" title="Típus" class="form-control">
                 <?php for ($i = 0; $i < count(ITEM_TYPES); $i++) : ?>
                     <option value="<?php echo $i; ?>" <?php echo ($item['type'] == $i) ? 'selected' : '' ; ?>><?php echo ITEM_TYPES[$i]; ?></option>
                 <?php endfor; ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">Doboz</label>
+            <select name="box" id="box" title="Doboz" class="form-control">
+                <option value="0" <?php echo ($item['box_id'] == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
+                <?php foreach ($boxes as $box) : ?>
+                    <option value="<?php echo $box['id']; ?>" <?php echo ($item['box_id'] == $box['id']) ? 'selected' : '' ; ?>><?php echo $box['name']; ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="form-group">

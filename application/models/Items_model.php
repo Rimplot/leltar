@@ -13,7 +13,8 @@ class Items_model extends CI_Model
             'name' => $this->input->post('name'),
             'barcode' => $this->input->post('barcode'),
             'category_id' => $this->input->post('category_id'),
-            'type' => $this->input->post('type')
+            'type' => $this->input->post('type'),
+            'box_id' => $this->input->post('box')
         );
 
         $this->db->insert('items', $data);
@@ -97,7 +98,8 @@ class Items_model extends CI_Model
             'name' => $this->input->post('name'),
             'barcode' => $this->input->post('barcode'),
             'category_id' => $this->input->post('category_id'),
-            'type' => $this->input->post('type')
+            'type' => $this->input->post('type'),
+            'box_id' => $this->input->post('box')
         );
 
         return $this->db->replace('items', $data);

@@ -89,4 +89,4 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 | Custom constants
 |--------------------------------------------------------------------------
 */
-defined('ITEM_TYPES')          OR define('ITEM_TYPES', array('asset', 'box', 'stock'));
+defined('ITEM_TYPES')          OR define('ITEM_TYPES', array('asset', 'stock'));
