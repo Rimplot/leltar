@@ -8,6 +8,7 @@ class Storages extends CI_Controller
     {
         parent::__construct();
         $this->load->model('storages_model');
+        $this->load->model('sectors_model');
         $this->menu = "storages";
     }
 
@@ -96,6 +97,9 @@ class Storages extends CI_Controller
         $data['menu'] = $this->menu;
         $data['storage'] = $this->storages_model->get_storages($id);
         $data['sectors'] = $this->storages_model->get_sectors($id);
+        for ($i = 0; $i < count($data['sectors']); $i++) {
+            $data['sectors'][$i]['items_num'] = count($this->sectors_model->get_items_last_seen_in_sector($data['sectors'][$i]['id']));
+        }
         $data['items'] = $this->storages_model->get_items_last_seen_in_storage($id);
 
         $this->load->view('templates/header', $data);

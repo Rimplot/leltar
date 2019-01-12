@@ -102,8 +102,6 @@
 					success: function(data) {
 						if (data.success) {
 							var $row = $('#' + barcode);
-                            var storageName = $('option[value="' + sector + '"').eq(0).parent().attr('label');
-                            alert(storageName);
 							if ($row.length) {
 								$row.prependTo('#results > tbody');
 								var $rowData = $row.children().filter('td');
@@ -118,14 +116,14 @@
                                         '<td>' + data.barcode + '</td>' +
                                         '<td><a href="' + '<?php echo base_url(); ?>' + 'categories/' + data.category_id + '">' + data.category + '<a/></td>' +
                                         '<td>' + data.time + '</td>' +
-                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + '</a></td>' +
+                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a></td>' +
                                     '</tr>');
 							}
 						}
 						else {
 							alert('Ismeretlen eszköz');
 						}
-					},  
+					},
                     error: function(data) {
                         alert('Hiba! Nincs kapcsolat az adatbázissal.')
                     }

@@ -47,7 +47,7 @@ class Inventory_model extends CI_Model
                     $inventory_id = $this->db->insert_id();
 
                     // get back the details of the newly added row
-                    $this->db->select('inventory.*, items.name, items.barcode, categories.name AS category, storages.name AS storage');
+                    $this->db->select('inventory.*, items.name, items.barcode, categories.name AS category, storages.name AS storage, sectors.name AS sector');
                     $this->db->from('inventory');
                     $this->db->where('inventory.id', $inventory_id);
                     $this->db->join('items', 'items.id = inventory.item_id');

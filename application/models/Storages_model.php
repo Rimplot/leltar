@@ -94,7 +94,12 @@ class Storages_model extends CI_Model
                     die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
                 }
 
-                $items = array_merge($items, $query->result_array());
+                $result = $query->result_array();
+                for ($i = 0; $i < count($result); $i++) {
+                    $result[$i]['sector'] = $sector['name'];
+                    $result[$i]['sector_id'] = $sector['id'];
+                }
+                $items = array_merge($items, $result);
             }
 
             return $items;
