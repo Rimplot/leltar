@@ -1,76 +1,77 @@
 <?php
 
-class Categories_model extends CI_Model
+class Boxes_model extends CI_Model
 {
     public function __construct()
     {
         $this->load->database();
     }
 
-    public function add_category()
+    public function add_box()
     {
         $data = array(
             'name' => $this->input->post('name'),
+            'barcode' => $this->input->post('barcode'),
             'parent' => $this->input->post('parent')
         );
 
-        $this->db->insert('categories', $data);
+        $this->db->insert('boxes', $data);
 
         return $this->db->insert_id();
     }
 
-    public function delete_category($id = null)
+    public function delete_box($id = null)
     {
         if ($id !== null) {
-            // get the id of the parent category
+            // get the id of the parent box
             $this->db->select('parent');
-            $this->db->from('categories');
+            $this->db->from('boxes');
             $this->db->where('id', $id);
             $parent_id = $this->db->get()->row_array()['parent'];
 
-            // delete category
-            $this->db->delete('categories', array('id' => $id));
+            // delete box
+            $this->db->delete('boxes', array('id' => $id));
 
-            // get the ids of the items in the deleted category
+            // get the ids of the items in the deleted box
             $this->db->select('id');
             $this->db->from('items');
-            $this->db->where('category_id', $id);
+            $this->db->where('box_id', $id);
             $result = $this->db->get()->result_array();
 
-            // put them into the parent category
+            // put them into the parent box
             $update_array = $result;
             
             for ($i = 0; $i < count($update_array); $i++)
-                $update_array[$i]['category_id'] = $parent_id;
+                $update_array[$i]['box_id'] = $parent_id;
 
             $this->db->update_batch('items', $update_array, 'id');
         }
     }
 
-    public function get_categories($id = false)
+    public function get_boxes($id = false)
     {
-        $this->db->select('c1.id, c1.name, c2.name AS parent, c2.id AS parent_id, COUNT(items.name) AS item_num');
-        $this->db->from('categories c1');
-        $this->db->join('items', 'items.category_id = c1.id', 'LEFT');
-        $this->db->join('categories c2', 'c1.parent = c2.id', 'LEFT');
-        $this->db->group_by('c1.id');
+        $this->db->select('b1.id, b1.name, b1.barcode AS barcode, b2.name AS parent, b2.id AS parent_id, COUNT(items.name) AS item_num');
+        $this->db->from('boxes b1');
+        $this->db->join('items', 'items.box_id = b1.id', 'LEFT');
+        $this->db->join('boxes b2', 'b1.parent = b2.id', 'LEFT');
+        $this->db->group_by('b1.id');
 
         if ($id === false) {
-            $this->db->where('c1.id <> 0');
+            $this->db->where('b1.id <> 0');
             $query = $this->db->get();
             return $query->result_array();
         } else {
-            $this->db->where('c1.id = ' . $id);
+            $this->db->where('b1.id = ' . $id);
             $query = $this->db->get();
             return $query->row_array();
         }
     }
 
-    public function get_items_in_category($id = null) {
+    public function get_items_in_box($id = null) {
         if ($id !== null) {
             $this->db->select('*');
             $this->db->from('items');
-            $this->db->where('category_id', $id);
+            $this->db->where('box_id', $id);
             $query = $this->db->get();
 
             if ($this->db->error()['code']) {
@@ -81,14 +82,15 @@ class Categories_model extends CI_Model
         }
     }
 
-    public function set_category()
+    public function set_box()
     {
         $data = array(
             'name' => $this->input->post('name'),
+            'barcode' => $this->input->post('barcode'),
             'parent' => $this->input->post('parent')
         );
 
         $this->db->where('id', $this->input->post('id'));
-        return $this->db->update('categories', $data);
+        return $this->db->update('boxes', $data);
     }
 }

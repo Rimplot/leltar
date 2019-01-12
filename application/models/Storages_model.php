@@ -52,6 +52,19 @@ class Storages_model extends CI_Model
         }
     }
 
+    public function get_sectors($id = false)
+    {
+        if ($id !== false) {
+            $this->db->select('*');
+            $this->db->from('sectors');
+            $this->db->where('storage_id', $id);
+            $this->db->where('archived <> 1');
+            $query = $this->db->get();
+
+            return $query->result_array();
+        }
+    }
+
     public function get_archived_storages()
     {
         $this->db->select('*');
@@ -64,20 +77,32 @@ class Storages_model extends CI_Model
 
     public function get_items_last_seen_in_storage($id = null) {
         if ($id !== null) {
-            $this->db->select('items.*, items.name AS name, categories.name AS category, inventory.time');
-            $this->db->from('inventory');
-            $this->db->where('latest = 1');
-            $this->db->where('storage_id', $id);
-            $this->db->join('items', 'items.id = inventory.item_id');
-            $this->db->join('categories', 'categories.id = items.category_id');
+            $sectors = $this->get_sectors($id);
+            $items = array();
 
-            $query = $this->db->get();
+            foreach ($sectors as $sector) {
+                $this->db->select('items.*, items.name AS name, categories.name AS category, inventory.time');
+                $this->db->from('inventory');
+                $this->db->where('latest = 1');
+                $this->db->where('sector_id', $sector['id']);
+                $this->db->join('items', 'items.id = inventory.item_id');
+                $this->db->join('categories', 'categories.id = items.category_id');
 
-            if ($this->db->error()['code']) {
-                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
+                $query = $this->db->get();
+
+                if ($this->db->error()['code']) {
+                    die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
+                }
+
+                $result = $query->result_array();
+                for ($i = 0; $i < count($result); $i++) {
+                    $result[$i]['sector'] = $sector['name'];
+                    $result[$i]['sector_id'] = $sector['id'];
+                }
+                $items = array_merge($items, $result);
             }
-            
-            return $query->result_array();
+
+            return $items;
         }
     }
 

@@ -8,7 +8,7 @@
                              '<button type="button" class="close">&times;</button>' .
                              '<strong>Hiba!</strong> ', '</div>'); */ ?>
 
-<?php echo form_open('items/add'); ?>
+<?php echo form_open('boxes/add'); ?>
 
 <div class="row">
     <div class="col-lg-4 offset-lg-1">
@@ -23,28 +23,11 @@
             <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
         </div>
         <div class="form-group">
-            <label class="form-control-label">Kategória</label>
-            <select name="category_id" title="Kategória" class="form-control">
-                <option value="0" <?php echo (set_value('category_id') == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
-                <?php foreach ($categories as $category) : ?>
-                    <option value="<?php echo $category['id']; ?>" <?php echo (set_value('category_id') == $category['id']) ? 'selected' : '' ; ?>><?php echo $category['name']; ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label">Típus</label>
-            <select name="type" title="Típus" class="form-control">
-                <?php for ($i = 0; $i < count(ITEM_TYPES); $i++) : ?>
-                    <option value="<?php echo $i; ?>" <?php echo (set_value('type') == $i) ? 'selected' : '' ; ?>><?php echo ITEM_TYPES[$i]; ?></option>
-                <?php endfor; ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label">Doboz</label>
-            <select name="box" id="box" title="Doboz" class="form-control">
-                <option value="0">&#60;semmi&#62;</option>
+            <label class="form-control-label">Szülő kategória</label>
+            <select name="parent" title="Szülő kategória" class="form-control">
+                <option value="0" <?php echo (set_value('parent') == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
                 <?php foreach ($boxes as $box) : ?>
-                    <option value="<?php echo $box['id']; ?>" <?php echo (set_value('box') == $box['id']) ? 'selected' : '' ; ?>><?php echo $box['name']; ?></option>
+                    <option value="<?php echo $box['id']; ?>" <?php echo (set_value('parent') == $box['id']) ? 'selected' : '' ; ?>><?php echo $box['name']; ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

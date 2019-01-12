@@ -1,16 +1,14 @@
 <?php
 
-class Items extends CI_Controller
+class Boxes extends CI_Controller
 {
     private $menu;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('items_model');
-        $this->load->model('categories_model');
         $this->load->model('boxes_model');
-        $this->menu = "items";
+        $this->menu = "boxes";
     }
 
     public function add()
@@ -19,12 +17,10 @@ class Items extends CI_Controller
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('name', 'Név', 'required');
-        $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
 
-        $data['page'] = 'add_item';
-        $data['page_title'] = "Eszköz hozzáadása";
+        $data['page'] = 'add_box';
+        $data['page_title'] = "Doboz hozzáadása";
         $data['menu'] = $this->menu;
-        $data['categories'] = $this->categories_model->get_categories();
         $data['boxes'] = $this->boxes_model->get_boxes();
 
         if ($this->form_validation->run() === false) {
@@ -32,15 +28,15 @@ class Items extends CI_Controller
             $this->load->view($data['page'], $data);
             $this->load->view('templates/footer');
         } else {
-            $id = $this->items_model->add_item();
-            redirect('/items/' . $id . '/success');
+            $id = $this->boxes_model->add_box();
+            redirect('/boxes/' . $id . '/success');
         }
     }
 
     public function delete($id)
     {
-        $this->items_model->delete_item($id);
-        redirect('items');
+        $this->boxes_model->delete_box($id);
+        redirect('boxes');
     }
 
     public function edit($id = false)
@@ -49,13 +45,11 @@ class Items extends CI_Controller
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('name', 'Név', 'required');
-        $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
 
-        $data['page'] = 'edit_item';
-        $data['page_title'] = "Eszköz szerkesztése";
+        $data['page'] = 'edit_box';
+        $data['page_title'] = "Doboz szerkesztése";
         $data['menu'] = $this->menu;
-        $data['item'] = $this->items_model->get_items($id);
-        $data['categories'] = $this->categories_model->get_categories();
+        $data['box'] = $this->boxes_model->get_boxes($id);
         $data['boxes'] = $this->boxes_model->get_boxes();
 
         if ($this->form_validation->run() === false) {
@@ -63,17 +57,17 @@ class Items extends CI_Controller
             $this->load->view($data['page'], $data);
             $this->load->view('templates/footer');
         } else {
-            $this->items_model->set_items();
-            redirect('/items/' . $id . '/success');
+            $this->boxes_model->set_box();
+            redirect('/boxes/' . $id . '/success');
         }
     }
 
     public function index()
     {
-        $data['page'] = 'items';
-        $data['page_title'] = "Eszközök";
+        $data['page'] = 'boxes';
+        $data['page_title'] = "Dobozok";
         $data['menu'] = $this->menu;
-        $data['items'] = $this->items_model->get_items();
+        $data['boxes'] = $this->boxes_model->get_boxes();
 
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);
@@ -82,11 +76,11 @@ class Items extends CI_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'item';
-        $data['page_title'] = "Eszköz";
+        $data['page'] = 'box';
+        $data['page_title'] = "Doboz";
         $data['menu'] = $this->menu;
-        $data['item'] = $this->items_model->get_items($id);
-        $data['inventory_history'] = $this->items_model->get_item_history($id);
+        $data['box'] = $this->boxes_model->get_boxes($id);
+        $data['items'] = $this->boxes_model->get_items_in_box($id);
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');

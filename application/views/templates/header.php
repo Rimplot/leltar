@@ -27,6 +27,9 @@
         <li class="nav-item<?php echo ($menu == 'categories') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>categories">Kategóriák</a>
         </li>
+        <li class="nav-item<?php echo ($menu == 'boxes') ? ' active' : '' ?>">
+            <a class="nav-link" href="<?php echo base_url(); ?>boxes">Dobozok</a>
+        </li>
         <li class="nav-item<?php echo ($menu == 'storages') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>storages">Raktárak</a>
         </li>
