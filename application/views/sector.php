@@ -63,7 +63,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Mégsem</button>
-                <a href="<?php echo base_url() . 'sectors/archive/' . $sector['id']; ?>" class="btn btn-warning">Archiválás</a>
+                <a href="<?php echo base_url() . 'sectors/archive/'. $sector['storage_id'] . '/' . $sector['id']; ?>" class="btn btn-warning">Archiválás</a>
             </div>
         </div>
     </div>

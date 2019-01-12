@@ -57,8 +57,8 @@ class Storages_model extends CI_Model
         if ($id !== false) {
             $this->db->select('*');
             $this->db->from('sectors');
-
             $this->db->where('storage_id', $id);
+            $this->db->where('archived <> 1');
             $query = $this->db->get();
 
             return $query->result_array();

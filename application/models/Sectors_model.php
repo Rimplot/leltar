@@ -55,14 +55,17 @@ class Sectors_model extends CI_Model
         }
     }
 
-    public function get_archived_sectors()
+    public function get_archived_sectors($id = false)
     {
-        $this->db->select('*');
-        $this->db->from('sectors');
-        $this->db->where('archived = 1');
-        $query = $this->db->get();
+        if ($id !== false) {
+            $this->db->select('*');
+            $this->db->from('sectors');
+            $this->db->where('storage_id', $id);
+            $this->db->where('archived = 1');
+            $query = $this->db->get();
 
-        return $query->result_array();
+            return $query->result_array();
+        }
     }
 
     public function get_items_last_seen_in_sector($id = null) {

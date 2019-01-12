@@ -4,6 +4,7 @@
     </div>
     <div class="col-md-6">
         <div class="float-right">
+            <a href="<?php echo base_url(); ?>sectors/archived/<?php echo $storage['id']; ?>" class="btn btn-secondary">Archivált szektorok</a>
             <a href="<?php echo base_url(); ?>sectors/add/<?php echo $storage['id']; ?>" class="btn btn-info">Új szektor hozzáadása</a>
         </div>
     </div>

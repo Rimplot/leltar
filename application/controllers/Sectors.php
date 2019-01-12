@@ -37,21 +37,26 @@ class Sectors extends CI_Controller
         }
     }
 
-    public function archive($id)
+    public function archive($storage_id = false, $sector_id = false)
     {
-        $this->sectors_model->archive_sector($id);
-        redirect('sectors/archived');
+        if ($sector_id !== false && $sector_id !== false) {
+            $this->sectors_model->archive_sector($sector_id);
+            redirect('sectors/archived/' . $storage_id);
+        }
     }
 
-    public function archived() {
-        $data['page'] = 'archived_sectors';
-        $data['page_title'] = "Archivált szektorok";
-        $data['menu'] = $this->menu;
-        $data['sectors'] = $this->sectors_model->get_archived_sectors();
+    public function archived($id = false) {
+        if ($id !== false) {
+            $data['page'] = 'archived_sectors';
+            $data['page_title'] = "Archivált szektorok";
+            $data['menu'] = $this->menu;
+            $data['sectors'] = $this->sectors_model->get_archived_sectors($id);
+            $data['storage_id'] = $id;
 
-        $this->load->view('templates/header', $data);
-        $this->load->view($data['page'], $data);
-        $this->load->view('templates/footer');
+            $this->load->view('templates/header', $data);
+            $this->load->view($data['page'], $data);
+            $this->load->view('templates/footer');
+        }
     }
 
     public function edit($id = false)
@@ -88,10 +93,12 @@ class Sectors extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function restore($id)
+    public function restore($storage_id = false, $sector_id = false)
     {
-        $this->sectors_model->restore_sector($id);
-        redirect('sectors');
+        if ($sector_id !== false && $sector_id !== false) {
+            $this->sectors_model->restore_sector($sector_id);
+            redirect('storages/' . $storage_id);
+        }
     }
 
     public function view($id = false, $msg = null)
