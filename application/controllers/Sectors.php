@@ -1,6 +1,6 @@
 <?php
 
-class Storages extends CI_Controller
+class Sectors extends CI_Controller
 {
     private $menu;
 
@@ -8,41 +8,46 @@ class Storages extends CI_Controller
     {
         parent::__construct();
         $this->load->model('storages_model');
-        $this->menu = "storages";
+        $this->load->model('sectors_model');
+        $this->menu = "sectors";
     }
 
-    public function add()
+    public function add($id = false)
     {
+        if ($id === false)
+            show_404();
+        
         $this->load->helper('form');
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('name', 'Név', 'required');
 
-        $data['page'] = 'add_storage';
-        $data['page_title'] = "Raktár hozzáadása";
+        $data['page'] = 'add_sector';
+        $data['page_title'] = "Szektor hozzáadása ide: " . $this->storages_model->get_storages($id)['name'];
         $data['menu'] = $this->menu;
+        $data['storage_id'] = $id;
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
             $this->load->view($data['page'], $data);
             $this->load->view('templates/footer');
         } else {
-            $id = $this->storages_model->add_storage();
-            redirect('/storages/' . $id . '/success');
+            $id = $this->sectors_model->add_sector();
+            redirect('/sectors/' . $id . '/success');
         }
     }
 
     public function archive($id)
     {
-        $this->storages_model->archive_storage($id);
-        redirect('storages/archived');
+        $this->sectors_model->archive_sector($id);
+        redirect('sectors/archived');
     }
 
     public function archived() {
-        $data['page'] = 'archived_storages';
-        $data['page_title'] = "Archivált raktárak";
+        $data['page'] = 'archived_sectors';
+        $data['page_title'] = "Archivált szektorok";
         $data['menu'] = $this->menu;
-        $data['storages'] = $this->storages_model->get_archived_storages();
+        $data['sectors'] = $this->sectors_model->get_archived_sectors();
 
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);
@@ -56,27 +61,27 @@ class Storages extends CI_Controller
 
         $this->form_validation->set_rules('name', 'Név', 'required');
 
-        $data['page'] = 'edit_storage';
-        $data['page_title'] = "Raktár szerkesztése";
+        $data['page'] = 'edit_sector';
+        $data['page_title'] = "Szektor szerkesztése";
         $data['menu'] = $this->menu;
-        $data['storage'] = $this->storages_model->get_storages($id);
+        $data['sector'] = $this->sectors_model->get_sectors($id);
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
             $this->load->view($data['page'], $data);
             $this->load->view('templates/footer');
         } else {
-            $this->storages_model->set_storage();
-            redirect('/storages/' . $id . '/success');
+            $this->sectors_model->set_sector();
+            redirect('/sectors/' . $id . '/success');
         }
     }
 
     public function index()
     {
-        $data['page'] = 'storages';
-        $data['page_title'] = "Raktárak";
+        $data['page'] = 'sectors';
+        $data['page_title'] = "Szektorok";
         $data['menu'] = $this->menu;
-        $data['storages'] = $this->storages_model->get_storages();
+        $data['sectors'] = $this->sectors_model->get_sectors();
 
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);
@@ -85,18 +90,17 @@ class Storages extends CI_Controller
 
     public function restore($id)
     {
-        $this->storages_model->restore_storage($id);
-        redirect('storages');
+        $this->sectors_model->restore_sector($id);
+        redirect('sectors');
     }
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'storage';
-        $data['page_title'] = "Raktár";
+        $data['page'] = 'sector';
+        $data['page_title'] = "Szektor";
         $data['menu'] = $this->menu;
-        $data['storage'] = $this->storages_model->get_storages($id);
-        $data['sectors'] = $this->storages_model->get_sectors($id);
-        $data['items'] = $this->storages_model->get_items_last_seen_in_storage($id);
+        $data['sector'] = $this->sectors_model->get_sectors($id);
+        $data['items'] = $this->sectors_model->get_items_last_seen_in_sector($id);
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');

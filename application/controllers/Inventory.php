@@ -18,6 +18,9 @@ class Inventory extends CI_Controller
         $data['page_title'] = "Leltárazás";
         $data['menu'] = $this->menu;
         $data['storages'] = $this->storages_model->get_storages();
+        for ($i = 0; $i < count($data['storages']); $i++) {
+            $data['storages'][$i]['sectors'] = $this->storages_model->get_sectors($data['storages'][$i]['id']);
+        }
         $data['inventory'] = $this->inventory_model->list_inventory();
 
         $this->load->view('templates/header', $data);

@@ -6,7 +6,11 @@
 
 <select id="storageSelect" title="Storage select">
 	<?php foreach ($storages as $storage) : ?>
-        <option value="<?php echo $storage['id']; ?>"><?php echo $storage['name']; ?></option>
+        <optgroup label="<?php echo $storage['name']; ?>">
+            <?php foreach ($storage['sectors'] as $sector) : ?>
+                <option value="<?php echo $sector['id']; ?>"><?php echo $sector['name']; ?></option>
+            <?php endforeach; ?>
+        </optgroup>
     <?php endforeach; ?>
 </select>
 
@@ -36,7 +40,7 @@
                     <td><?php echo $item['barcode']; ?></td>
                     <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></a></td>
                     <td><?php echo $item['time']; ?></td>
-                    <td><a href="<?php echo base_url() . 'storages/' . $item['storage_id']; ?>"><?php echo $item['storage']; ?></a></td>
+                    <td><a href="<?php echo base_url() . 'storages/' . $item['storage_id']; ?>"><?php echo $item['storage'] . ', ' . $item['sector']; ?></a></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
@@ -85,7 +89,7 @@
                 timeout = null;
 
 				var barcode = $(this).val().toUpperCase();
-				var storage = $storageSelect.val();
+				var sector = $storageSelect.val();
 
 				$.ajax({
 					url: "<?php echo base_url(); ?>" + "ajax/inventory",
@@ -93,12 +97,13 @@
 					dataType: "json",
 					data: {
 						'barcode': barcode,
-						'storage': storage
+						'sector': sector
 					},
 					success: function(data) {
 						if (data.success) {
 							var $row = $('#' + barcode);
-							var storageName = $('option[value="' + storage + '"').eq(0).text();
+                            var storageName = $('option[value="' + sector + '"').eq(0).parent().attr('label');
+                            alert(storageName);
 							if ($row.length) {
 								$row.prependTo('#results > tbody');
 								var $rowData = $row.children().filter('td');
@@ -120,7 +125,7 @@
 						else {
 							alert('Ismeretlen eszköz');
 						}
-					},
+					},  
                     error: function(data) {
                         alert('Hiba! Nincs kapcsolat az adatbázissal.')
                     }

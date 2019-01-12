@@ -1,61 +1,26 @@
-<div class="row">
-    <div class="col-md-6">
-        <h2><?php echo $page_title; ?></h2>
-    </div>
-    <div class="col-md-6">
-        <div class="float-right">
-            <a href="<?php echo base_url(); ?>sectors/add/<?php echo $storage['id']; ?>" class="btn btn-info">Új szektor hozzáadása</a>
-        </div>
-    </div>
-</div>
+<h2><?php echo $page_title; ?></h2>
 
 <table class="table">
     <thead>
         <tr>
             <th scope="col">Azonosító</th>
             <th scope="col">Név</th>
-            <th scope="col">Cím</th>
+            <th scope="col">Vonalkód</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <th scope="row"><?php echo $storage['id']; ?></th>
-            <td><?php echo $storage['name']; ?></td>
-            <td><a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($storage['address']); ?>" target="_blank"><?php echo $storage['address']; ?></td>
+            <th scope="row"><?php echo $sector['id']; ?></th>
+            <td><?php echo $sector['name']; ?></td>
+            <td><?php echo $sector['barcode']; ?></td>
             <td class="float-right">
-                <a class="btn btn-primary" href="<?php echo base_url() . 'storages/edit/' . $storage['id']; ?>">Módosítás</a>
+                <a class="btn btn-primary" href="<?php echo base_url() . 'sectors/edit/' . $sector['id']; ?>">Módosítás</a>
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#archiveModal">Archiválás</button>
             </td>
         </tr>
     </tbody>
 </table>
-
-<h4>Szektorok</h4>
-<?php if (/* !is_null($inventory_history) && */ count($sectors)) : ?>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Azonosító</th>
-                <th scope="col">Név</th>
-                <th scope="col">Vonalkód</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($sectors as $sector) : ?>
-                <tr>
-                    <th scope="row"><?php echo $sector['id']; ?></th>
-                    <td><a href="<?php echo base_url() . 'sectors/' . $sector['id']; ?>"><?php echo $sector['name']; ?></a></td>
-                    <td><?php echo $sector['barcode']; ?></td>
-                    <td></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php else : ?>
-    <p>Nincs egy szektor sem hozzárendelve ehhez a raktárhoz.</p><br>
-<?php endif; ?>
 
 <h4>Eszközök, amelyek utoljára itt voltak leltárazva</h4>
 <?php if (/* !is_null($inventory_history) && */ count($items)) : ?>
@@ -98,7 +63,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Mégsem</button>
-                <a href="<?php echo base_url() . 'storages/archive/' . $storage['id']; ?>" class="btn btn-warning">Archiválás</a>
+                <a href="<?php echo base_url() . 'sectors/archive/' . $sector['id']; ?>" class="btn btn-warning">Archiválás</a>
             </div>
         </div>
     </div>

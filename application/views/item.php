@@ -32,6 +32,7 @@
         <thead>
             <tr>
                 <th scope="col">Raktár</th>
+                <th scope="col">Szektor</th>
                 <th scope="col">Időpont</th>
             </tr>
         </thead>
@@ -39,6 +40,7 @@
                 <?php foreach ($inventory_history as $row) : ?>
                 <tr>
                     <td><a href="<?php echo base_url() . 'storages/' . $row['storage_id']; ?>"><?php echo $row['storage']; ?></a></td>
+                    <td><a href="<?php echo base_url() . 'sectors/' . $row['sector_id']; ?>"><?php echo $row['sector']; ?></a></td>
                     <td><?php echo $row['time']; ?></td>
                 </tr>
                 <?php endforeach;?>

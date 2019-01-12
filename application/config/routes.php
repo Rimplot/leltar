@@ -74,6 +74,12 @@ $route['storages/(:num)/view'] = 'storages/view/$1';
 $route['storages/(:num)/edit'] = 'storages/edit/$1';
 $route['storages/(:num)/(:any)'] = 'storages/view/$1/$2';
 
+$route['sectors/view'] = 'sectors';
+$route['sectors/(:num)'] = 'sectors/view/$1';
+$route['sectors/(:num)/view'] = 'sectors/view/$1';
+$route['sectors/(:num)/edit'] = 'sectors/edit/$1';
+$route['sectors/(:num)/(:any)'] = 'sectors/view/$1/$2';
+
 $route['default_controller'] = 'pages';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
