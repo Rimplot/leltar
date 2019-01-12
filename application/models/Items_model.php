@@ -34,7 +34,7 @@ class Items_model extends CI_Model
     {
         $this->db->select('items.*, categories.name AS category');
         $this->db->from('items');
-        $this->db->join('categories', 'categories.id = items.category_id');
+        $this->db->join('categories', 'categories.id = items.category_id', 'left');
 
         if ($id === false) {
             $query = $this->db->get();
@@ -63,7 +63,7 @@ class Items_model extends CI_Model
             $this->db->from('inventory');
             $this->db->where('item_id', $id);
             $this->db->order_by('time', 'DESC');
-            $this->db->join('sectors', 'sectors.id = inventory.sector_id');
+            $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
             $this->db->join('storages', 'storages.id = sectors.storage_id');
             $query = $this->db->get();
 
@@ -81,7 +81,7 @@ class Items_model extends CI_Model
             $this->db->from('inventory');
             $this->db->where('item_id', $id);
             $this->db->where('latest', 1);
-            $this->db->join('sectors', 'sectors.id = inventory.sector_id');
+            $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
             $this->db->join('storages', 'storages.id = sectors.storage_id');
             $query = $this->db->get();
 
