@@ -84,11 +84,11 @@ class Boxes_model extends CI_Model
     public function set_box()
     {
         $data = array(
-            'id' => $this->input->post('id'),
             'name' => $this->input->post('name'),
             'parent' => $this->input->post('parent')
         );
 
-        return $this->db->replace('boxes', $data);
+        $this->db->where('id', $this->input->post('id'));
+        return $this->db->update('boxes', $data);
     }
 }

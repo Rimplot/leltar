@@ -96,7 +96,6 @@ class Items_model extends CI_Model
     public function set_items()
     {
         $data = array(
-            'id' => $this->input->post('id'),
             'name' => $this->input->post('name'),
             'barcode' => $this->input->post('barcode'),
             'category_id' => $this->input->post('category_id'),
@@ -104,6 +103,7 @@ class Items_model extends CI_Model
             'box_id' => $this->input->post('box')
         );
 
-        return $this->db->replace('items', $data);
+        $this->db->where('id', $this->input->post('id'));
+        return $this->db->update('items', $data);
     }
 }

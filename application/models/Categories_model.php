@@ -84,11 +84,11 @@ class Categories_model extends CI_Model
     public function set_category()
     {
         $data = array(
-            'id' => $this->input->post('id'),
             'name' => $this->input->post('name'),
             'parent' => $this->input->post('parent')
         );
 
-        return $this->db->replace('categories', $data);
+        $this->db->where('id', $this->input->post('id'));
+        return $this->db->update('categories', $data);
     }
 }
