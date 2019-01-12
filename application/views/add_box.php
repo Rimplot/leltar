@@ -17,6 +17,11 @@
             <input type="text" class="form-control<?php echo (form_error('name')) ? ' is-invalid' : '' ?>" name="name" value="<?php echo set_value('name'); ?>">
             <div class="invalid-feedback"><?php echo form_error('name'); ?></div>
         </div>
+        <div class="form-group<?php echo (form_error('barcode')) ? ' has-danger' : '' ?>">
+            <label class="form-control-label">Vonalkód</label>
+            <input type="text" class="form-control<?php echo (form_error('barcode')) ? ' is-invalid' : '' ?>" name="barcode" value="<?php echo set_value('barcode'); ?>">
+            <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
+        </div>
         <div class="form-group">
             <label class="form-control-label">Szülő kategória</label>
             <select name="parent" title="Szülő kategória" class="form-control">

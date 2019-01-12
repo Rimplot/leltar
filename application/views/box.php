@@ -5,6 +5,7 @@
         <tr>
             <th scope="col">Azonosító</th>
             <th scope="col">Név</th>
+            <th scope="col">Vonalkód</th>
             <th scope="col">Szülő doboz</th>
             <th scope="col">Eszközök száma</th>
             <th></th>
@@ -14,6 +15,7 @@
         <tr>
             <th scope="row"><?php echo $box['id']; ?></th>
             <td><?php echo $box['name']; ?></td>
+            <td><?php echo $box['barcode']; ?></td>
             <td><a href="<?php echo base_url() . 'boxes/' . $box['parent_id']; ?>"><?php echo $box['parent']; ?></a></td>
             <td><?php echo $box['item_num']; ?></td>
             <td class="float-right">

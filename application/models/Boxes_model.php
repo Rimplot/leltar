@@ -11,6 +11,7 @@ class Boxes_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
+            'barcode' => $this->input->post('barcode'),
             'parent' => $this->input->post('parent')
         );
 
@@ -49,7 +50,7 @@ class Boxes_model extends CI_Model
 
     public function get_boxes($id = false)
     {
-        $this->db->select('b1.id, b1.name, b2.name AS parent, b2.id AS parent_id, COUNT(items.name) AS item_num');
+        $this->db->select('b1.id, b1.name, b1.barcode AS barcode, b2.name AS parent, b2.id AS parent_id, COUNT(items.name) AS item_num');
         $this->db->from('boxes b1');
         $this->db->join('items', 'items.box_id = b1.id', 'LEFT');
         $this->db->join('boxes b2', 'b1.parent = b2.id', 'LEFT');
@@ -85,6 +86,7 @@ class Boxes_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
+            'barcode' => $this->input->post('barcode'),
             'parent' => $this->input->post('parent')
         );
 
