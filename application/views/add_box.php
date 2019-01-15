@@ -23,7 +23,7 @@
             <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
         </div>
         <div class="form-group">
-            <label class="form-control-label">Szülő kategória</label>
+            <label class="form-control-label">Szülő doboz</label>
             <select name="parent" title="Szülő kategória" class="form-control">
                 <option value="0" <?php echo (set_value('parent') == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
                 <?php foreach ($boxes as $box) : ?>

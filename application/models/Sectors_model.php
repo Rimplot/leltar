@@ -11,7 +11,7 @@ class Sectors_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
-            'barcode' => $this->input->post('barcode'),
+            'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
             'storage_id' => $this->input->post('storage_id')
         );
 
@@ -101,7 +101,7 @@ class Sectors_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
-            'barcode' => $this->input->post('barcode')
+            'barcode' => ($this->input->post('barcode') == '') ? NULL : $this->input->post('barcode')
         );
 
         $this->db->where('id', $this->input->post('id'));

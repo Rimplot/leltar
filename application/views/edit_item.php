@@ -34,9 +34,10 @@
         <div class="form-group">
             <label class="form-control-label">Típus</label>
             <select name="type" id="type" title="Típus" class="form-control">
-                <?php for ($i = 0; $i < count(ITEM_TYPES); $i++) : ?>
-                    <option value="<?php echo $i; ?>" <?php echo ($item['type'] == $i) ? 'selected' : '' ; ?>><?php echo ITEM_TYPES[$i]; ?></option>
-                <?php endfor; ?>
+                <?php foreach (ITEM_TYPE_ID as $id) : ?>
+                    <?php if ($id == BOX_TYPE_ID) continue; ?>
+                    <option value="<?php echo $id; ?>" <?php echo ($item['type_id'] == $id) ? 'selected' : '' ; ?>><?php echo ITEM_TYPES[$id]; ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="form-group">

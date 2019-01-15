@@ -11,7 +11,7 @@ class Categories_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
-            'parent' => $this->input->post('parent')
+            'parent' => ($this->input->post('parent') == 0) ? NULL : $this->input->post('parent')
         );
 
         $this->db->insert('categories', $data);
@@ -85,7 +85,7 @@ class Categories_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
-            'parent' => $this->input->post('parent')
+            'parent' => ($this->input->post('parent') == 0) ? NULL : $this->input->post('parent')
         );
 
         $this->db->where('id', $this->input->post('id'));

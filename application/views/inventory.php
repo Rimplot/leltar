@@ -106,7 +106,7 @@
 								$row.prependTo('#results > tbody');
 								var $rowData = $row.children().filter('td');
 								$rowData.eq(3).text(data.time);
-								$rowData.eq(4).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + '</a>');
+								$rowData.eq(4).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a>');
 							}
 							else {
 								$('#results').find('tbody').prepend(

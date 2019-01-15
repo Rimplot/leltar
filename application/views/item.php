@@ -17,7 +17,7 @@
             <td><?php echo $item['name']; ?></td>
             <td><?php echo $item['barcode']; ?></td>
             <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></td>
-            <td><?php echo ITEM_TYPES[$item['type']]; ?></td>
+            <td><?php echo $item['type']; ?></td>
             <th class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'items/edit/' . $item['id']; ?>">Módosítás</a>
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>

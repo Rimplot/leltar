@@ -32,9 +32,11 @@ class Items_model extends CI_Model
 
     public function get_items($id = false)
     {
-        $this->db->select('items.*, categories.name AS category');
+        $this->db->select('items.*, categories.name AS category, types.name AS type');
         $this->db->from('items');
+        $this->db->where('type_id <> ' . BOX_TYPE_ID);
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
+        $this->db->join('types', 'types.id = items.type_id');
 
         if ($id === false) {
             $query = $this->db->get();
@@ -97,10 +99,10 @@ class Items_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
-            'barcode' => $this->input->post('barcode'),
+            'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
             'category_id' => $this->input->post('category_id'),
-            'type' => $this->input->post('type'),
-            'box_id' => $this->input->post('box')
+            'type_id' => $this->input->post('type'),
+            'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box')
         );
 
         $this->db->where('id', $this->input->post('id'));
