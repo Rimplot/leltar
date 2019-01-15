@@ -7,8 +7,8 @@ class Inventory_model extends CI_Model
         $this->load->database();
     }
 
-    public function inventory($barcode = null, $sector_id = null) {
-        if ($barcode !== null && $sector_id !== null) {
+    public function inventory($session_id = null, $barcode = null, $sector_id = null) {
+        if ($session_id !== null && $barcode !== null && $sector_id !== null) {
             $this->load->model('items_model');
             
             // get the id of the item with barcode == $barcode
@@ -22,7 +22,7 @@ class Inventory_model extends CI_Model
                 $result['success'] = false;
             }
             else {
-                $this->db->select('id, time');
+                $this->db->select('id, time, session_id');
                 $this->db->from('inventory');
                 $this->db->where('item_id', $item['id']);
                 $this->db->where('latest', 1);
@@ -33,12 +33,13 @@ class Inventory_model extends CI_Model
                 $date1 = strtotime($inventory['time']);
                 $date2 = time();
 
-                if (abs($date2 - $date1) / 60 > 10) {
+                if ((abs($date2 - $date1) / 60 > 10) || ($inventory['session_id'] != $session_id)) {
                     // set latest to false to all previous records
                     $this->db->update('inventory', array('latest' => 0), array('item_id' => $item['id'], 'latest' => 1));
 
                     // insert a new row into the table
                     $data = array(
+                        'session_id' => $session_id,
                         'item_id' => $item['id'],
                         'sector_id' => $sector_id
                     );
@@ -47,11 +48,22 @@ class Inventory_model extends CI_Model
                     $inventory_id = $this->db->insert_id();
 
                     // get back the details of the newly added row
-                    $this->db->select('inventory.*, items.name, items.barcode, categories.name AS category, categories.id AS category_id, storages.name AS storage, storages.id AS storage_id, sectors.name AS sector');
+                    $this->db->select(
+                        'inventory.*,
+                        items.name,
+                        items.barcode,
+                        categories.name AS category,
+                        categories.id AS category_id,
+                        storages.name AS storage,
+                        storages.id AS storage_id,
+                        sectors.name AS sector,
+                        sessions.name AS session'
+                    );
                     $this->db->from('inventory');
                     $this->db->where('inventory.id', $inventory_id);
                     $this->db->join('items', 'items.id = inventory.item_id');
                     $this->db->join('categories', 'categories.id = items.category_id');
+                    $this->db->join('sessions', 'sessions.id = inventory.session_id');
                     $this->db->join('sectors', 'sectors.id = inventory.sector_id');
                     $this->db->join('storages', 'storages.id = sectors.storage_id');
 
@@ -61,6 +73,7 @@ class Inventory_model extends CI_Model
                 else {
                     $data = array(
                         'id' => $inventory['id'],
+                        'session_id' => $session_id,
                         'item_id' => $item['id'],
                         'sector_id' => $sector_id,
                         'latest' => 1
@@ -69,11 +82,21 @@ class Inventory_model extends CI_Model
                     $this->db->replace('inventory', $data);
 
                     // get back the details of the updated added row
-                    $this->db->select('inventory.*, items.name, items.barcode, items.category_id, categories.name AS category, storages.name AS storage');
+                    $this->db->select(
+                        'inventory.*,
+                        items.name,
+                        items.barcode,
+                        items.category_id,
+                        categories.name AS category,
+                        storages.name AS storage,
+                        sectors.name AS sector,
+                        sessions.name AS session'
+                    );
                     $this->db->from('inventory');
                     $this->db->where('inventory.id', $inventory['id']);
                     $this->db->join('items', 'items.id = inventory.item_id');
                     $this->db->join('categories', 'categories.id = items.category_id');
+                    $this->db->join('sessions', 'sessions.id = inventory.session_id');
                     $this->db->join('sectors', 'sectors.id = inventory.sector_id');
                     $this->db->join('storages', 'storages.id = sectors.storage_id');
 
@@ -87,11 +110,23 @@ class Inventory_model extends CI_Model
     }
 
     public function list_inventory($limit = 0) {
-        $this->db->select('inventory.*, items.name, items.barcode, items.category_id, categories.name AS category, storages.name AS storage, storages.id AS storage_id, sectors.name AS sector');
+        $this->db->select(
+            'inventory.*,
+            items.name,
+            items.barcode,
+            items.category_id,
+            categories.name AS category,
+            storages.name AS storage,
+            storages.id AS storage_id,
+            sectors.name AS sector,
+            sessions.id AS session_id,
+            sessions.name AS session'
+        );
         $this->db->from('inventory');
         $this->db->where('latest', 1);
         $this->db->join('items', 'items.id = inventory.item_id');
         $this->db->join('categories', 'categories.id = items.category_id');
+        $this->db->join('sessions', 'sessions.id = inventory.session_id', 'left');
         $this->db->join('sectors', 'sectors.id = inventory.sector_id');
         $this->db->join('storages', 'storages.id = sectors.storage_id');
         $this->db->order_by('time', 'DESC');

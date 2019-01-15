@@ -109,6 +109,14 @@ class Migration_Redesign_database_structure extends CI_Migration {
 
     public function down()
     {
+        $this->db->query('ALTER TABLE `items` DROP FOREIGN KEY `items_fk0`');
+        $this->db->query('ALTER TABLE `items` DROP FOREIGN KEY `items_fk1`');
+        $this->db->query('ALTER TABLE `items` DROP FOREIGN KEY `items_fk2`');
+        $this->db->query('ALTER TABLE `categories` DROP FOREIGN KEY `categories_fk0`');
+        $this->db->query('ALTER TABLE `inventory` DROP FOREIGN KEY `inventory_fk0`');
+        $this->db->query('ALTER TABLE `inventory` DROP FOREIGN KEY `inventory_fk1`');
+        $this->db->query('ALTER TABLE `sectors` DROP FOREIGN KEY `sectors_fk0`');
+
         $this->dbforge->drop_table('types', TRUE);
         $this->dbforge->drop_column('inventory', 'quantity');
 
