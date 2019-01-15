@@ -59,6 +59,16 @@ class Items_model extends CI_Model
         }
     }
 
+    public function get_item_by_barcode($barcode = null) {
+        if ($barcode !== null) {
+            $this->db->select('id, type_id');
+            $this->db->from('items');
+            $this->db->where('barcode', $barcode);
+
+            return $this->db->get()->row_array();
+        }
+    }
+
     public function get_item_history($id = null) {
         if ($id !== null) {
             $this->db->select('inventory.*, storages.name AS storage, storages.id AS storage_id, sectors.name AS sector, sectors.id AS sector_id');

@@ -34,9 +34,9 @@
             <a class="nav-link" href="<?php echo base_url(); ?>storages">Raktárak</a>
         </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Keresés">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Keresés</button>
+        <form class="form-inline my-2 my-lg-0" action="<?php echo base_url(); ?>barcodes">
+            <input class="form-control mr-sm-2" type="text" name="barcode" placeholder="Vonalkód...">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Keresés</button>
         </form>
     </div>
     </nav>
