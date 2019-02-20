@@ -6,7 +6,7 @@
 
 <?php /* echo validation_errors('<div class="alert alert-danger alert-dismissible">' .
                              '<button type="button" class="close">&times;</button>' .
-                             '<strong>Hiba!</strong> ', '</div>'); */ ?>
+                    W         '<strong>Hiba!</strong> ', '</div>'); */ ?>
 
 <?php echo form_open('items/add'); ?>
 
@@ -19,7 +19,12 @@
         </div>
         <div class="form-group<?php echo (form_error('barcode')) ? ' has-danger' : '' ?>">
             <label class="form-control-label">Vonalkód</label>
-            <input type="text" class="form-control<?php echo (form_error('barcode')) ? ' is-invalid' : '' ?>" name="barcode" value="<?php echo set_value('barcode'); ?>">
+            <div class="input-group">
+                <input type="text" class="form-control<?php echo (form_error('barcode')) ? ' is-invalid' : '' ?>" name="barcode" id="barcode" value="<?php echo set_value('barcode'); ?>">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" id="btnGenerateBarcode" type="button">Generálás</button>
+                </div>
+            </div>
             <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
         </div>
         <div class="form-group">
@@ -56,3 +61,18 @@
 </div>
 
 <?php form_close(); ?>
+
+<script>
+    $(document).ready(function() {
+        $('#btnGenerateBarcode').click(function() {
+            $.ajax({
+                url: "<?php echo base_url(); ?>" + "ajax/get_unique_barcode",
+                type: "get",
+                dataType: "json",
+                success: function(data) {
+                    $('#barcode').val(data.barcode);
+                }
+            });
+        });
+    });
+</script>

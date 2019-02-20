@@ -132,4 +132,12 @@ class Items_model extends CI_Model
         $this->db->where('id', $this->input->post('id'));
         return $this->db->update('items', $data);
     }
+
+    public function check_barcode_used($barcode)
+    {
+        $this->db->select('*');
+        $this->db->from('items');
+        $this->db->where('barcode', $barcode);
+        return boolval($this->db->get()->num_rows());
+    }
 }

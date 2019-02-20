@@ -6,6 +6,7 @@ class Ajax extends CI_Controller
     {
         parent::__construct();
         $this->load->model('inventory_model');
+        $this->load->model('items_model');
         $this->load->model('sessions_model');
     }
 
@@ -26,5 +27,15 @@ class Ajax extends CI_Controller
 
     public function stop_session($id) {
         $result = $this->sessions_model->stop_session($id);
+    }
+
+    public function get_unique_barcode() {
+        do {
+            $barcode = rand(1000000000000, 9999999999999);
+            $used = $this->items_model->check_barcode_used($barcode);
+        } while($used);
+
+        header('Content-Type: application/json');
+        echo json_encode(array('barcode' => $barcode));
     }
 }
