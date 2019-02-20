@@ -207,7 +207,7 @@
 		});
 
 		$('html').click(function(e){
-			if (scanning && e.target.id !== 'btnStop') {
+			if (scanning && e.target.id !== 'btnStop' && e.target.id !== 'storageSelect') {
 				$barcodeTextInput.focus();
 			}
 		});
