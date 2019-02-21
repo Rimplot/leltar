@@ -50,7 +50,7 @@
                     <td><?php echo $item['barcode']; ?></td>
                     <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></a></td>
                     <td><?php echo $item['time']; ?></td>
-                    <td><a href=""></a><?php echo $item['session']; ?></a></td>
+                    <td><a href="<?php echo base_url() . 'sessions/' . $item['session_id']; ?>"><?php echo $item['session']; ?></a></td>
                     <td><a href="<?php echo base_url() . 'storages/' . $item['storage_id']; ?>"><?php echo $item['storage'] . ', ' . $item['sector']; ?></a></td>
                 </tr>
             <?php endforeach; ?>

@@ -80,6 +80,12 @@ $route['sectors/(:num)/view'] = 'sectors/view/$1';
 $route['sectors/(:num)/edit'] = 'sectors/edit/$1';
 $route['sectors/(:num)/(:any)'] = 'sectors/view/$1/$2';
 
+$route['sessions/view'] = 'sessions';
+$route['sessions/(:num)'] = 'sessions/view/$1';
+$route['sessions/(:num)/view'] = 'sessions/view/$1';
+$route['sessions/(:num)/edit'] = 'sessions/edit/$1';
+$route['sessions/(:num)/(:any)'] = 'sessions/view/$1/$2';
+
 $route['default_controller'] = 'pages';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

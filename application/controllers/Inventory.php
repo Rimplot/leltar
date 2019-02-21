@@ -23,7 +23,7 @@ class Inventory extends CI_Controller
             $data['storages'][$i]['sectors'] = $this->storages_model->get_sectors($data['storages'][$i]['id']);
         }
         $data['inventory'] = $this->inventory_model->list_inventory();
-        $data['sessions'] = $this->sessions_model->get_sessions();
+        $data['sessions'] = $this->sessions_model->get_running_sessions();
 
         $this->load->view('templates/header', $data);
         $this->load->view($data['page'], $data);

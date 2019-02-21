@@ -33,6 +33,9 @@
         <li class="nav-item<?php echo ($menu == 'storages') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>storages">Raktárak</a>
         </li>
+        <li class="nav-item<?php echo ($menu == 'sessions') ? ' active' : '' ?>">
+            <a class="nav-link" href="<?php echo base_url(); ?>sessions">Sessions</a>
+        </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="<?php echo base_url(); ?>barcodes">
             <input class="form-control mr-sm-2" type="text" name="barcode" placeholder="Vonalkód...">

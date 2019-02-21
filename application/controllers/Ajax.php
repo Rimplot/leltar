@@ -22,11 +22,11 @@ class Ajax extends CI_Controller
     }
 
     public function start_session() {
-        $result = $this->sessions_model->start_session($this->input->post('name'));
+        echo $this->sessions_model->start_session($this->input->post('name'));
     }
 
     public function stop_session($id) {
-        $result = $this->sessions_model->stop_session($id);
+        $this->sessions_model->stop_session($id);
     }
 
     public function get_unique_barcode() {
