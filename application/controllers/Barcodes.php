@@ -18,4 +18,12 @@ class Barcodes extends CI_Controller
             redirect('items/' . $item['id']);
         }
     }
+
+    public function generate($barcode = null) {
+        if ($barcode !== null) {
+            $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+            header("Content-type: image/png");
+            echo $generator->getBarcode($barcode, $generator::TYPE_EAN_13, 10, 300);
+        }
+    }
 }
