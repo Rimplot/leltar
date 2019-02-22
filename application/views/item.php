@@ -15,7 +15,10 @@
         <tr>
             <th scope="row"><?php echo $item['id']; ?></th>
             <td><?php echo $item['name']; ?></td>
-            <td><?php echo $item['barcode']; ?></td>
+            <td>
+                <img src="<?php echo base_url() . 'barcodes/generate/' . $item['barcode']; ?>" style="display:block; height:15%">
+                <a href="<?php echo base_url() . 'barcodes/generate/' . $item['barcode']; ?>"><?php echo $item['barcode']; ?></a>
+            </td>
             <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></td>
             <td><?php echo $item['type']; ?></td>
             <th class="float-right">
