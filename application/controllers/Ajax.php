@@ -31,7 +31,18 @@ class Ajax extends CI_Controller
 
     public function get_unique_barcode() {
         do {
-            $barcode = rand(1000000000000, 9999999999999);
+            $barcode = strval(rand(100000000000, 999999999999));
+
+            $sum = 0;
+            for ($i = 0; $i < strlen($barcode); $i += 2) {
+                $sum += $barcode[$i];
+            }
+            for ($i = 1; $i < strlen($barcode); $i += 2) {
+                $sum += $barcode[$i] * 3;
+            }
+            $last_digit = 10 - $sum % 10;
+            $barcode .= $last_digit;
+
             $used = $this->items_model->check_barcode_used($barcode);
         } while($used);
 
