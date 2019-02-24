@@ -31,14 +31,14 @@ class Ajax extends CI_Controller
 
     public function get_unique_barcode() {
         do {
-            $barcode = strval(rand(100000000000, 999999999999));
+            $barcode = strval(rand(1000000, 9999999));
 
             $sum = 0;
             for ($i = 0; $i < strlen($barcode); $i += 2) {
-                $sum += $barcode[$i];
+                $sum += $barcode[$i] * 3;
             }
             for ($i = 1; $i < strlen($barcode); $i += 2) {
-                $sum += $barcode[$i] * 3;
+                $sum += $barcode[$i];
             }
             $last_digit = 10 - $sum % 10;
             $barcode .= $last_digit;

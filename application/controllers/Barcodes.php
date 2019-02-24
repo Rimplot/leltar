@@ -23,7 +23,7 @@ class Barcodes extends CI_Controller
         if ($barcode !== null) {
             $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
             header("Content-type: image/png");
-            echo $generator->getBarcode($barcode, $generator::TYPE_EAN_13, 10, 300);
+            echo $generator->getBarcode($barcode, $generator::TYPE_EAN_8, 10, 300);
         }
     }
 }
