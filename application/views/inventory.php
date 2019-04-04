@@ -4,25 +4,22 @@
     <h2><?php echo $page_title; ?></h2>
 </div>
 
-<select id="storageSelect" title="Storage select" class="d-none">
-	<?php foreach ($storages as $storage) : ?>
-        <optgroup label="<?php echo $storage['name']; ?>">
-            <?php foreach ($storage['sectors'] as $sector) : ?>
-                <option value="<?php echo $sector['id']; ?>"><?php echo $sector['name']; ?></option>
-            <?php endforeach; ?>
-        </optgroup>
-    <?php endforeach; ?>
-</select>
-
-<!--<button role="button" id="btnStart" class="btn btn-success">Start scanning</button>
-<button role="button" id="btnStop" class="d-none btn btn-danger">Stop scanning</button>-->
-
 <select id="sessionSelect" title="Session select">
 	<?php foreach ($sessions as $session) : ?>
         <option value="<?php echo $session['id']; ?>"><?php echo $session['name']; ?></option>
     <?php endforeach; ?>
     <option value="new">&#60;új session&#62;</option>
 </select>
+
+<select id="storageSelect" title="Storage select">
+    <?php for ($i = 0; $i < count($storages); $i++) :
+        if (count($storages[$i]['sectors']) > 0) : ?>
+            <option value="<?php echo $i; ?>"><?php echo $storages[$i]['name']; ?></option>
+        <?php endif; ?>
+    <?php endfor; ?>
+</select>
+
+<select id="sectionSelect" title="Sector select" class="d-none"></select>
 
 <button role="button" id="btnStart" class="btn btn-success">Start scanning</button>
 <button role="button" id="btnStop" class="d-none btn btn-danger">Stop scanning</button>
@@ -94,13 +91,16 @@
 		var $stopBtn = $('#btnStop');
 		var $startBtn = $('#btnStart');
 		var $storageSelect = $('#storageSelect');
+		var $sectionSelect = $('#sectionSelect');
         var $sessionSelect = $('#sessionSelect');
 		var $barcodeTextInput = $('#barcodeTextInput');
 		var $message = $('#text');
         var $sessionName = $('input[name="session_name"]');
 
+        var storages = JSON.parse('<?php echo json_encode($storages); ?>');
+
         $stopBtn.hide().removeClass('d-none');
-        $storageSelect.hide().removeClass('d-none')
+        $sectionSelect.hide().removeClass('d-none')
         $message.hide().removeClass('d-none');
 
         $('#modalBtnStartSession').click(function(e) {
@@ -132,9 +132,22 @@
                 $('#startSessionModal').modal('show');
             }
             else {
+                var sections = storages[$storageSelect.val()].sectors;
+
+                $sectionSelect.empty();
+                for (var i = 0, l = sections.length; i < l; i++) {
+                    $sectionSelect.append('<option value="' + sections[i].id + '">' + sections[i].name + '</option>');
+                }
+                
+                if (sections.length) {
+                    $sectionSelect.show();
+                } else {
+                    $sectionSelect.hide();
+                }
+
                 $startBtn.hide();
-                $storageSelect.show();
                 $sessionSelect.hide();
+                $storageSelect.hide();
                 $stopBtn.show();
                 $message.show();
                 $barcodeTextInput.focus();
@@ -145,8 +158,9 @@
 		$stopBtn.click(function(e) {
 			e.preventDefault();
 			$stopBtn.hide();
-			$storageSelect.hide();
             $sessionSelect.show();
+            $storageSelect.show();
+			$sectionSelect.hide();
 			$startBtn.show();
 			$message.hide();
 			$barcodeTextInput.blur();
@@ -158,7 +172,7 @@
                 timeout = null;
 
 				var barcode = $(this).val().toUpperCase();
-				var sector = $storageSelect.val();
+                var sector = $sectionSelect.val();
 
 				$.ajax({
 					url: "<?php echo base_url(); ?>" + "ajax/inventory",
@@ -176,7 +190,7 @@
 								$row.prependTo('#results > tbody');
 								var $rowData = $row.children().filter('td');
 								$rowData.eq(3).text(data.time);
-								$rowData.eq(4).text(data.session);
+								$rowData.eq(4).html('<a href="' + '<?php echo base_url(); ?>' + 'sessions/' + data.session_id + '">' + data.session + '</a>');
 								$rowData.eq(5).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a>');
 							}
 							else {
@@ -187,7 +201,7 @@
                                         '<td>' + data.barcode + '</td>' +
                                         '<td><a href="' + '<?php echo base_url(); ?>' + 'categories/' + data.category_id + '">' + data.category + '<a/></td>' +
                                         '<td>' + data.time + '</td>' +
-                                        '<td>' + data.session + '</td>' +
+                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'sessions/' + data.session_id + '">' + data.session + '</a></td>' +
                                         '<td><a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a></td>' +
                                     '</tr>');
 							}
@@ -206,11 +220,18 @@
 			}
 		});
 
-		$('html').click(function(e){
-			if (scanning && e.target.id !== 'btnStop' && e.target.id !== 'storageSelect') {
+		/*$('html').click(function(e){
+			if (scanning && e.target.id !== 'btnStop' && e.target.id !== 'sectionSelect') {
+                alert(e.target);
 				$barcodeTextInput.focus();
 			}
-		});
+        });*/
+        
+        $(document.body).on('keydown', function(e) {
+            if(document.activeElement.tagName.toLowerCase() != 'input' && scanning) {
+                $barcodeTextInput.focus();
+            }
+        });
 
 		$barcodeTextInput.keyup(function (e) {
 			clearTimeout(timeout);
