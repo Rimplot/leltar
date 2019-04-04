@@ -23,7 +23,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = explode('/', $_SERVER['REQUEST_URI'])[0] . '/';
+$url = explode('/', $_SERVER['REQUEST_URI']);
+if ($url[1] == "") {
+    $config['base_url'] = $url[0] . '/';
+} else {
+    $config['base_url'] = 'http://localhost/leltar/';
+}
+
 
 /*
 |--------------------------------------------------------------------------
