@@ -25,7 +25,7 @@ class Storages extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('storages/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $id = $this->storages_model->add_storage();
@@ -46,7 +46,7 @@ class Storages extends CI_Controller
         $data['storages'] = $this->storages_model->get_archived_storages();
 
         $this->load->view('templates/header', $data);
-        $this->load->view($data['page'], $data);
+        $this->load->view('storages/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 
@@ -64,7 +64,7 @@ class Storages extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('storages/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $this->storages_model->set_storage();
@@ -80,7 +80,7 @@ class Storages extends CI_Controller
         $data['storages'] = $this->storages_model->get_storages();
 
         $this->load->view('templates/header', $data);
-        $this->load->view($data['page'], $data);
+        $this->load->view('storages/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 
@@ -104,7 +104,7 @@ class Storages extends CI_Controller
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');
-        $this->load->view($data['page'], $data);
+        $this->load->view('storages/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 }

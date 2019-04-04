@@ -29,7 +29,7 @@ class Sectors extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('sectors/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $id = $this->sectors_model->add_sector();
@@ -54,7 +54,7 @@ class Sectors extends CI_Controller
             $data['storage_id'] = $id;
 
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('sectors/' . $data['page'], $data);
             $this->load->view('templates/footer');
         }
     }
@@ -73,7 +73,7 @@ class Sectors extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('sectors/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $this->sectors_model->set_sector();
@@ -89,7 +89,7 @@ class Sectors extends CI_Controller
         $data['sectors'] = $this->sectors_model->get_sectors();
 
         $this->load->view('templates/header', $data);
-        $this->load->view($data['page'], $data);
+        $this->load->view('sectors/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 
@@ -111,7 +111,7 @@ class Sectors extends CI_Controller
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');
-        $this->load->view($data['page'], $data);
+        $this->load->view('sectors/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 }

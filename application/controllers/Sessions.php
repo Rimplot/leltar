@@ -25,7 +25,7 @@ class Sessions extends CI_Controller
         $data['sessions'] = $this->sessions_model->get_sessions();
 
         $this->load->view('templates/header', $data);
-        $this->load->view($data['page'], $data);
+        $this->load->view('sessions/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 
@@ -39,7 +39,7 @@ class Sessions extends CI_Controller
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');
-        $this->load->view($data['page'], $data);
+        $this->load->view('sessions/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 }

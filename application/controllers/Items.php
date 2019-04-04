@@ -29,7 +29,7 @@ class Items extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('items/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $id = $this->items_model->add_item();
@@ -60,7 +60,7 @@ class Items extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('items/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $this->items_model->set_items();
@@ -76,7 +76,7 @@ class Items extends CI_Controller
         $data['items'] = $this->items_model->get_items();
 
         $this->load->view('templates/header', $data);
-        $this->load->view($data['page'], $data);
+        $this->load->view('items/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 
@@ -90,7 +90,7 @@ class Items extends CI_Controller
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');
-        $this->load->view($data['page'], $data);
+        $this->load->view('items/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 }

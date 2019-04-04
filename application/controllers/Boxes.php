@@ -25,7 +25,7 @@ class Boxes extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('boxes/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $id = $this->boxes_model->add_box();
@@ -54,7 +54,7 @@ class Boxes extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('boxes/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $this->boxes_model->set_box();
@@ -70,7 +70,7 @@ class Boxes extends CI_Controller
         $data['boxes'] = $this->boxes_model->get_boxes();
 
         $this->load->view('templates/header', $data);
-        $this->load->view($data['page'], $data);
+        $this->load->view('boxes/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 
@@ -84,7 +84,7 @@ class Boxes extends CI_Controller
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');
-        $this->load->view($data['page'], $data);
+        $this->load->view('boxes/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 }

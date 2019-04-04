@@ -25,7 +25,7 @@ class Categories extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('categories/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $id = $this->categories_model->add_category();
@@ -54,7 +54,7 @@ class Categories extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view($data['page'], $data);
+            $this->load->view('categories/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
             $this->categories_model->set_category();
@@ -70,7 +70,7 @@ class Categories extends CI_Controller
         $data['categories'] = $this->categories_model->get_categories();
 
         $this->load->view('templates/header', $data);
-        $this->load->view($data['page'], $data);
+        $this->load->view('categories/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 
@@ -84,7 +84,7 @@ class Categories extends CI_Controller
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');
-        $this->load->view($data['page'], $data);
+        $this->load->view('categories/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 }
