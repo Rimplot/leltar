@@ -39,6 +39,7 @@ class Items_model extends CI_Model
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
         $this->db->join('labels', 'labels.id = categories.label_id', 'left');
         $this->db->join('types', 'types.id = items.type_id');
+        $this->db->order_by('items.id', 'DESC');
 
         if ($id === false) {
             $query = $this->db->get();
@@ -57,7 +58,10 @@ class Items_model extends CI_Model
                 show_404();
             }
             
-            return $query->row_array();
+            $result = $query->row_array();
+            $result['last_seen'] = $this->get_last_seen($id);
+
+            return $result;
         }
     }
 
@@ -104,6 +108,8 @@ class Items_model extends CI_Model
                 'inventory.*,
                 storages.name AS storage_name,
                 storages.id AS storage_id,
+                sectors.name AS sector_name,
+                sectors.id AS sector_id,
                 sessions.name AS session');
             $this->db->from('inventory');
             $this->db->where('item_id', $id);

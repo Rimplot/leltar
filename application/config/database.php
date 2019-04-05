@@ -75,7 +75,8 @@ $query_builder = TRUE;
 
 if (file_exists('D:/wamp/www/config.ini')) {
     $config_full = parse_ini_file('D:/wamp/www/config.ini', true);
-    $config = $config_full['db_offline'];
+    // $config = $config_full['db_offline'];
+    $config = $config_full['alpha'];
 }
 else {
     $config = parse_ini_string('
