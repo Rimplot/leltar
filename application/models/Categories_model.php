@@ -11,7 +11,8 @@ class Categories_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
-            'parent' => ($this->input->post('parent') == 0) ? NULL : $this->input->post('parent')
+            'parent' => ($this->input->post('parent') == 0) ? NULL : $this->input->post('parent'),
+            'label_id' => ($this->input->post('label') == 0) ? NULL : $this->input->post('label')
         );
 
         $this->db->insert('categories', $data);
@@ -49,10 +50,11 @@ class Categories_model extends CI_Model
 
     public function get_categories($id = false)
     {
-        $this->db->select('c1.id, c1.name, c2.name AS parent, c2.id AS parent_id, COUNT(items.name) AS item_num');
+        $this->db->select('c1.id, c1.name, c1.label_id, c2.name AS parent, c2.id AS parent_id, COUNT(items.name) AS item_num, labels.name AS label');
         $this->db->from('categories c1');
         $this->db->join('items', 'items.category_id = c1.id', 'LEFT');
         $this->db->join('categories c2', 'c1.parent = c2.id', 'LEFT');
+        $this->db->join('labels', 'labels.id = c1.label_id', 'LEFT');
         $this->db->group_by('c1.id');
 
         if ($id === false) {
@@ -85,7 +87,8 @@ class Categories_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
-            'parent' => ($this->input->post('parent') == 0) ? NULL : $this->input->post('parent')
+            'parent' => ($this->input->post('parent') == 0) ? NULL : $this->input->post('parent'),
+            'label_id' => ($this->input->post('label') == 0) ? NULL : $this->input->post('label')
         );
 
         $this->db->where('id', $this->input->post('id'));

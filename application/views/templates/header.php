@@ -39,6 +39,9 @@
         <li class="nav-item<?php echo ($menu == 'sessions') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>sessions">Sessions</a>
         </li>
+        <li class="nav-item<?php echo ($menu == 'labels') ? ' active' : '' ?>">
+            <a class="nav-link" href="<?php echo base_url(); ?>labels">Címkék</a>
+        </li>
         <li class="nav-item<?php echo ($menu == 'printer') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>printer">Nyomtatás</a>
         </li>

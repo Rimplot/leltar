@@ -1,15 +1,14 @@
 <?php
 
-class Categories extends CI_Controller
+class Labels extends CI_Controller
 {
     private $menu;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('categories_model');
         $this->load->model('labels_model');
-        $this->menu = "categories";
+        $this->menu = "labels";
     }
 
     public function add()
@@ -19,26 +18,25 @@ class Categories extends CI_Controller
 
         $this->form_validation->set_rules('name', 'Név', 'required');
 
-        $data['page'] = 'add_category';
-        $data['page_title'] = "Kategória hozzáadása";
+        $data['page'] = 'add_label';
+        $data['page_title'] = "Címke hozzáadása";
         $data['menu'] = $this->menu;
-        $data['categories'] = $this->categories_model->get_categories();
         $data['labels'] = $this->labels_model->get_labels();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view('categories/' . $data['page'], $data);
+            $this->load->view('labels/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
-            $id = $this->categories_model->add_category();
-            redirect('/categories/' . $id . '/success');
+            $id = $this->labels_model->add_label();
+            redirect('/labels/' . $id . '/success');
         }
     }
 
     public function delete($id)
     {
-        $this->categories_model->delete_category($id);
-        redirect('categories');
+        $this->labels_model->delete_label($id);
+        redirect('labels');
     }
 
     public function edit($id = false)
@@ -48,46 +46,46 @@ class Categories extends CI_Controller
 
         $this->form_validation->set_rules('name', 'Név', 'required');
 
-        $data['page'] = 'edit_category';
-        $data['page_title'] = "Kategória szerkesztése";
+        $data['page'] = 'edit_label';
+        $data['page_title'] = "Címke szerkesztése";
         $data['menu'] = $this->menu;
-        $data['category'] = $this->categories_model->get_categories($id);
-        $data['categories'] = $this->categories_model->get_categories();
+        $data['label'] = $this->labels_model->get_labels($id);
         $data['labels'] = $this->labels_model->get_labels();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
-            $this->load->view('categories/' . $data['page'], $data);
+            $this->load->view('labels/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
-            $this->categories_model->set_category();
-            redirect('/categories/' . $id . '/success');
+            $this->labels_model->set_label();
+            redirect('/labels/' . $id . '/success');
+            // redirect('/labels/edit/' . $id);
         }
     }
 
     public function index()
     {
-        $data['page'] = 'categories';
-        $data['page_title'] = "Kategóriák";
+        $data['page'] = 'labels';
+        $data['page_title'] = "Címkék";
         $data['menu'] = $this->menu;
-        $data['categories'] = $this->categories_model->get_categories();
+        $data['labels'] = $this->labels_model->get_labels();
 
         $this->load->view('templates/header', $data);
-        $this->load->view('categories/' . $data['page'], $data);
+        $this->load->view('labels/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'category';
-        $data['page_title'] = "Kategória";
+        $data['page'] = 'label';
+        $data['page_title'] = "Címke";
         $data['menu'] = $this->menu;
-        $data['category'] = $this->categories_model->get_categories($id);
-        $data['items'] = $this->categories_model->get_items_in_category($id);
+        $data['label'] = $this->labels_model->get_labels($id);
+        $data['categories'] = $this->labels_model->get_categories_with_label($id);
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');
-        $this->load->view('categories/' . $data['page'], $data);
+        $this->load->view('labels/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
 }

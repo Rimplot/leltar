@@ -32,10 +32,11 @@ class Items_model extends CI_Model
 
     public function get_items($id = false)
     {
-        $this->db->select('items.*, categories.name AS category, types.name AS type');
+        $this->db->select('items.*, categories.name AS category, types.name AS type, labels.content AS label');
         $this->db->from('items');
         $this->db->where('type_id <> ' . BOX_TYPE_ID);
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
+        $this->db->join('labels', 'labels.id = categories.label_id', 'left');
         $this->db->join('types', 'types.id = items.type_id');
 
         if ($id === false) {

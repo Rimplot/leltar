@@ -6,6 +6,7 @@
             <th scope="col">Azonosító</th>
             <th scope="col">Név</th>
             <th scope="col">Szülő kategória</th>
+            <th scope="col">Címke</th>
             <th scope="col">Eszközök száma</th>
             <th></th>
         </tr>
@@ -15,6 +16,7 @@
             <th scope="row"><?php echo $category['id']; ?></th>
             <td><?php echo $category['name']; ?></td>
             <td><a href="<?php echo base_url() . 'categories/' . $category['parent_id']; ?>"><?php echo $category['parent']; ?></a></td>
+            <td><a href="<?php echo base_url() . 'labels/' . $category['label_id']; ?>"><?php echo $category['label']; ?></a></td>
             <td><?php echo $category['item_num']; ?></td>
             <td class="float-right">
                 <a class="btn btn-primary" href="<?php echo base_url() . 'categories/edit/' . $category['id']; ?>">Módosítás</a>
