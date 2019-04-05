@@ -45,6 +45,10 @@
                 <?php endforeach; ?>
             </select>
         </div>
+        <div class="form-group" id="stock-form-group" <?php if ($item["type_id"] != ITEM_TYPE_ID['stock']) echo 'style="display: none;"' ?>>
+            <label class="form-control-label">Mennyiség</label>
+            <input type="text" class="form-control<?php echo (form_error('stock')) ? ' is-invalid' : '' ?>" name="stock" value="<?php echo ($item['stock'] == NULL) ? 0 : $item['stock']; ?>">
+        </div>
         <div class="form-group">
             <label class="form-control-label">Doboz</label>
             <select name="box" id="box" title="Doboz" class="form-control">
@@ -76,5 +80,13 @@
                 }
             });
         });
+
+        $('#type').on('change', function() {
+            if ($(this).val() == <?php echo ITEM_TYPE_ID['stock']; ?>) {
+                $('#stock-form-group').show();
+            } else {
+                $('#stock-form-group').hide();
+            }
+        })
     });
 </script>
