@@ -40,7 +40,7 @@ class Ajax extends CI_Controller
             for ($i = 1; $i < strlen($barcode); $i += 2) {
                 $sum += $barcode[$i];
             }
-            $last_digit = 10 - $sum % 10;
+            $last_digit = (10 - $sum % 10) % 10;
             $barcode .= $last_digit;
 
             $used = $this->items_model->check_barcode_used($barcode);
