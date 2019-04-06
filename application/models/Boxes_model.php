@@ -5,6 +5,7 @@ class Boxes_model extends CI_Model
     public function __construct()
     {
         $this->load->database();
+        $this->load->model('items_model');
     }
 
     public function add_box()
@@ -68,8 +69,12 @@ class Boxes_model extends CI_Model
         } else {
             $this->db->where('b1.id = ' . $id);
             $query = $this->db->get();
+
             $result = $query->row_array();
+
             $result['item_num'] = count($this->get_items_in_box($result['id']));
+            $result['last_seen'] = $this->items_model->get_last_seen($id);
+
             return $result;
         }
     }
