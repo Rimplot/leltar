@@ -15,6 +15,7 @@ class Items_model extends CI_Model
             'category_id' => ($this->input->post('category_id') == 0) ? NULL : $this->input->post('category_id'),
             'type_id' => $this->input->post('type'),
             'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
+            'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
             'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')
         );
 
@@ -33,12 +34,13 @@ class Items_model extends CI_Model
 
     public function get_items($id = false)
     {
-        $this->db->select('items.*, categories.name AS category, types.name AS type, labels.content AS label');
+        $this->db->select('items.*, categories.name AS category, types.name AS type, labels.content AS label, owners.name AS owner');
         $this->db->from('items');
         $this->db->where('type_id <> ' . BOX_TYPE_ID);
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
         $this->db->join('labels', 'labels.id = categories.label_id', 'left');
         $this->db->join('types', 'types.id = items.type_id');
+        $this->db->join('owners', 'owners.id = items.owner_id', 'left');
         $this->db->order_by('items.id', 'DESC');
 
         if ($id === false) {
@@ -135,6 +137,7 @@ class Items_model extends CI_Model
             'category_id' => ($this->input->post('category_id') == 0) ? NULL : $this->input->post('category_id'),
             'type_id' => $this->input->post('type'),
             'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
+            'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
             'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')
         );
 

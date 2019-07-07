@@ -59,6 +59,15 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="form-control-label">Tulajdonos</label>
+            <select name="owner" id="owner" title="Tulajdonos" class="form-control">
+                <option value="0" <?php echo ($item['owner_id'] == 0) ? 'selected' : '' ; ?>>&#60;senki&#62;</option>
+                <?php foreach ($owners as $owner) : ?>
+                    <option value="<?php echo $owner['id']; ?>" <?php echo ($item['owner_id'] == $owner['id']) ? 'selected' : '' ; ?>><?php echo $owner['name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="form-group">
             <input type="submit" name="submit" class="btn btn-primary" value="Mentés" />
         </div>
     </div>

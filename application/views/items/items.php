@@ -15,6 +15,7 @@
             <th scope="col">Vonalkód</th>
             <th scope="col">Kategória</th>
             <th scope="col">Típus</th>
+            <th scope="col">Tulajdonos</th>
             <th scope="col">Utoljára leltározva</th>
             <th scope="col">Session</th>
             <th scope="col">Hely</th>
@@ -31,6 +32,7 @@
                 </td>
                 <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></a></td>
                 <td><?php echo $item['type']; ?></td>
+                <td><?php echo $item['owner']; ?></td>
                 <td><?php echo $item['last_seen']['time']; ?></td>
                 <td><?php echo $item['last_seen']['session']; ?></td>
                 <td><a href="<?php echo base_url() . 'storages/' . $item['last_seen']['storage_id']; ?>"><?php echo $item['last_seen']['storage_name']; ?></a></td>

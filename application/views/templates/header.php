@@ -36,6 +36,9 @@
         <li class="nav-item<?php echo ($menu == 'storages') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>storages">Raktárak</a>
         </li>
+        <li class="nav-item<?php echo ($menu == 'owners') ? ' active' : '' ?>">
+            <a class="nav-link" href="<?php echo base_url(); ?>owners">Tulajdonosok</a>
+        </li>
         <li class="nav-item<?php echo ($menu == 'sessions') ? ' active' : '' ?>">
             <a class="nav-link" href="<?php echo base_url(); ?>sessions">Sessions</a>
         </li>

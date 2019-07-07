@@ -10,6 +10,7 @@ class Items extends CI_Controller
         $this->load->model('items_model');
         $this->load->model('categories_model');
         $this->load->model('boxes_model');
+        $this->load->model('owners_model');
         $this->menu = "items";
     }
 
@@ -26,6 +27,7 @@ class Items extends CI_Controller
         $data['menu'] = $this->menu;
         $data['categories'] = $this->categories_model->get_categories();
         $data['boxes'] = $this->boxes_model->get_boxes();
+        $data['owners'] = $this->owners_model->get_owners();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
@@ -57,6 +59,7 @@ class Items extends CI_Controller
         $data['item'] = $this->items_model->get_items($id);
         $data['categories'] = $this->categories_model->get_categories();
         $data['boxes'] = $this->boxes_model->get_boxes();
+        $data['owners'] = $this->owners_model->get_owners();
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
