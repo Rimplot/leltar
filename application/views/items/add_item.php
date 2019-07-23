@@ -60,6 +60,19 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="form-control-label">Megvásárlás ideje</label>
+            <input type="date" class="form-control<?php echo (form_error('date_bought')) ? ' is-invalid' : '' ?>" name="date_bought" value="<?php echo set_value('date_bought'); ?>">
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">Érték</label>
+            <div class="input-group">
+                <input type="number" class="form-control<?php echo (form_error('value')) ? ' is-invalid' : '' ?>" name="value" value="<?php echo set_value('value'); ?>">
+                <div class="input-group-append">
+                    <span class="input-group-text">€</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="form-control-label">Tulajdonos</label>
             <select name="owner" id="owner" title="Tulajdonos" class="form-control">
                 <option value="0">&#60;senki&#62;</option>

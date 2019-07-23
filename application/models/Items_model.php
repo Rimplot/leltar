@@ -14,6 +14,8 @@ class Items_model extends CI_Model
             'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
             'category_id' => ($this->input->post('category_id') == 0) ? NULL : $this->input->post('category_id'),
             'type_id' => $this->input->post('type'),
+            'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
+            'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
             'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
             'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
             'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')
@@ -136,6 +138,8 @@ class Items_model extends CI_Model
             'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
             'category_id' => ($this->input->post('category_id') == 0) ? NULL : $this->input->post('category_id'),
             'type_id' => $this->input->post('type'),
+            'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
+            'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
             'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
             'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
             'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')

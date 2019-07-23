@@ -15,6 +15,8 @@
             <th scope="col">Vonalkód</th>
             <th scope="col">Kategória</th>
             <th scope="col">Típus</th>
+            <th scope="col">Megvásárlás ideje</th>
+            <th scope="col">Érték</th>
             <th scope="col">Tulajdonos</th>
             <th></th>
         </tr>
@@ -29,6 +31,8 @@
             </td>
             <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></td>
             <td><?php echo $item['type']; ?></td>
+            <td><?php echo $item['date_bought']; ?></td>
+            <td><?php if ($item['value'] != "") echo $item['value'] . " €"; ?></td>
             <td><?php echo $item['owner']; ?></td>
             <th class="float-right">
                 <!-- <?php echo ($item['label']) ? '<button type="button" class="btn btn-success" id="btnPrint">Nyomtatás</button>' : '';?> -->
