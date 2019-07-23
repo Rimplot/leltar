@@ -75,7 +75,7 @@ class Sectors_model extends CI_Model
             $this->db->where('latest = 1');
             $this->db->where('sector_id', $id);
             $this->db->join('items', 'items.id = inventory.item_id');
-            $this->db->join('categories', 'categories.id = items.category_id');
+            $this->db->join('categories', 'categories.id = items.category_id', 'left');
 
             $query = $this->db->get();
 

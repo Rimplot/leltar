@@ -314,7 +314,7 @@ $args = array(
             launchQZ();
             if (qz.websocket.isActive()) {
                 var config = qz.configs.create("Godex G300");
-                var data = [<?php echo labelBuilder($item["label"], $args); ?>];
+                var data = [<?php echo labelBuilder("", $args); ?>];
 
                 qz.print(config, data).catch(function(e) {
                     console.error(e);

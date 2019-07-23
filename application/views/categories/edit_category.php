@@ -31,7 +31,6 @@
         <div class="form-group">
             <label class="form-control-label">Címke</label>
             <select name="label" title="Címke" class="form-control">
-                <option value="0" <?php echo ($category['label_id'] == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
                 <?php foreach ($labels as $label) : ?>
                     <option value="<?php echo $label['id']; ?>" <?php echo ($category['label_id'] == $label['id']) ? 'selected' : '' ; ?>><?php echo $label['name']; ?></option>
                 <?php endforeach; ?>

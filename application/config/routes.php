@@ -86,7 +86,6 @@ $route['owners/(:num)/view'] = 'owners/view/$1';
 $route['owners/(:num)/edit'] = 'owners/edit/$1';
 $route['owners/(:num)/(:any)'] = 'owners/view/$1/$2';
 
-$route['sectors/view'] = 'sectors';
 $route['sectors/(:num)'] = 'sectors/view/$1';
 $route['sectors/(:num)/view'] = 'sectors/view/$1';
 $route['sectors/(:num)/edit'] = 'sectors/edit/$1';
