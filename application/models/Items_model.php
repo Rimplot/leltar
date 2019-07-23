@@ -79,55 +79,40 @@ class Items_model extends CI_Model
         }
     }
 
+    private function history_db_query($id) {
+        $this->db->select(
+            'inventory.*,
+            storages.name AS storage,
+            storages.id AS storage_id,
+            sectors.name AS sector,
+            sectors.id AS sector_id,
+            sessions.name AS session,
+            sessions.id AS session_id'
+        );
+        $this->db->from('inventory');
+        $this->db->where('item_id', $id);
+        $this->db->order_by('time', 'DESC');
+        $this->db->join('sessions', 'sessions.id = inventory.session_id', 'left');
+        $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
+        $this->db->join('storages', 'storages.id = sectors.storage_id');
+        $query = $this->db->get();
+
+        if ($this->db->error()['code']) {
+            die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
+        }
+        
+        return $query;
+    }
+
     public function get_item_history($id = null) {
         if ($id !== null) {
-            $this->db->select(
-                'inventory.*,
-                storages.name AS storage,
-                storages.id AS storage_id,
-                sectors.name AS sector,
-                sectors.id AS sector_id,
-                sessions.name AS session,
-                sessions.id AS session_id'
-            );
-            $this->db->from('inventory');
-            $this->db->where('item_id', $id);
-            $this->db->order_by('time', 'DESC');
-            $this->db->join('sessions', 'sessions.id = inventory.session_id', 'left');
-            $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
-            $this->db->join('storages', 'storages.id = sectors.storage_id');
-            $query = $this->db->get();
-
-            if ($this->db->error()['code']) {
-                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-            }
-            
-            return $query->result_array();
+            return $this->history_db_query($id)->result_array();
         }
     }
 
     public function get_last_seen($id = null) {
         if ($id !== null) {
-            $this->db->select(
-                'inventory.*,
-                storages.name AS storage_name,
-                storages.id AS storage_id,
-                sectors.name AS sector_name,
-                sectors.id AS sector_id,
-                sessions.name AS session');
-            $this->db->from('inventory');
-            $this->db->where('item_id', $id);
-            $this->db->where('latest', 1);
-            $this->db->join('sessions', 'sessions.id = inventory.session_id', 'left');
-            $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
-            $this->db->join('storages', 'storages.id = sectors.storage_id');
-            $query = $this->db->get();
-
-            if ($this->db->error()['code']) {
-                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-            }
-            
-            return $query->row_array();
+            return $this->history_db_query($id)->row_array();
         }
     }
 

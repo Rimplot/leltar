@@ -242,8 +242,8 @@ $args = array(
     "{{name}}" => $item['name'],
     "{{category}}" => $item['category'],
     "{{barcode}}" => $item['barcode'],
-    "{{storage}}" => $item['last_seen']['storage_name'],
-    "{{sector}}" => $item['last_seen']['sector_name']
+    "{{storage}}" => $item['last_seen']['storage'],
+    "{{sector}}" => $item['last_seen']['sector']
 );
 
 ?>
