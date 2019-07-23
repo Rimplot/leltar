@@ -8,7 +8,11 @@ class Inventory_model extends CI_Model
     }
 
     public function inventory($session_id = null, $barcode = null, $sector_id = null) {
-        if ($session_id !== null && $barcode !== null && $sector_id !== null) {
+        if ($session_id == "") {
+            $session_id = null;
+        }
+        
+        if ($barcode !== null && $sector_id !== null) {
             $this->load->model('items_model');
             
             // get the id of the item with barcode == $barcode

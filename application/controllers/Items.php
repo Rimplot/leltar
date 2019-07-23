@@ -11,6 +11,7 @@ class Items extends CI_Controller
         $this->load->model('categories_model');
         $this->load->model('boxes_model');
         $this->load->model('owners_model');
+        $this->load->model('storages_model');
         $this->menu = "items";
     }
 
@@ -90,6 +91,10 @@ class Items extends CI_Controller
         $data['menu'] = $this->menu;
         $data['item'] = $this->items_model->get_items($id);
         $data['inventory_history'] = $this->items_model->get_item_history($id);
+        $data['storages'] = $this->storages_model->get_storages();
+        for ($i = 0; $i < count($data['storages']); $i++) {
+            $data['storages'][$i]['sectors'] = $this->storages_model->get_sectors($data['storages'][$i]['id']);
+        }
 
         $this->load->view('templates/header', $data);
         if ($msg == 'success') $this->load->view('success');

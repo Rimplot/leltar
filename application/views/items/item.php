@@ -34,7 +34,8 @@
             <td><?php echo $item['date_bought']; ?></td>
             <td><?php if ($item['value'] != "") echo $item['value'] . " €"; ?></td>
             <td><?php echo $item['owner']; ?></td>
-            <th class="float-right">
+            <th class="float-right text-right">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#inventoryModal">Manuális leltárazás</button>
                 <!-- <?php echo ($item['label']) ? '<button type="button" class="btn btn-success" id="btnPrint">Nyomtatás</button>' : '';?> -->
                 <button type="button" class="btn btn-success" id="btnPrint">Nyomtatás</button>
                 <a class="btn btn-primary" href="<?php echo base_url() . 'items/edit/' . $item['id']; ?>">Módosítás</a>
@@ -60,7 +61,7 @@
                 <tr>
                     <td><a href="<?php echo base_url() . 'storages/' . $row['storage_id']; ?>"><?php echo $row['storage']; ?></a></td>
                     <td><a href="<?php echo base_url() . 'sectors/' . $row['sector_id']; ?>"><?php echo $row['sector']; ?></a></td>
-                    <td><?php echo $row['session']; ?></td>
+                    <td><?php echo ($row['session']) ? $row['session'] : "<em>manuálisan hozzáadva</em>"; ?></td>
                     <td><?php echo $row['time']; ?></td>
                 </tr>
                 <?php endforeach;?>
@@ -86,6 +87,39 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Mégsem</button>
                 <a href="<?php echo base_url() . 'items/delete/' . $item['id']; ?>" class="btn btn-danger">Törlés</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inventory Modal -->
+<div class="modal fade" id="inventoryModal" tabindex="-1" role="dialog" aria-labelledby="inventoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="inventoryModalLabel">Eszköz manuális leltárazása</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Ha nincs kéznél a vonalkódolvasó, ilyen módon manuálisan is bevihető a rendszerbe az adott eszköz jelenlegi helye.</p>
+                <div class="form-group">
+                    <label class="form-control-label">Szektor</label>
+                    <select name="sector" id="sector" title="Szektor" class="form-control">
+                        <?php foreach ($storages as $storage) : ?>
+                            <optgroup label="<?php echo $storage['name']; ?>">
+                            <?php foreach ($storage['sectors'] as $sector) : ?>
+                                <option value="<?php echo $sector['id']; ?>"><?php echo $sector['name']; ?></option>
+                            <?php endforeach; ?>
+                            </optgroup>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Mégsem</button>
+                <button type="button" class="btn btn-info" id="btnInventory">Leltárazás</a>
             </div>
         </div>
     </div>
@@ -250,6 +284,32 @@ $args = array(
 
 <script>
     $(document).ready(function() {
+        $('#btnInventory').click(function() {
+            var barcode = "<?php echo $item['barcode']; ?>";
+
+            $.ajax({
+                url: "<?php echo base_url(); ?>" + "ajax/inventory",
+                type: "post",
+                dataType: "json",
+                data: {
+                    'session_id': "",
+                    'barcode': barcode,
+                    'sector': $('#sector').val()
+                },
+                success: function(data) {
+                    if (data.success) {
+                        location.reload();
+                    }
+                    else {
+                        alert('Ismeretlen eszköz');
+                    }
+                },
+                error: function(data) {
+                    alert('Hiba! Nincs kapcsolat az adatbázissal.')
+                }
+            });
+        });
+
         $('#btnPrint').click(function() {
             launchQZ();
             if (qz.websocket.isActive()) {

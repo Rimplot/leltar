@@ -47,7 +47,7 @@
                     <td><?php echo $item['barcode']; ?></td>
                     <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></a></td>
                     <td><?php echo $item['time']; ?></td>
-                    <td><a href="<?php echo base_url() . 'sessions/' . $item['session_id']; ?>"><?php echo $item['session']; ?></a></td>
+    <td><?php if ($item['session_id']): ?><a href="<?php echo base_url() . 'sessions/' . $item['session_id']; ?>"><?php echo $item['session']; ?></a><?php else: ?><em>manuálisan hozzáadva</em><?php endif ?></td>
                     <td><a href="<?php echo base_url() . 'storages/' . $item['storage_id']; ?>"><?php echo $item['storage'] . ', ' . $item['sector']; ?></a></td>
                 </tr>
             <?php endforeach; ?>
