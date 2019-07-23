@@ -36,13 +36,15 @@ class Items extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $id = $this->items_model->add_item();
-            redirect('/items/' . $id . '/success');
+            $this->session->set_flashdata('created', true);
+            redirect('/items/' . $id);
         }
     }
 
     public function delete($id)
     {
         $this->items_model->delete_item($id);
+        $this->session->set_flashdata('deleted', true);
         redirect('items');
     }
 
@@ -68,7 +70,8 @@ class Items extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->items_model->set_items();
-            redirect('/items/' . $id . '/success');
+            $this->session->set_flashdata('modified', true);
+            redirect('/items/' . $id);
         }
     }
 
@@ -80,6 +83,7 @@ class Items extends CI_Controller
         $data['items'] = $this->items_model->get_items();
 
         $this->load->view('templates/header', $data);
+        if ($this->session->flashdata('deleted')) $this->load->view('success', array('type' => 'item', 'action' => 'deleted'));
         $this->load->view('items/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
@@ -97,7 +101,8 @@ class Items extends CI_Controller
         }
 
         $this->load->view('templates/header', $data);
-        if ($msg == 'success') $this->load->view('success');
+        if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'item', 'action' => 'created'));
+        if ($this->session->flashdata('modified')) $this->load->view('success', array('type' => 'item', 'action' => 'modified'));
         $this->load->view('items/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }

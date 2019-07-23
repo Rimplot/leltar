@@ -29,6 +29,7 @@ class Labels extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $id = $this->labels_model->add_label();
+            $this->session->set_flashdata('created', true);
             redirect('/labels/' . $id . '/success');
         }
     }
@@ -36,6 +37,7 @@ class Labels extends CI_Controller
     public function delete($id)
     {
         $this->labels_model->delete_label($id);
+        $this->session->set_flashdata('deleted', true);
         redirect('labels');
     }
 
@@ -58,8 +60,8 @@ class Labels extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->labels_model->set_label();
-            redirect('/labels/' . $id . '/success');
-            // redirect('/labels/edit/' . $id);
+            $this->session->set_flashdata('modified', true);
+            redirect('/labels/' . $id);
         }
     }
 
@@ -71,6 +73,7 @@ class Labels extends CI_Controller
         $data['labels'] = $this->labels_model->get_labels();
 
         $this->load->view('templates/header', $data);
+        if ($this->session->flashdata('deleted')) $this->load->view('success', array('type' => 'label', 'action' => 'deleted'));
         $this->load->view('labels/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
@@ -84,7 +87,8 @@ class Labels extends CI_Controller
         $data['categories'] = $this->labels_model->get_categories_with_label($id);
 
         $this->load->view('templates/header', $data);
-        if ($msg == 'success') $this->load->view('success');
+        if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'label', 'action' => 'created'));
+        if ($this->session->flashdata('modified')) $this->load->view('success', array('type' => 'label', 'action' => 'modified'));
         $this->load->view('labels/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }

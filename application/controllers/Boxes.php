@@ -17,6 +17,7 @@ class Boxes extends CI_Controller
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('name', 'Név', 'required');
+        $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
 
         $data['page'] = 'add_box';
         $data['page_title'] = "Doboz hozzáadása";
@@ -29,13 +30,15 @@ class Boxes extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $id = $this->boxes_model->add_box();
-            redirect('/boxes/' . $id . '/success');
+            $this->session->set_flashdata('created', true);
+            redirect('/boxes/' . $id);
         }
     }
 
     public function delete($id)
     {
         $this->boxes_model->delete_box($id);
+        $this->session->set_flashdata('deleted', true);
         redirect('boxes');
     }
 
@@ -45,6 +48,7 @@ class Boxes extends CI_Controller
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('name', 'Név', 'required');
+        $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
 
         $data['page'] = 'edit_box';
         $data['page_title'] = "Doboz szerkesztése";
@@ -58,7 +62,8 @@ class Boxes extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->boxes_model->set_box();
-            redirect('/boxes/' . $id . '/success');
+            $this->session->set_flashdata('modified', true);
+            redirect('/boxes/' . $id);
         }
     }
 
@@ -70,6 +75,7 @@ class Boxes extends CI_Controller
         $data['boxes'] = $this->boxes_model->get_boxes();
 
         $this->load->view('templates/header', $data);
+        if ($this->session->flashdata('deleted')) $this->load->view('success', array('type' => 'box', 'action' => 'deleted'));
         $this->load->view('boxes/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
@@ -83,7 +89,8 @@ class Boxes extends CI_Controller
         $data['items'] = $this->boxes_model->get_items_in_box($id);
 
         $this->load->view('templates/header', $data);
-        if ($msg == 'success') $this->load->view('success');
+        if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'box', 'action' => 'created'));
+        if ($this->session->flashdata('modified')) $this->load->view('success', array('type' => 'box', 'action' => 'modified'));
         $this->load->view('boxes/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }

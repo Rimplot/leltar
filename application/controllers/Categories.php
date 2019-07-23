@@ -31,13 +31,15 @@ class Categories extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $id = $this->categories_model->add_category();
-            redirect('/categories/' . $id . '/success');
+            $this->session->set_flashdata('created', true);
+            redirect('/categories/' . $id);
         }
     }
 
     public function delete($id)
     {
         $this->categories_model->delete_category($id);
+        $this->session->set_flashdata('deleted', true);
         redirect('categories');
     }
 
@@ -61,7 +63,8 @@ class Categories extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->categories_model->set_category();
-            redirect('/categories/' . $id . '/success');
+            $this->session->set_flashdata('modified', true);
+            redirect('/categories/' . $id);
         }
     }
 
@@ -73,6 +76,7 @@ class Categories extends CI_Controller
         $data['categories'] = $this->categories_model->get_categories();
 
         $this->load->view('templates/header', $data);
+        if ($this->session->flashdata('deleted')) $this->load->view('success', array('type' => 'category', 'action' => 'deleted'));
         $this->load->view('categories/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
@@ -86,7 +90,8 @@ class Categories extends CI_Controller
         $data['items'] = $this->categories_model->get_items_in_category($id);
 
         $this->load->view('templates/header', $data);
-        if ($msg == 'success') $this->load->view('success');
+        if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'category', 'action' => 'created'));
+        if ($this->session->flashdata('modified')) $this->load->view('success', array('type' => 'category', 'action' => 'modified'));
         $this->load->view('categories/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }

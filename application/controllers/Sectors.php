@@ -21,6 +21,7 @@ class Sectors extends CI_Controller
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('name', 'Név', 'required');
+        $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
 
         $data['page'] = 'add_sector';
         $data['page_title'] = "Szektor hozzáadása ide: " . $this->storages_model->get_storages($id)['name'];
@@ -33,7 +34,8 @@ class Sectors extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $id = $this->sectors_model->add_sector();
-            redirect('/sectors/' . $id . '/success');
+            $this->session->set_flashdata('created', true);
+            redirect('/sectors/' . $id );
         }
     }
 
@@ -41,6 +43,7 @@ class Sectors extends CI_Controller
     {
         if ($sector_id !== false && $sector_id !== false) {
             $this->sectors_model->archive_sector($sector_id);
+            $this->session->set_flashdata('archived', true);
             redirect('sectors/archived/' . $storage_id);
         }
     }
@@ -54,6 +57,7 @@ class Sectors extends CI_Controller
             $data['storage_id'] = $id;
 
             $this->load->view('templates/header', $data);
+            if ($this->session->flashdata('archived')) $this->load->view('success', array('type' => 'sector', 'action' => 'archived'));
             $this->load->view('sectors/' . $data['page'], $data);
             $this->load->view('templates/footer');
         }
@@ -65,6 +69,7 @@ class Sectors extends CI_Controller
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('name', 'Név', 'required');
+        $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
 
         $data['page'] = 'edit_sector';
         $data['page_title'] = "Szektor szerkesztése";
@@ -77,7 +82,8 @@ class Sectors extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->sectors_model->set_sector();
-            redirect('/sectors/' . $id . '/success');
+            $this->session->set_flashdata('modified', true);
+            redirect('/sectors/' . $id);
         }
     }
 
@@ -97,6 +103,7 @@ class Sectors extends CI_Controller
     {
         if ($sector_id !== false && $sector_id !== false) {
             $this->sectors_model->restore_sector($sector_id);
+            $this->session->set_flashdata('restored', true);
             redirect('storages/' . $storage_id);
         }
     }
@@ -110,7 +117,8 @@ class Sectors extends CI_Controller
         $data['items'] = $this->sectors_model->get_items_last_seen_in_sector($id);
 
         $this->load->view('templates/header', $data);
-        if ($msg == 'success') $this->load->view('success');
+        if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'sector', 'action' => 'created'));
+        if ($this->session->flashdata('modified')) $this->load->view('success', array('type' => 'sector', 'action' => 'modified'));
         $this->load->view('sectors/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }

@@ -14,12 +14,14 @@ class Sessions extends CI_Controller
     public function stop($id)
     {
         $this->sessions_model->stop_session($id);
+        $this->session->set_flashdata('finished', true);
         redirect('sessions/' . $id);
     }
 
     public function restart($id)
     {
         $this->sessions_model->restart_session($id);
+        $this->session->set_flashdata('restarted', true);
         redirect('sessions/' . $id);
     }
 
@@ -44,7 +46,8 @@ class Sessions extends CI_Controller
         $data['items'] = $this->sessions_model->get_session_items($id);
 
         $this->load->view('templates/header', $data);
-        if ($msg == 'success') $this->load->view('success');
+        if ($this->session->flashdata('finished')) $this->load->view('success', array('type' => 'session', 'action' => 'finished'));
+        if ($this->session->flashdata('restarted')) $this->load->view('success', array('type' => 'session', 'action' => 'restarted'));
         $this->load->view('sessions/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }

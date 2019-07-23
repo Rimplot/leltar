@@ -28,13 +28,15 @@ class Owners extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $id = $this->owners_model->add_owner();
-            redirect('/owners/' . $id . '/success');
+            $this->session->set_flashdata('created', true);
+            redirect('/owners/' . $id);
         }
     }
 
     public function delete($id)
     {
         $this->owners_model->delete_owner($id);
+        $this->session->set_flashdata('deleted', true);
         redirect('owners');
     }
 
@@ -56,7 +58,8 @@ class Owners extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->owners_model->set_owner();
-            redirect('/owners/' . $id . '/success');
+            $this->session->set_flashdata('modified', true);
+            redirect('/owners/' . $id);
         }
     }
 
@@ -68,6 +71,7 @@ class Owners extends CI_Controller
         $data['owners'] = $this->owners_model->get_owners();
 
         $this->load->view('templates/header', $data);
+        if ($this->session->flashdata('deleted')) $this->load->view('success', array('type' => 'owner', 'action' => 'deleted'));
         $this->load->view('owners/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
@@ -81,7 +85,8 @@ class Owners extends CI_Controller
         $data['items'] = $this->owners_model->get_items_of_owner($id);
 
         $this->load->view('templates/header', $data);
-        if ($msg == 'success') $this->load->view('success');
+        if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'owner', 'action' => 'created'));
+        if ($this->session->flashdata('modified')) $this->load->view('success', array('type' => 'owner', 'action' => 'modified'));
         $this->load->view('owners/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }

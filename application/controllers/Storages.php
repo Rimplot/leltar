@@ -29,13 +29,15 @@ class Storages extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $id = $this->storages_model->add_storage();
-            redirect('/storages/' . $id . '/success');
+            $this->session->set_flashdata('created', true);
+            redirect('/storages/' . $id);
         }
     }
 
     public function archive($id)
     {
         $this->storages_model->archive_storage($id);
+        $this->session->set_flashdata('archived', true);
         redirect('storages/archived');
     }
 
@@ -46,6 +48,7 @@ class Storages extends CI_Controller
         $data['storages'] = $this->storages_model->get_archived_storages();
 
         $this->load->view('templates/header', $data);
+        if ($this->session->flashdata('archived')) $this->load->view('success', array('type' => 'storage', 'action' => 'archived'));
         $this->load->view('storages/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
@@ -68,6 +71,7 @@ class Storages extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->storages_model->set_storage();
+            $this->session->set_flashdata('modified', true);
             redirect('/storages/' . $id . '/success');
         }
     }
@@ -80,6 +84,7 @@ class Storages extends CI_Controller
         $data['storages'] = $this->storages_model->get_storages();
 
         $this->load->view('templates/header', $data);
+        if ($this->session->flashdata('restored')) $this->load->view('success', array('type' => 'storage', 'action' => 'restored'));
         $this->load->view('storages/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
@@ -87,6 +92,7 @@ class Storages extends CI_Controller
     public function restore($id)
     {
         $this->storages_model->restore_storage($id);
+        $this->session->set_flashdata('restored', true);
         redirect('storages');
     }
 
@@ -103,7 +109,9 @@ class Storages extends CI_Controller
         $data['items'] = $this->storages_model->get_items_last_seen_in_storage($id);
 
         $this->load->view('templates/header', $data);
-        if ($msg == 'success') $this->load->view('success');
+        if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'storage', 'action' => 'created'));
+        if ($this->session->flashdata('modified')) $this->load->view('success', array('type' => 'storage', 'action' => 'modified'));
+        if ($this->session->flashdata('restored')) $this->load->view('success', array('type' => 'sector', 'action' => 'restored'));
         $this->load->view('storages/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
