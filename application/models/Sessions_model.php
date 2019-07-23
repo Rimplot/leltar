@@ -16,10 +16,28 @@ class Sessions_model extends CI_Model
         return $this->db->insert_id();
     }
 
-    public function stop_session($id = null) {
+    public function restart_session($id = null) {
         if ($id !== null) {
             $this->db->where('id', $id);
-            return $this->db->update('sessions', ['end' => date('Y-m-d H:i:s')]);
+            $this->db->set('end', null);
+            $this->db->update('sessions');
+        }
+    }
+
+    public function stop_session($id = null) {
+        if ($id !== null) {
+            $this->db->select('time');
+            $this->db->from('inventory');
+            $this->db->where('session_id', $id);
+            $this->db->order_by('time', 'desc');
+            $this->db->limit(1);
+            $result = $this->db->get();
+
+            if ($result->num_rows()) {
+                $time = $result->row_array()['time'];
+                $this->db->where('id', $id);
+                return $this->db->update('sessions', ['end' => $time]);
+            }
         }
     }
 
@@ -29,10 +47,19 @@ class Sessions_model extends CI_Model
 
         if ($id === null) {
             $query = $this->db->get();
-            return $query->result_array();
+            $result = $query->result_array();
+
+            for ($i = 0; $i < count($result); $i++) {
+                $result[$i]['item_num'] = count($this->get_session_items($result[$i]['id']));
+            }
+
+            return $result;
         } else {
             $this->db->where('id', $id);
-            return $this->db->get()->row_array();
+            $result = $this->db->get()->row_array();
+            $result['item_num'] = count($this->get_session_items($id));
+
+            return $result;
         }
     }
 

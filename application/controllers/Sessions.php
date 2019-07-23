@@ -14,7 +14,13 @@ class Sessions extends CI_Controller
     public function stop($id)
     {
         $this->sessions_model->stop_session($id);
-        redirect('sessions');
+        redirect('sessions/' . $id);
+    }
+
+    public function restart($id)
+    {
+        $this->sessions_model->restart_session($id);
+        redirect('sessions/' . $id);
     }
 
     public function index()

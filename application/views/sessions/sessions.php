@@ -16,6 +16,7 @@
             <th scope="col">Név</th>
             <th scope="col">Kezdet</th>
             <th scope="col">Vég</th>
+            <th scope="col">Csippantások száma</th>
         </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
                 <td><a href="<?php echo base_url() . 'sessions/' . $session['id']; ?>"><?php echo $session['name']; ?></a></td>
                 <td><?php echo $session['start']; ?></td>
                 <td><?php echo $session['end']; ?></td>
+                <td><?php echo $session['item_num']; ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
