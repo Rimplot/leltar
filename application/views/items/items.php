@@ -27,10 +27,10 @@
                 <td><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['name']; ?></a></td>
                 <td><?php echo $item['barcode']; ?></td>
                 <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></a></td>
-                <td><?php echo $item['owner']; ?></td>
-                <td><?php echo $item['last_seen']['time']; ?></td>
-                <td><?php echo $item['last_seen']['session']; ?></td>
-                <td><a href="<?php echo base_url() . 'storages/' . $item['last_seen']['storage_id']; ?>"><?php echo $item['last_seen']['storage']; ?></a></td>
+                <td><?php echo ($item['owner']) ? $item['owner'] : '<em>miénk</em>'; ?></td>
+                <td><?php echo ($item['last_seen']['time']) ? $item['last_seen']['time'] : '<em>ismeretlen</em>'; ?></td>
+                <td><?php echo ($item['last_seen']['session']) ? $item['last_seen']['session'] : '<em>ismeretlen</em>'; ?></td>
+                <td><?php echo ($item['last_seen']['storage_id']) ? '<a href="' . base_url() . 'storages/' . $item['last_seen']['storage_id'] . '">' . $item['last_seen']['storage'] . '</a>' : '<em>ismeretlen</em>'; ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

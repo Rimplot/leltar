@@ -1,9 +1,23 @@
 <div class="row">
-    <div class="col-md-8">
-        <h2><?php echo $page_title; ?></h2>
+    <div class="col-md-5">
+        <h2><?php echo $item['name']; ?></h2>
     </div>
-    <div class="col-md-4">
-        <a href="<?php echo base_url(); ?>items/add" class="btn btn-info float-right">Új eszköz hozzáadása</a>
+    <div class="col-md-7 text-right">
+        <a href="<?php echo base_url(); ?>items/add/<?php echo $item['item_id']; ?>" class="btn btn-info">Új példány hozzáadása</a>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#inventoryModal">Manuális leltárazás</button>
+        <button type="button" class="btn btn-success" id="btnPrint">Nyomtatás</button>
+        <?php if (count($instances) > 1): ?>
+        <div class="btn-group">
+            <button id="edit-dropdown" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Módosítás</button>
+            <div class="dropdown-menu" aria-labelledby="edit-dropdown">
+                <a class="dropdown-item" href="<?php echo base_url() . 'items/edit/' . $item['id']; ?>">Eszköz módosítása</a>
+                <a class="dropdown-item" href="<?php echo base_url() . 'items/edit/' . $item['id'] . '/instance'; ?>">Példány módosítása</a>
+            </div>
+        </div>
+        <?php else: ?>
+            <a class="btn btn-primary" href="<?php echo base_url() . 'items/edit/' . $item['id']; ?>">Módosítás</a>
+        <?php endif; ?>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>
     </div>
 </div>
 
@@ -11,10 +25,10 @@
     <thead>
         <tr>
             <th scope="col">Azonosító</th>
-            <th scope="col">Név</th>
             <th scope="col">Vonalkód</th>
             <th scope="col">Kategória</th>
             <th scope="col">Típus</th>
+            <th scope="col">Létrehozás ideje</th>
             <th scope="col">Megvásárlás ideje</th>
             <th scope="col">Érték</th>
             <th scope="col">Tulajdonos</th>
@@ -24,26 +38,49 @@
         <tbody>
         <tr>
             <th scope="row"><?php echo $item['id']; ?></th>
-            <td><?php echo $item['name']; ?></td>
             <td>
                 <img src="<?php echo base_url() . 'barcodes/generate/' . $item['barcode']; ?>" style="display:block; height:15%">
                 <a href="<?php echo base_url() . 'barcodes/generate/' . $item['barcode']; ?>"><?php echo $item['barcode']; ?></a>
             </td>
             <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></td>
             <td><?php echo $item['type']; ?></td>
-            <td><?php echo $item['date_bought']; ?></td>
-            <td><?php if ($item['value'] != "") echo $item['value'] . " €"; ?></td>
-            <td><?php echo $item['owner']; ?></td>
-            <th class="float-right text-right">
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#inventoryModal">Manuális leltárazás</button>
-                <!-- <?php echo ($item['label']) ? '<button type="button" class="btn btn-success" id="btnPrint">Nyomtatás</button>' : '';?> -->
-                <button type="button" class="btn btn-success" id="btnPrint">Nyomtatás</button>
-                <a class="btn btn-primary" href="<?php echo base_url() . 'items/edit/' . $item['id']; ?>">Módosítás</a>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Törlés</button>
-            </th>
+            <td><?php echo ($item['date_created']) ? $item['date_created'] : '<em>ismeretlen</em>'; ?></td>
+            <td><?php echo ($item['date_bought']) ? $item['date_bought'] : '<em>ismeretlen</em>'; ?></td>
+            <td><?php echo ($item['value'] !== null) ? $item['value'] . " €" : '<em>ismeretlen</em>'; ?></td>
+            <td><?php echo ($item['owner']) ? $item['owner'] : '<em>miénk</em>'; ?></td>
         </tr>
     </tbody>
 </table>
+
+<?php if (count($instances) > 1): ?>
+    <h4>Egyéb példányok</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Azonosító</th>
+                <th scope="col">Vonalkód</th>
+                <th scope="col">Létrehozás ideje</th>
+                <th scope="col">Megvásárlás ideje</th>
+                <th scope="col">Érték</th>
+                <th scope="col">Tulajdonos</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($instances as $instance): ?>
+                <?php if ($instance['id'] == $item['id']) continue; ?>
+                <tr>
+                    <td><a href="<?php echo base_url() . 'items/' . $instance['id']; ?>"><?php echo $instance['id']; ?></a></td>
+                    <td><?php echo $instance['barcode']; ?></td>
+                    <td><?php echo ($instance['date_created']) ? $instance['date_created'] : '<em>ismeretlen</em>'; ?></td>
+                    <td><?php echo ($instance['date_bought']) ? $instance['date_bought'] : '<em>ismeretlen</em>'; ?></td>
+                    <td><?php echo ($instance['value'] !== null) ? $instance['value'] . " €" : '<em>ismeretlen</em>'; ?></td>
+                    <td><?php echo ($instance['owner']) ? $instance['owner'] : '<em>miénk</em>'; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
 
 <h4>Előzmények</h4>
 <?php if (/* !is_null($inventory_history) && */ count($inventory_history)) : ?>

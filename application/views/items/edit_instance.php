@@ -8,14 +8,13 @@
                              '<button type="button" class="close">&times;</button>' .
                              '<strong>Hiba!</strong> ', '</div>'); */ ?>
 
-<?php echo form_open('items/edit/' . $item['id']); ?>
+<?php echo form_open('items/edit/' . $item['id'] . '/instance'); ?>
 
 <div class="row">
     <div class="col-lg-4 offset-lg-1">
-        <div class="form-group<?php echo (form_error('name')) ? ' has-danger' : '' ?>">
+        <div class="form-group">
             <label class="form-control-label">Név</label>
-            <input type="text" class="form-control<?php echo (form_error('name')) ? ' is-invalid' : '' ?>" name="name" value="<?php echo $item['name']; ?>">
-            <div class="invalid-feedback"><?php echo form_error('name'); ?></div>
+            <input type="text" class="form-control" name="name" value="<?php echo $item['name']; ?>" disabled>
         </div>
         <div class="form-group<?php echo (form_error('barcode')) ? ' has-danger' : '' ?>">
             <label class="form-control-label">Vonalkód</label>
@@ -29,7 +28,7 @@
         </div>
         <div class="form-group">
             <label class="form-control-label">Kategória</label>
-            <select name="category_id" title="Kategória" class="form-control">
+            <select name="category_id" title="Kategória" class="form-control" disabled>
                 <option value="0" <?php echo ($item['category_id'] == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
                 <?php foreach ($categories as $category) : ?>
                     <option value="<?php echo $category['id']; ?>" <?php echo ($item['category_id'] == $category['id']) ? 'selected' : '' ; ?>><?php echo $category['name']; ?></option>
@@ -38,7 +37,7 @@
         </div>
         <div class="form-group">
             <label class="form-control-label">Típus</label>
-            <select name="type" id="type" title="Típus" class="form-control">
+            <select name="type" id="type" title="Típus" class="form-control" disabled>
                 <?php foreach (ITEM_TYPE_ID as $id) : ?>
                     <?php if ($id == BOX_TYPE_ID) continue; ?>
                     <option value="<?php echo $id; ?>" <?php echo ($item['type_id'] == $id) ? 'selected' : '' ; ?>><?php echo ITEM_TYPES[$id]; ?></option>

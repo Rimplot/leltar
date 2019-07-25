@@ -7,21 +7,27 @@ class Items_model extends CI_Model
         $this->load->database();
     }
 
-    public function add_item()
+    public function add_item($id = null)
     {
+        if ($id === null) {
+            $data = array(
+                'name' => $this->input->post('name'),
+                'category_id' => ($this->input->post('category_id') == 0) ? NULL : $this->input->post('category_id'),
+                'type_id' => $this->input->post('type')
+            );
+            $this->db->insert('items', $data);
+        }
+
         $data = array(
-            'name' => $this->input->post('name'),
             'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
-            'category_id' => ($this->input->post('category_id') == 0) ? NULL : $this->input->post('category_id'),
-            'type_id' => $this->input->post('type'),
             'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
             'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
             'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
             'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
             'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')
         );
-
-        $this->db->insert('items', $data);
+        $data['item_id'] = ($id === null) ? $this->db->insert_id() : $id;
+        $this->db->insert('instances', $data);
 
         return $this->db->insert_id();
     }
@@ -29,8 +35,13 @@ class Items_model extends CI_Model
     public function delete_item($id = null)
     {
         if ($id !== null) {
-            $this->db->delete('items', array('id' => $id));
+            $item_id = $this->db->query('SELECT item_id FROM instances WHERE id = ' . $id)->row_array()['item_id'];
+            $this->db->delete('instances', array('id' => $id));
             $this->db->delete('inventory', array('item_id' => $id));
+
+            if ($this->db->query('SELECT * FROM instances WHERE item_id = ' . $item_id)->num_rows() == 0) {
+                $this->db->delete('items', array('id' => $item_id));
+            }
         }
     }
 
@@ -44,6 +55,7 @@ class Items_model extends CI_Model
         $this->db->join('labels', 'labels.id = categories.label_id', 'left');
         $this->db->join('types', 'types.id = items.type_id');
         $this->db->join('owners', 'owners.id = instances.owner_id', 'left');
+        $this->db->order_by('instances.id', 'DESC');
         $this->db->order_by('items.id', 'DESC');
 
         if ($id === false) {
@@ -117,30 +129,54 @@ class Items_model extends CI_Model
         }
     }
 
-    public function set_items()
+    public function set_items($item = true, $instance = true)
     {
-        $data = array(
-            'name' => $this->input->post('name'),
-            'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
-            'category_id' => ($this->input->post('category_id') == 0) ? NULL : $this->input->post('category_id'),
-            'type_id' => $this->input->post('type'),
-            'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
-            'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
-            'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
-            'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
-            'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')
-        );
+        if ($item) {
+            $data = array(
+                'name' => $this->input->post('name'),
+                'category_id' => ($this->input->post('category_id') == 0) ? NULL : $this->input->post('category_id'),
+                'type_id' => $this->input->post('type')
+            );
+            $this->db->where('id', $this->input->post('item_id'));
+            $this->db->update('items', $data);
+        }
 
-        $this->db->where('id', $this->input->post('id'));
-        
-        return $this->db->update('items', $data);
+        if ($instance) {
+            $data = array(
+                'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
+                'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
+                'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
+                'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
+                'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
+                'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')
+            );
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('instances', $data);
+        }
     }
 
     public function check_barcode_used($barcode)
     {
         $this->db->select('*');
-        $this->db->from('items');
+        $this->db->from('instances');
         $this->db->where('barcode', $barcode);
         return boolval($this->db->get()->num_rows());
+    }
+
+    public function get($id) {
+        $this->db->select('*');
+        $this->db->from('items');
+        $this->db->where('id = ' . $id);
+        return $this->db->get()->row_array();
+    }
+
+    public function get_instances($id = null) {
+        if ($id !== null) {
+            $this->db->select('instances.*, owners.name AS owner');
+            $this->db->from('instances');
+            $this->db->join('owners', 'owners.id = instances.owner_id', 'left');
+            $this->db->where('item_id', $id);
+            return $this->db->get()->result_array();
+        }
     }
 }

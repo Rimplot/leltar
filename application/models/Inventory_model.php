@@ -17,7 +17,7 @@ class Inventory_model extends CI_Model
             
             // get the id of the item with barcode == $barcode
             $this->db->select('*');
-            $this->db->from('items');
+            $this->db->from('instances');
             $this->db->where('barcode', $barcode);
             $query = $this->db->get();
             $item = $query->row_array();
@@ -55,7 +55,7 @@ class Inventory_model extends CI_Model
                     $this->db->select(
                         'inventory.*,
                         items.name,
-                        items.barcode,
+                        instances.barcode,
                         categories.name AS category,
                         categories.id AS category_id,
                         storages.name AS storage,
@@ -65,7 +65,8 @@ class Inventory_model extends CI_Model
                     );
                     $this->db->from('inventory');
                     $this->db->where('inventory.id', $inventory_id);
-                    $this->db->join('items', 'items.id = inventory.item_id');
+                    $this->db->join('instances', 'instances.id = inventory.item_id');
+                    $this->db->join('items', 'items.id = instances.item_id');
                     $this->db->join('categories', 'categories.id = items.category_id', 'left');
                     $this->db->join('sessions', 'sessions.id = inventory.session_id');
                     $this->db->join('sectors', 'sectors.id = inventory.sector_id');
@@ -89,7 +90,7 @@ class Inventory_model extends CI_Model
                     $this->db->select(
                         'inventory.*,
                         items.name,
-                        items.barcode,
+                        instances.barcode,
                         items.category_id,
                         categories.name AS category,
                         storages.name AS storage,
@@ -98,7 +99,8 @@ class Inventory_model extends CI_Model
                     );
                     $this->db->from('inventory');
                     $this->db->where('inventory.id', $inventory['id']);
-                    $this->db->join('items', 'items.id = inventory.item_id');
+                    $this->db->join('instances', 'instances.id = inventory.item_id');
+                    $this->db->join('items', 'items.id = instances.item_id');
                     $this->db->join('categories', 'categories.id = items.category_id');
                     $this->db->join('sessions', 'sessions.id = inventory.session_id');
                     $this->db->join('sectors', 'sectors.id = inventory.sector_id');

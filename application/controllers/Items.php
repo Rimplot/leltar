@@ -15,27 +15,40 @@ class Items extends CI_Controller
         $this->menu = "items";
     }
 
-    public function add()
+    public function add($id = null)
     {
         $this->load->helper('form');
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('name', 'Név', 'required');
+        if (!$id) {
+            $this->form_validation->set_rules('name', 'Név', 'required');
+        }
         $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
 
+        $data['id'] = $id;
         $data['page'] = 'add_item';
-        $data['page_title'] = "Eszköz hozzáadása";
+        $data['page_title'] = ($id) ? "Példány hozzáadása" : "Eszköz hozzáadása";
         $data['menu'] = $this->menu;
         $data['categories'] = $this->categories_model->get_categories();
         $data['boxes'] = $this->boxes_model->get_boxes();
         $data['owners'] = $this->owners_model->get_owners();
+        
+        if ($id) {
+            $data['item'] = $this->items_model->get($id);
+        }
 
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
             $this->load->view('items/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
-            $id = $this->items_model->add_item();
+            if ($id) {
+                $id = $this->items_model->add_item($id);
+            }
+            else {
+                $id = $this->items_model->add_item();
+            }
+            
             $this->session->set_flashdata('created', true);
             redirect('/items/' . $id);
         }
@@ -48,28 +61,50 @@ class Items extends CI_Controller
         redirect('items');
     }
 
-    public function edit($id = false)
+    public function edit($id = null, $mode = null)
     {
         $this->load->helper('form');
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('name', 'Név', 'required');
-        $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
-
-        $data['page'] = 'edit_item';
-        $data['page_title'] = "Eszköz szerkesztése";
         $data['menu'] = $this->menu;
         $data['item'] = $this->items_model->get_items($id);
         $data['categories'] = $this->categories_model->get_categories();
         $data['boxes'] = $this->boxes_model->get_boxes();
         $data['owners'] = $this->owners_model->get_owners();
 
+        $multiple_instances = count($this->items_model->get_instances($data['item']['item_id'])) > 1;
+
+        if ($multiple_instances && $mode) {
+            $data['page'] = 'edit_instance';
+            $data['page_title'] = "Példány szerkesztése";
+            $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
+        }
+        else if ($multiple_instances) {
+            $data['page'] = 'edit_main_item';
+            $data['page_title'] = "Eszköz szerkesztése";
+            $this->form_validation->set_rules('name', 'Név', 'required');
+        }
+        else {
+            $data['page'] = 'edit_item';
+            $data['page_title'] = "Eszköz szerkesztése";
+            $this->form_validation->set_rules('name', 'Név', 'required');
+            $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
+        }
+
         if ($this->form_validation->run() === false) {
             $this->load->view('templates/header', $data);
             $this->load->view('items/' . $data['page'], $data);
             $this->load->view('templates/footer');
         } else {
-            $this->items_model->set_items();
+            if ($multiple_instances && $mode) {
+                $this->items_model->set_items(false, true);
+            }
+            else if ($multiple_instances) {
+                $this->items_model->set_items(true, false);
+            }
+            else {
+                $this->items_model->set_items();
+            }
             $this->session->set_flashdata('modified', true);
             redirect('/items/' . $id);
         }
@@ -99,6 +134,7 @@ class Items extends CI_Controller
         for ($i = 0; $i < count($data['storages']); $i++) {
             $data['storages'][$i]['sectors'] = $this->storages_model->get_sectors($data['storages'][$i]['id']);
         }
+        $data['instances'] = $this->items_model->get_instances($data['item']['item_id']);
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'item', 'action' => 'created'));

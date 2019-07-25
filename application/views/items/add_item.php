@@ -8,15 +8,22 @@
                              '<button type="button" class="close">&times;</button>' .
                     W         '<strong>Hiba!</strong> ', '</div>'); */ ?>
 
-<?php echo form_open('items/add'); ?>
+<?php echo form_open('items/add/' . $id); ?>
 
 <div class="row">
     <div class="col-lg-4 offset-lg-1">
-        <div class="form-group<?php echo (form_error('name')) ? ' has-danger' : '' ?>">
-            <label class="form-control-label">Név</label>
-            <input type="text" class="form-control<?php echo (form_error('name')) ? ' is-invalid' : '' ?>" name="name" value="<?php echo set_value('name'); ?>">
-            <div class="invalid-feedback"><?php echo form_error('name'); ?></div>
-        </div>
+        <?php if (!isset($item)): ?>
+            <div class="form-group<?php echo (form_error('name')) ? ' has-danger' : '' ?>">
+                <label class="form-control-label">Név</label>
+                <input type="text" class="form-control<?php echo (form_error('name')) ? ' is-invalid' : '' ?>" name="name" value="<?php echo set_value('name'); ?>">
+                <div class="invalid-feedback"><?php echo form_error('name'); ?></div>
+            </div>
+        <?php else: ?>
+            <div class="form-group">
+                <label class="form-control-label">Név</label>
+                <input type="text" class="form-control" name="name" value="<?php echo $item['name']; ?>" disabled>
+            </div>
+        <?php endif; ?>
         <div class="form-group<?php echo (form_error('barcode')) ? ' has-danger' : '' ?>">
             <label class="form-control-label">Vonalkód</label>
             <div class="input-group">
@@ -29,19 +36,19 @@
         </div>
         <div class="form-group">
             <label class="form-control-label">Kategória</label>
-            <select name="category_id" title="Kategória" class="form-control">
-                <option value="0" <?php echo (set_value('category_id') == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
+            <select name="category_id" title="Kategória" class="form-control" <?php if (isset($item)) echo "disabled" ?>>
+                <option value="0" <?php echo ((isset($item) && $item['category_id'] == 0) || set_value('category_id') == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>
                 <?php foreach ($categories as $category) : ?>
-                    <option value="<?php echo $category['id']; ?>" <?php echo (set_value('category_id') == $category['id']) ? 'selected' : '' ; ?>><?php echo $category['name']; ?></option>
+                    <option value="<?php echo $category['id']; ?>" <?php echo ((isset($item) && $item['category_id'] == $category['id']) || set_value('category_id') == $category['id']) ? 'selected' : '' ; ?>><?php echo $category['name']; ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div class="form-group">
             <label class="form-control-label">Típus</label>
-            <select name="type" id="type" title="Típus" class="form-control">
+            <select name="type" id="type" title="Típus" class="form-control" <?php if (isset($item)) echo "disabled" ?>>
                 <?php foreach (ITEM_TYPE_ID as $id) : ?>
                     <?php if ($id == BOX_TYPE_ID) continue; ?>
-                    <option value="<?php echo $id; ?>" <?php echo (set_value('type') == $id) ? 'selected' : '' ; ?>><?php echo ITEM_TYPES[$id]; ?></option>
+                    <option value="<?php echo $id; ?>" <?php echo ((isset($item) && $item['type_id'] == $id) || set_value('type') == $id) ? 'selected' : '' ; ?>><?php echo ITEM_TYPES[$id]; ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
