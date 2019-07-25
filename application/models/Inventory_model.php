@@ -117,7 +117,7 @@ class Inventory_model extends CI_Model
         $this->db->select(
             'inventory.*,
             items.name,
-            items.barcode,
+            instances.barcode,
             items.category_id,
             categories.name AS category,
             storages.name AS storage,
@@ -129,14 +129,15 @@ class Inventory_model extends CI_Model
 
         $this->db->from('inventory');
         $this->db->where('latest', 1);
-        $this->db->join('items', 'items.id = inventory.item_id');
+        $this->db->join('instances', 'instances.id = inventory.item_id');
+        $this->db->join('items', 'items.id = instances.item_id');
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
         $this->db->join('sessions', 'sessions.id = inventory.session_id', 'left');
         $this->db->join('sectors', 'sectors.id = inventory.sector_id');
         $this->db->join('storages', 'storages.id = sectors.storage_id');
         $this->db->order_by('time', 'DESC');
         if ($limit !== 0) $this->db->limit($limit);
-
+        
         return $this->db->get()->result_array();
     }
 }

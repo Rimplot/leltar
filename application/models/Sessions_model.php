@@ -80,9 +80,8 @@ class Sessions_model extends CI_Model
     public function get_session_items($id = null) {
         if ($id !== null) {
             $this->db->select('
-                items.id,
                 items.name,
-                items.barcode,
+                instances.*,
                 inventory.time,
                 storages.name AS storage,
                 storages.id AS storage_id,
@@ -92,7 +91,8 @@ class Sessions_model extends CI_Model
             $this->db->from('inventory');
             $this->db->where('session_id', $id);
             $this->db->order_by('time', 'DESC');
-            $this->db->join('items', 'items.id = inventory.item_id');
+            $this->db->join('instances', 'instances.id = inventory.item_id');
+            $this->db->join('items', 'items.id = instances.item_id');
             $this->db->join('sessions', 'sessions.id = inventory.session_id', 'left');
             $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
             $this->db->join('storages', 'storages.id = sectors.storage_id');

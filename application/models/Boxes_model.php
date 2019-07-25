@@ -52,10 +52,11 @@ class Boxes_model extends CI_Model
 
     public function get_boxes($id = false)
     {
-        $this->db->select('b1.id, b1.name, b1.barcode AS barcode, b2.name AS parent, b2.id AS parent_id');
+        $this->db->select('b1.name, instances.*, b2.name AS parent, b2.id AS parent_id');
         $this->db->from('items b1');
+        $this->db->join('instances', 'instances.item_id = b1.id');
+        $this->db->join('items b2', 'instances.box_id = b2.id', 'LEFT');
         $this->db->where('b1.type_id = ' . BOX_TYPE_ID);
-        $this->db->join('items b2', 'b1.box_id = b2.id', 'LEFT');
         $this->db->group_by('b1.id');
 
         if ($id === false) {
@@ -67,9 +68,8 @@ class Boxes_model extends CI_Model
             }
             return $result;
         } else {
-            $this->db->where('b1.id = ' . $id);
+            $this->db->where('instances.id = ' . $id);
             $query = $this->db->get();
-
             $result = $query->row_array();
 
             $result['item_num'] = count($this->get_items_in_box($result['id']));
@@ -81,10 +81,11 @@ class Boxes_model extends CI_Model
 
     public function get_items_in_box($id = null) {
         if ($id !== null) {
-            $this->db->select('*');
-            $this->db->from('items');
+            $this->db->select('instances.*, items.category_id, items.type_id, items.name AS name');
+            $this->db->from('instances');
+            $this->db->join('items', 'items.id = instances.item_id');
             $this->db->where('box_id', $id);
-            $this->db->where('type_id <> ' . BOX_TYPE_ID);
+            $this->db->where('items.type_id <> ' . BOX_TYPE_ID);
             $query = $this->db->get();
 
             if ($this->db->error()['code']) {

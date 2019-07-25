@@ -36,13 +36,14 @@ class Items_model extends CI_Model
 
     public function get_items($id = false)
     {
-        $this->db->select('items.*, categories.name AS category, types.name AS type, labels.content AS label, owners.name AS owner');
+        $this->db->select('items.*, instances.*, categories.name AS category, types.name AS type, labels.content AS label, owners.name AS owner');
         $this->db->from('items');
         $this->db->where('type_id <> ' . BOX_TYPE_ID);
+        $this->db->join('instances', 'instances.item_id = items.id');
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
         $this->db->join('labels', 'labels.id = categories.label_id', 'left');
         $this->db->join('types', 'types.id = items.type_id');
-        $this->db->join('owners', 'owners.id = items.owner_id', 'left');
+        $this->db->join('owners', 'owners.id = instances.owner_id', 'left');
         $this->db->order_by('items.id', 'DESC');
 
         if ($id === false) {
@@ -55,7 +56,7 @@ class Items_model extends CI_Model
 
             return $result;
         } else {
-            $this->db->where('items.id = ' . $id);
+            $this->db->where('instances.id = ' . $id);
             $query = $this->db->get();
 
             if ($this->db->error()['code'] || !$query->num_rows()) {

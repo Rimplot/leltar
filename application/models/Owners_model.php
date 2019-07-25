@@ -61,8 +61,9 @@ class Owners_model extends CI_Model
 
     public function get_items_of_owner($id = null) {
         if ($id !== null) {
-            $this->db->select('*');
-            $this->db->from('items');
+            $this->db->select('instances.*, items.name AS name');
+            $this->db->from('instances');
+            $this->db->join('items', 'items.id = instances.item_id');
             $this->db->where('owner_id', $id);
             $query = $this->db->get();
 
