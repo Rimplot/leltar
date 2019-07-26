@@ -53,7 +53,7 @@
 </table>
 
 <?php if (count($instances) > 1): ?>
-    <h4>Egyéb példányok</h4>
+    <h4>Egyéb példányok<span class="badge badge-pill badge-warning float-right"><?php echo count($instances) - 1; ?> további példány</span></h4>
     <table class="table">
         <thead>
             <tr>

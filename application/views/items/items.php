@@ -21,10 +21,16 @@
         </tr>
     </thead>
     <tbody>
+        <?php $last_item_id = -1; ?>
         <?php foreach ($items as $item) : ?>
+            <?php if ($item['item_id'] == $last_item_id) continue;
+                  else $last_item_id = $item['item_id']; ?>
             <tr>
                 <th scope="row"><?php echo $item['id']; ?></th>
-                <td><a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['name']; ?></a></td>
+                <td>
+                    <a href="<?php echo base_url() . 'items/' . $item['id']; ?>"><?php echo $item['name']; ?></a>
+                    <?php if ($item['instance_count'] > 1) echo '<span class="badge badge-pill badge-warning float-right">' . $item['instance_count'] . ' példány</span>'; ?>
+                </td>
                 <td><?php echo $item['barcode']; ?></td>
                 <td><a href="<?php echo base_url() . 'categories/' . $item['category_id']; ?>"><?php echo $item['category']; ?></a></td>
                 <td><?php echo ($item['owner']) ? $item['owner'] : '<em>miénk</em>'; ?></td>

@@ -64,6 +64,7 @@ class Items_model extends CI_Model
 
             for ($i = 0; $i < count($result); $i++) {
                 $result[$i]['last_seen'] = $this->get_last_seen($result[$i]['id']);
+                $result[$i]['instance_count'] = count($this->get_instances($result[$i]['item_id']));
             }
 
             return $result;
