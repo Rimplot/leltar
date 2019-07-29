@@ -97,6 +97,6 @@ $route['sessions/(:num)/view'] = 'sessions/view/$1';
 $route['sessions/(:num)/edit'] = 'sessions/edit/$1';
 $route['sessions/(:num)/(:any)'] = 'sessions/view/$1/$2';
 
-$route['default_controller'] = 'pages';
+$route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
