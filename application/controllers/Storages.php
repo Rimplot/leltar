@@ -1,6 +1,6 @@
 <?php
 
-class Storages extends CI_Controller
+class Storages extends MY_Controller
 {
     private $menu;
 

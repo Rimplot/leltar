@@ -1,6 +1,13 @@
+<?php if ($this->session->auth_required): ?>
+    <div class="alert alert-warning alert-dismissible" id="success-alert">
+        <button type="button" class="close">&times;</button>
+        Ennek az oldalnak az eléréséhez előbb be kell jelentkezned.
+    </div>
+<?php endif; ?>
+
 <h2><?php echo $page_title; ?></h2>
 
-<?php if (!isset($this->session->logged_in) || !$this->session->logged_in): ?>
+<?php if (!$this->session->logged_in): ?>
     <?php echo form_open(''); ?>
     <div class="row">
         <div class="col-lg-4 offset-lg-1">
@@ -23,7 +30,7 @@
 <?php else: ?>
     <div class="container">
         <h4>Bejelentkezve</h4>
-        <p>Peace, kedves <?php echo $this->session->user_name; ?>!</p>
+        <p>Peace, kedves <?php echo $this->session->user['name']; ?>!</p>
         <a href="<?php echo base_url(); ?>logout" class="btn btn-info">Kijelentkezés</a>
     </div>
 <?php endif; ?>

@@ -1,6 +1,6 @@
 <?php
 
-class Migrate extends CI_Controller
+class Migrate extends MY_Controller
 {
 
     public function index()

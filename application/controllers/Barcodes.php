@@ -1,6 +1,6 @@
 <?php
 
-class Barcodes extends CI_Controller
+class Barcodes extends MY_Controller
 {
     public function __construct()
     {

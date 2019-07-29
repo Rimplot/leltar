@@ -1,6 +1,6 @@
 <?php
 
-class Printer extends CI_Controller
+class Printer extends MY_Controller
 {
     private $menu;
 

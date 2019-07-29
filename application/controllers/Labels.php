@@ -1,6 +1,6 @@
 <?php
 
-class Labels extends CI_Controller
+class Labels extends MY_Controller
 {
     private $menu;
 

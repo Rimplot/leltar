@@ -1,5 +1,5 @@
 $(function() {
-    $(".alert-success").each(function(index) {
+    $(".alert").each(function(index) {
         $(this).delay(5000).fadeTo(1000, 0).slideUp(300);
     });
     

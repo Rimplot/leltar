@@ -1,6 +1,6 @@
 <?php
 
-class Sessions extends CI_Controller
+class Sessions extends MY_Controller
 {
     private $menu;
 

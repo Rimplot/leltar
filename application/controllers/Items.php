@@ -1,6 +1,6 @@
 <?php
 
-class Items extends CI_Controller
+class Items extends MY_Controller
 {
     private $menu;
 

@@ -1,6 +1,6 @@
 <?php
 
-class Sectors extends CI_Controller
+class Sectors extends MY_Controller
 {
     private $menu;
 
