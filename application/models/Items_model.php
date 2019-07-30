@@ -16,6 +16,7 @@ class Items_model extends CI_Model
                 'type_id' => $this->input->post('type')
             );
             $this->db->insert('items', $data);
+            $item_id = $this->db->insert_id();
         }
 
         $data = array(
@@ -29,7 +30,15 @@ class Items_model extends CI_Model
         $data['item_id'] = ($id === null) ? $this->db->insert_id() : $id;
         $this->db->insert('instances', $data);
 
-        return $this->db->insert_id();
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        }
+        else {
+            if ($id === null) {
+                $this->db->delete('items', array('id' => $item_id));
+            }
+            return null;
+        }
     }
 
     public function delete_item($id = null)

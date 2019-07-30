@@ -49,8 +49,14 @@ class Items extends MY_Controller
                 $id = $this->items_model->add_item();
             }
             
-            $this->session->set_flashdata('created', true);
-            redirect('/items/' . $id);
+            if ($id !== null) {
+                $this->session->set_flashdata('created', true);
+                redirect('/items/' . $id);
+            }
+            else {
+                $this->session->set_flashdata('not_created', true);
+                redirect('/items');
+            }
         }
     }
 
@@ -119,6 +125,7 @@ class Items extends MY_Controller
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('deleted')) $this->load->view('success', array('type' => 'item', 'action' => 'deleted'));
+        if ($this->session->flashdata('not_created')) $this->load->view('error', array('type' => 'item', 'error' => 'created'));
         $this->load->view('items/' . $data['page'], $data);
         $this->load->view('templates/footer');
     }
