@@ -85,9 +85,10 @@ class Items_model extends CI_Model
 
     public function get_item_by_barcode($barcode = null) {
         if ($barcode !== null) {
-            $this->db->select('id, type_id');
-            $this->db->from('items');
+            $this->db->select('instances.id, items.type_id');
+            $this->db->from('instances');
             $this->db->where('barcode', $barcode);
+            $this->db->join('items', 'items.id = instances.item_id');
 
             return $this->db->get()->row_array();
         }
