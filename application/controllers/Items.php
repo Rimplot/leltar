@@ -12,6 +12,7 @@ class Items extends MY_Controller
         $this->load->model('boxes_model');
         $this->load->model('owners_model');
         $this->load->model('storages_model');
+        $this->load->model('users_model');
         $this->menu = "items";
     }
 
@@ -136,6 +137,7 @@ class Items extends MY_Controller
         $data['page_title'] = "Eszköz";
         $data['menu'] = $this->menu;
         $data['item'] = $this->items_model->get_items($id);
+        $data['item']['creator_name'] = $this->users_model->get_name($data['item']['created_by']);
         $data['inventory_history'] = $this->items_model->get_item_history($id);
         $data['storages'] = $this->storages_model->get_storages();
         for ($i = 0; $i < count($data['storages']); $i++) {
