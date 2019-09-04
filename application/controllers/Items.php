@@ -137,7 +137,6 @@ class Items extends MY_Controller
         $data['page_title'] = "Eszköz";
         $data['menu'] = $this->menu;
         $data['item'] = $this->items_model->get_items($id);
-        $data['item']['creator_name'] = $this->users_model->get_name($data['item']['created_by']);
         $data['inventory_history'] = $this->items_model->get_item_history($id);
         $data['storages'] = $this->storages_model->get_storages();
         for ($i = 0; $i < count($data['storages']); $i++) {
@@ -145,6 +144,15 @@ class Items extends MY_Controller
         }
         $data['instances'] = $this->items_model->get_instances($data['item']['item_id']);
 
+        $data['item']['creator_name'] = $this->users_model->get_name($data['item']['created_by']);
+        if ($data['item']['last_modified_by'] !== null) {
+            if ($data['item']['last_modified_by'] !== $data['item']['created_by']) {
+                $data['item']['last_modified_name'] = $this->users_model->get_name($data['item']['last_modified_by']);
+            } else {
+                $data['item']['last_modified_name'] = $data['item']['creator_name'];
+            }
+        }
+        
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'item', 'action' => 'created'));
         if ($this->session->flashdata('modified')) $this->load->view('success', array('type' => 'item', 'action' => 'modified'));

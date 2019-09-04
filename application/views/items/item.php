@@ -30,6 +30,10 @@
             <th scope="col">Típus</th>
             <th scope="col">Létrehozta</th>
             <th scope="col">Létrehozás ideje</th>
+            <?php if ($item['last_modified_by']): ?>
+                <th scope="col">Utoljára módosította</th>
+                <th scope="col">Módosítás időpontja</th>
+            <?php endif; ?>
             <th scope="col">Megvásárlás ideje</th>
             <th scope="col">Érték</th>
             <th scope="col">Tulajdonos</th>
@@ -47,6 +51,10 @@
             <td><?php echo $item['type']; ?></td>
             <td><?php echo ($item['created_by']) ? $item['creator_name'] : '<em>ismeretlen</em>'; ?></td>
             <td><?php echo ($item['date_created']) ? $item['date_created'] : '<em>ismeretlen</em>'; ?></td>
+            <?php if ($item['last_modified_by']) {
+                echo '<td>' . $item['last_modified_name'] . '</td>';
+                echo '<td>' . $item['last_modified_date'] . '</td>';
+            } ?>
             <td><?php echo ($item['date_bought']) ? $item['date_bought'] : '<em>ismeretlen</em>'; ?></td>
             <td><?php echo ($item['value'] !== null) ? $item['value'] . " €" : '<em>ismeretlen</em>'; ?></td>
             <td><?php echo ($item['owner']) ? $item['owner'] : '<em>miénk</em>'; ?></td>
