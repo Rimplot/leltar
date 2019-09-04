@@ -70,9 +70,13 @@ class Storages_model extends CI_Model
         $this->db->select('*');
         $this->db->from('storages');
         $this->db->where('archived = 1');
-        $query = $this->db->get();
+        $result = $this->db->get()->result_array();
 
-        return $query->result_array();
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['deletable'] = $this->deletable($result[$i]['id']);
+        }
+
+        return $result;
     }
 
     public function get_items_last_seen_in_storage($id = null) {
@@ -127,5 +131,14 @@ class Storages_model extends CI_Model
         $this->db->where('id', $this->input->post('id'));
 
         return $this->db->update('storages', $data);
+    }
+
+    public function deletable($id) {
+        return count($this->get_items_last_seen_in_storage($id)) == 0;
+    }
+
+    public function delete_storage($id)
+    {
+        $this->db->delete('storages', array('id' => $id));
     }
 }

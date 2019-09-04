@@ -86,7 +86,7 @@
     <p>Nincs egy eszköz sem, amit ebben a raktárban leltároztunk utoljára.</p>
 <?php endif; ?>
 
-<!-- Delete Modal -->
+<!-- Archive Modal -->
 <div class="modal fade" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="archiveModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

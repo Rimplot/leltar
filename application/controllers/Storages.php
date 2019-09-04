@@ -49,8 +49,21 @@ class Storages extends MY_Controller
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('archived')) $this->load->view('success', array('type' => 'storage', 'action' => 'archived'));
+        if ($this->session->flashdata('deleted')) $this->load->view('success', array('type' => 'storage', 'action' => 'deleted'));
+        if ($this->session->flashdata('not_deleted')) $this->load->view('error', array('type' => 'storage', 'error' => 'deleted'));
         $this->load->view('storages/' . $data['page'], $data);
         $this->load->view('templates/footer');
+    }
+
+    public function delete($id)
+    {
+        if ($this->storages_model->deletable($id)) {
+            $this->storages_model->delete_storage($id);
+            $this->session->set_flashdata('deleted', true);
+        } else {
+            $this->session->set_flashdata('not_deleted', true);
+        }
+        redirect('storages/archived');
     }
 
     public function edit($id = false)
