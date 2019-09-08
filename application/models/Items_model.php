@@ -59,7 +59,6 @@ class Items_model extends CI_Model
     {
         $this->db->select('items.*, instances.*, categories.name AS category, types.name AS type, labels.content AS label, owners.name AS owner');
         $this->db->from('items');
-        $this->db->where('type_id <> ' . BOX_TYPE_ID);
         $this->db->join('instances', 'instances.item_id = items.id');
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
         $this->db->join('labels', 'labels.id = categories.label_id', 'left');

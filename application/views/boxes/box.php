@@ -232,8 +232,8 @@ $args = array(
     "{{id}}" => $box['id'],
     "{{name}}" => $box['name'],
     "{{barcode}}" => $box['barcode'],
-    "{{storage}}" => $box['last_seen']['storage_name'],
-    "{{sector}}" => $box['last_seen']['sector_name']
+    /*"{{storage}}" => $box['last_seen']['storage_name'],
+    "{{sector}}" => $box['last_seen']['sector_name']*/
 );
 
 ?>

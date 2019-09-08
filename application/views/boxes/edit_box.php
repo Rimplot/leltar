@@ -45,7 +45,6 @@
 </div>
 
 <input type="hidden" name="id" value="<?php echo $box['id']; ?>">
-<input type="hidden" name="item_id" value="<?php echo $box['item_id']; ?>">
 
 <?php form_close(); ?>
 
