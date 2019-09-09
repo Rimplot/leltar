@@ -7,7 +7,7 @@ class Inventory_model extends CI_Model
         $this->load->database();
     }
 
-    public function inventory($session_id = null, $barcode = null, $sector_id = null) {
+    public function inventory($session_id = null, $barcode = null, $sector_id = null, $quantity = null) {
         if ($session_id == "") {
             $session_id = null;
         }
@@ -45,7 +45,8 @@ class Inventory_model extends CI_Model
                     $data = array(
                         'session_id' => $session_id,
                         'item_id' => $item['id'],
-                        'sector_id' => $sector_id
+                        'sector_id' => $sector_id,
+                        'quantity' => $quantity
                     );
                     $this->db->insert('inventory', $data);
             
@@ -81,6 +82,7 @@ class Inventory_model extends CI_Model
                         'session_id' => $session_id,
                         'item_id' => $item['id'],
                         'sector_id' => $sector_id,
+                        'quantity' => $quantity,
                         'latest' => 1
                     );
                     

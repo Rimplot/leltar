@@ -58,8 +58,7 @@
         </div>
         <div class="form-group" id="stock-form-group" <?php if (set_value('type') != ITEM_TYPE_ID['stock']) echo 'style="display: none;"' ?>>
             <label class="form-control-label">Mennyiség</label>
-            <input type="text" class="form-control<?php echo (form_error('stock')) ? ' is-invalid' : '' ?>" name="stock" value="<?php echo set_value('stock
-            '); ?>">
+            <input type="text" class="form-control<?php echo (form_error('stock')) ? ' is-invalid' : '' ?>" name="stock" value="<?php echo set_value('stock'); ?>">
         </div>
         <div class="form-group">
             <label class="form-control-label">Doboz</label>

@@ -103,6 +103,7 @@
                 <th scope="col">Szektor</th>
                 <th scope="col">Session</th>
                 <th scope="col">Időpont</th>
+                <?php if ($item['type_id'] == ITEM_TYPE_ID['stock']) echo '<th scope="col">Mennyiség</th>'; ?>
             </tr>
         </thead>
         <tbody>
@@ -112,6 +113,7 @@
                     <td><a href="<?php echo base_url() . 'sectors/' . $row['sector_id']; ?>"><?php echo $row['sector']; ?></a></td>
                     <td><?php echo ($row['session']) ? $row['session'] : "<em>manuálisan hozzáadva</em>"; ?></td>
                     <td><?php echo $row['time']; ?></td>
+                    <?php if ($item['type_id'] == ITEM_TYPE_ID['stock']) echo '<td>' . $row['quantity'] . '</td>'; ?>
                 </tr>
                 <?php endforeach;?>
         </tbody>
@@ -165,6 +167,12 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <?php if ($item['type_id'] == ITEM_TYPE_ID['stock']): ?>
+                    <div class="form-group">
+                        <label class="form-control-label">Mennyiség</label>
+                        <input type="text" class="form-control" name="quantity" id="quantity" value="<?php echo $inventory_history[0]['quantity']; ?>">
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Mégsem</button>
@@ -343,7 +351,8 @@ $args = array(
                 data: {
                     'session_id': "",
                     'barcode': barcode,
-                    'sector': $('#sector').val()
+                    'sector': $('#sector').val(),
+                    'quantity': $('#quantity').val()
                 },
                 success: function(data) {
                     if (data.success) {
