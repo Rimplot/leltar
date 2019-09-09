@@ -24,6 +24,8 @@ class Migration_Boxes_into_their_own_table extends CI_Migration {
         
         $this->db->query('ALTER TABLE `boxes` MODIFY `name` VARCHAR(255) NOT NULL AFTER `id`');
         $this->db->query('ALTER TABLE `boxes` DROP `item_id`, DROP `date_bought`, DROP `value`, DROP `owner_id`, DROP `stock`');
+        
+        $this->db->query('ALTER TABLE `instances` DROP FOREIGN KEY `items_fk1`');
 
         $this->db->query('
             DELETE FROM `inventory`
@@ -31,10 +33,9 @@ class Migration_Boxes_into_their_own_table extends CI_Migration {
             JOIN `items` ON `items`.`id` = `instances`.`item_id`
             WHERE `items`.`type_id` = 3
         ');
-        $this->db->query('DELETE FROM `instances` JOIN `items` ON `items`.`id` = `instances`.`item_id` WHERE `items`.`type_id` = 3');
+        $this->db->query('DELETE `instances` FROM `instances` INNER JOIN `items` ON `items`.`id` = `instances`.`item_id` WHERE `items`.`type_id` = 3');
         $this->db->query('DELETE FROM `items` WHERE `type_id` = 3');
 
-        $this->db->query('ALTER TABLE `instances` DROP FOREIGN KEY `items_fk1`');
         $this->db->query('ALTER TABLE `instances` ADD CONSTRAINT `box_id` FOREIGN KEY (box_id) REFERENCES boxes (id)');
     }
 
