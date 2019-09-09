@@ -11,8 +11,15 @@ class Boxes_model extends CI_Model
     public function add_box()
     {
         $data = array(
-            'name' => $this->input->post('name'),
             'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
+            'type' => BARCODE_TYPE_ID['box']
+        );
+        $this->db->insert('barcodes', $data);
+        $barcode_id = $this->db->insert_id();
+
+        $data = array(
+            'name' => $this->input->post('name'),
+            'barcode_id' => $barcode_id,
             'box_id' => ($this->input->post('parent') == 0) ? NULL : $this->input->post('parent'),
             'created_by' => $this->session->user['id'],
         );
@@ -31,7 +38,7 @@ class Boxes_model extends CI_Model
             $parent = $this->db->get()->row_array()['box_id'];
 
             // delete box
-            $this->db->delete('boxes', array('id' => $id));
+            $this->db->query("DELETE `boxes`, `barcodes` FROM `boxes` INNER JOIN `barcodes` ON `boxes`.`barcode_id` = `barcodes`.`id` WHERE `boxes`.`id` = $id");
 
             // put the items and the other boxes in the deleted box into the parent box
             $this->set_children('instances', $id, $parent);
@@ -54,8 +61,9 @@ class Boxes_model extends CI_Model
 
     public function get_boxes($id = false)
     {
-        $this->db->select('b1.*, b2.name AS parent, b2.id AS parent_id');
+        $this->db->select('b1.*, b2.name AS parent, b2.id AS parent_id, barcodes.barcode');
         $this->db->from('boxes b1');
+        $this->db->join('barcodes', 'barcodes.id = b1.barcode_id');
         $this->db->join('boxes b2', 'b2.id = b1.box_id', 'LEFT');
         $this->db->group_by('b1.id');
 
@@ -99,7 +107,7 @@ class Boxes_model extends CI_Model
     {
         $data = array(
             'name' => $this->input->post('name'),
-            'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
+            //'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
             'box_id' => ($this->input->post('parent') == 0) ? NULL : $this->input->post('parent')
         );
         $this->db->where('id', $this->input->post('id'));

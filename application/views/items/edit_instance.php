@@ -16,16 +16,18 @@
             <label class="form-control-label">Név</label>
             <input type="text" class="form-control" name="name" value="<?php echo $item['name']; ?>" disabled>
         </div>
-        <div class="form-group<?php echo (form_error('barcode')) ? ' has-danger' : '' ?>">
-            <label class="form-control-label">Vonalkód</label>
-            <div class="input-group">
-                <input type="text" class="form-control<?php echo (form_error('barcode')) ? ' is-invalid' : '' ?>" name="barcode" id="barcode" value="<?php echo $item['barcode']; ?>">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-success" id="btnGenerateBarcode" type="button">Generálás</button>
+        <fieldset disabled>
+            <div class="form-group<?php echo (form_error('barcode')) ? ' has-danger' : '' ?>">
+                <label class="form-control-label">Vonalkód</label>
+                <div class="input-group">
+                    <input type="text" class="form-control<?php echo (form_error('barcode')) ? ' is-invalid' : '' ?>" name="barcode" id="barcode" value="<?php echo $item['barcode']; ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-success" id="btnGenerateBarcode" type="button">Generálás</button>
+                    </div>
                 </div>
+                <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
             </div>
-            <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
-        </div>
+        </fieldset>
         <div class="form-group">
             <label class="form-control-label">Leírás</label>
             <textarea class="form-control" name="description" id="description"><?php echo $item['desc']; ?></textarea>

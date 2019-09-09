@@ -10,8 +10,15 @@ class Sectors_model extends CI_Model
     public function add_sector()
     {
         $data = array(
-            'name' => $this->input->post('name'),
             'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
+            'type' => BARCODE_TYPE_ID['sector']
+        );
+        $this->db->insert('barcodes', $data);
+        $barcode_id = $this->db->insert_id();
+
+        $data = array(
+            'name' => $this->input->post('name'),
+            'barcode_id' => $barcode_id,
             'storage_id' => $this->input->post('storage_id')
         );
 
@@ -36,14 +43,15 @@ class Sectors_model extends CI_Model
 
     public function get_sectors($id = false)
     {
-        $this->db->select('*');
+        $this->db->select('sectors.*, barcodes.barcode');
         $this->db->from('sectors');
+        $this->db->join('barcodes', 'barcodes.id = sectors.barcode_id');
 
         if ($id === false) {
             $query = $this->db->get();
             return $query->result_array();
         } else {
-            $this->db->where('id = ' . $id);
+            $this->db->where('sectors.id = ' . $id);
             $query = $this->db->get();
             $result = $query->row_array();
 
@@ -58,8 +66,9 @@ class Sectors_model extends CI_Model
     public function get_archived_sectors($id = false)
     {
         if ($id !== false) {
-            $this->db->select('*');
+            $this->db->select('sectors.*, barcodes.barcode');
             $this->db->from('sectors');
+            $this->db->join('barcodes', 'barcodes.id = sectors.barcode_id');
             $this->db->where('storage_id', $id);
             $this->db->where('archived = 1');
             $query = $this->db->get();

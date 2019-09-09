@@ -17,16 +17,18 @@
             <input type="text" class="form-control<?php echo (form_error('name')) ? ' is-invalid' : '' ?>" name="name" value="<?php echo $box['name']; ?>">
             <div class="invalid-feedback"><?php echo form_error('name'); ?></div>
         </div>
-        <div class="form-group<?php echo (form_error('barcode')) ? ' has-danger' : '' ?>">
-            <label class="form-control-label">Vonalkód</label>
-            <div class="input-group">
-                <input type="text" class="form-control<?php echo (form_error('barcode')) ? ' is-invalid' : '' ?>" name="barcode" id="barcode" value="<?php echo $box['barcode']; ?>">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-success" id="btnGenerateBarcode" type="button">Generálás</button>
+        <fieldset disabled>
+            <div class="form-group<?php echo (form_error('barcode')) ? ' has-danger' : '' ?>">
+                <label class="form-control-label">Vonalkód</label>
+                <div class="input-group">
+                    <input type="text" class="form-control<?php echo (form_error('barcode')) ? ' is-invalid' : '' ?>" name="barcode" id="barcode" value="<?php echo $box['barcode']; ?>">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-success" id="btnGenerateBarcode" type="button">Generálás</button>
+                    </div>
                 </div>
+                <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
             </div>
-            <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
-        </div>
+        </fieldset>
         <div class="form-group">
             <label class="form-control-label">Szülő doboz</label>
             <select name="parent" title="Szülő kategória" class="form-control">

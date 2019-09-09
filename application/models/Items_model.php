@@ -21,6 +21,13 @@ class Items_model extends CI_Model
 
         $data = array(
             'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
+            'type' => BARCODE_TYPE_ID['item']
+        );
+        $this->db->insert('barcodes', $data);
+        $barcode_id = $this->db->insert_id();
+
+        $data = array(
+            'barcode_id' => $barcode_id,
             'desc' => ($this->input->post('description') == "") ? NULL : $this->input->post('description'),
             'created_by' => $this->session->user['id'],
             'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
@@ -46,21 +53,23 @@ class Items_model extends CI_Model
     public function delete_item($id = null)
     {
         if ($id !== null) {
-            $item_id = $this->db->query('SELECT item_id FROM instances WHERE id = ' . $id)->row_array()['item_id'];
+            $item = $this->db->query('SELECT item_id, barcode_id FROM instances WHERE id = ' . $id)->row_array();
             $this->db->delete('instances', array('id' => $id));
             $this->db->delete('inventory', array('item_id' => $id));
+            $this->db->delete('barcodes', array('id' => $item['barcode_id']));
 
-            if ($this->db->query('SELECT * FROM instances WHERE item_id = ' . $item_id)->num_rows() == 0) {
-                $this->db->delete('items', array('id' => $item_id));
+            if ($this->db->query('SELECT * FROM instances WHERE item_id = ' . $item['item_id'])->num_rows() == 0) {
+                $this->db->delete('items', array('id' => $item['item_id']));
             }
         }
     }
 
     public function get_items($id = false)
     {
-        $this->db->select('items.*, instances.*, categories.name AS category, types.name AS type, labels.content AS label, owners.name AS owner');
+        $this->db->select('items.*, instances.*, barcodes.barcode, categories.name AS category, types.name AS type, labels.content AS label, owners.name AS owner');
         $this->db->from('items');
         $this->db->join('instances', 'instances.item_id = items.id');
+        $this->db->join('barcodes', 'instances.barcode_id = barcodes.id');
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
         $this->db->join('labels', 'labels.id = categories.label_id', 'left');
         $this->db->join('types', 'types.id = items.type_id');
@@ -97,7 +106,8 @@ class Items_model extends CI_Model
         if ($barcode !== null) {
             $this->db->select('instances.id, items.type_id');
             $this->db->from('instances');
-            $this->db->where('barcode', $barcode);
+            $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
+            $this->db->where('barcodes.barcode', $barcode);
             $this->db->join('items', 'items.id = instances.item_id');
 
             return $this->db->get()->row_array();
@@ -155,7 +165,7 @@ class Items_model extends CI_Model
 
         if ($instance) {
             $data = array(
-                'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
+                //'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
                 'desc' => ($this->input->post('description') == "") ? NULL : $this->input->post('description'),
                 'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
                 'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
@@ -187,8 +197,9 @@ class Items_model extends CI_Model
 
     public function get_instances($id = null) {
         if ($id !== null) {
-            $this->db->select('instances.*, owners.name AS owner');
+            $this->db->select('instances.*, owners.name AS owner, barcodes.barcode');
             $this->db->from('instances');
+            $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
             $this->db->join('owners', 'owners.id = instances.owner_id', 'left');
             $this->db->where('item_id', $id);
             return $this->db->get()->result_array();

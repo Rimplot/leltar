@@ -4,20 +4,29 @@ class ItemTypes {
 
     function GetItemTypes() {
 
-        $CI =& get_instance();
-
-        $CI->load->database();
-        $rows = $CI->db->query('SELECT * FROM types ORDER BY id')->result_array();
+        define('ITEM_TYPE_ID', array(
+            'asset' => 1,
+            'stock' => 2,
+            'other' => 3
+        ));
 
         $item_types = array();
-        $item_type_id = array();
-        foreach ($rows as $row) {
-            $item_types[$row['id']] = $row['name'];
-            $item_type_id[$row['name']] = $row['id'];
+        foreach (ITEM_TYPE_ID as $type => $id) {
+            $item_types[$id] = $type;
         }
         define('ITEM_TYPES', $item_types);
-        define('ITEM_TYPE_ID', $item_type_id);
-        define('BOX_TYPE_ID', $item_type_id['box']);
+
+        define('BARCODE_TYPE_ID', array(
+            'item' => 1,
+            'box' => 2,
+            'sector' => 3
+        ));
+        
+        $barcode_types = array();
+        foreach (BARCODE_TYPE_ID as $type => $id) {
+            $barcode_types[$id] = $type;
+        }
+        define('BARCODE_TYPE', $barcode_types);
 
     }
 
