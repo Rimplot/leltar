@@ -55,8 +55,9 @@ class Storages_model extends CI_Model
     public function get_sectors($id = false)
     {
         if ($id !== false) {
-            $this->db->select('*');
+            $this->db->select('sectors.*, barcodes.barcode');
             $this->db->from('sectors');
+            $this->db->join('barcodes', 'barcodes.id = sectors.barcode_id');
             $this->db->where('storage_id', $id);
             $this->db->where('archived <> 1');
             $query = $this->db->get();
