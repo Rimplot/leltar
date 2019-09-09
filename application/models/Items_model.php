@@ -183,7 +183,7 @@ class Items_model extends CI_Model
     public function check_barcode_used($barcode)
     {
         $this->db->select('*');
-        $this->db->from('instances');
+        $this->db->from('barcodes');
         $this->db->where('barcode', $barcode);
         return boolval($this->db->get()->num_rows());
     }
