@@ -27,6 +27,10 @@
             <div class="invalid-feedback"><?php echo form_error('barcode'); ?></div>
         </div>
         <div class="form-group">
+            <label class="form-control-label">Leírás</label>
+            <textarea class="form-control" name="description" id="description"><?php echo $item['desc']; ?></textarea>
+        </div>
+        <div class="form-group">
             <label class="form-control-label">Kategória</label>
             <select name="category_id" title="Kategória" class="form-control" disabled>
                 <option value="0" <?php echo ($item['category_id'] == 0) ? 'selected' : '' ; ?>>&#60;semmi&#62;</option>

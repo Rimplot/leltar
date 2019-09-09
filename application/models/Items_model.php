@@ -21,6 +21,7 @@ class Items_model extends CI_Model
 
         $data = array(
             'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
+            'desc' => ($this->input->post('description') == "") ? NULL : $this->input->post('description'),
             'created_by' => $this->session->user['id'],
             'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
             'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
@@ -155,6 +156,7 @@ class Items_model extends CI_Model
         if ($instance) {
             $data = array(
                 'barcode' => ($this->input->post('barcode') == 0) ? NULL : $this->input->post('barcode'),
+                'desc' => ($this->input->post('description') == "") ? NULL : $this->input->post('description'),
                 'date_bought' => ($this->input->post('date_bought') == "") ? NULL : $this->input->post('date_bought'),
                 'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
                 'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
