@@ -20,7 +20,11 @@
             <td class="float-right">
                 <button type="button" class="btn btn-success" id="btnPrint">Nyomtatás</button>
                 <a class="btn btn-primary" href="<?php echo base_url() . 'sectors/edit/' . $sector['id']; ?>">Módosítás</a>
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#archiveModal">Archiválás</button>
+                <?php if ($sector['archived']): ?>
+                    <a class="btn btn-outline-secondary" href="<?php echo base_url() . 'sectors/restore/' . $sector['storage_id'] . '/' . $sector['id']; ?>">Visszaállítás</a>
+                <?php else: ?>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#archiveModal">Archiválás</button>
+                <?php endif; ?>
             </td>
         </tr>
     </tbody>
