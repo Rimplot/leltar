@@ -24,7 +24,14 @@ class Ajax extends CI_Controller
     }
 
     public function check_type() {
-        $result = $this->inventory_model->check_type($this->input->post('barcode'));
+        $barcode = $this->input->post('barcode');
+        $result = $this->inventory_model->check_type($barcode);
+
+        if ($result['type'] == BARCODE_TYPE_ID['item']) {
+            // check if it is stock
+            $item = $this->items_model->get_item_by_barcode($barcode);
+            $result['stock'] = ($item['type_id'] == ITEM_TYPE_ID['stock']);
+        }
 
         header('Content-Type: application/json');
         echo json_encode($result);

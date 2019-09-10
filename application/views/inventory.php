@@ -187,7 +187,13 @@
 							switch (data.type) {
                                 case "<?php echo BARCODE_TYPE_ID['item']; ?>":
                                     var barcode_id = data.id;
-                                    postInventory(barcode, barcode_id, session, sector);
+                                    var quantity = null;
+
+                                    if (data.stock) {
+                                        quantity = prompt('Mennyiség:')
+                                    }
+
+                                    postInventory(barcode, barcode_id, session, sector, quantity);
                                     break;
                                 case "<?php echo BARCODE_TYPE_ID['box']; ?>":
                                     alert('doboz');
@@ -234,7 +240,7 @@
 		});
 	});
 
-    function postInventory(barcode, barcode_id, session, sector) {
+    function postInventory(barcode, barcode_id, session, sector, quantity) {
         $.ajax({
             url: "<?php echo base_url(); ?>" + "ajax/inventory",
             type: "post",
@@ -242,7 +248,8 @@
             data: {
                 'session_id': session,
                 'barcode_id': barcode_id,
-                'sector': sector
+                'sector': sector,
+                'quantity': quantity
             },
             success: function(data) {
                 if (data.success) {
