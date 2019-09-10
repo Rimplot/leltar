@@ -11,6 +11,8 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/rsvp-3.1.0.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/sha-256.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/qz-tray.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/connect-and-print.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">

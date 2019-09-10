@@ -2,8 +2,9 @@
     <div class="col-md-8">
         <h2><?php echo $page_title; ?></h2>
     </div>
-    <div class="col-md-4">
-        <a href="<?php echo base_url(); ?>labels/add" class="btn btn-info float-right">Új címke hozzáadása</a>
+    <div class="col-md-4 text-right">
+        <button type="button" class="btn btn-success" id="btnPrint">Autokonfig</button>
+        <a href="<?php echo base_url(); ?>labels/add" class="btn btn-info">Új címke hozzáadása</a>
     </div>
 </div>
 
@@ -25,3 +26,13 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+
+<script>
+    $(document).ready(function() {
+        $('#btnPrint').click(function() {
+            connectAndPrint("~JC").then(function() {
+                alert('Ne felejtsd el megnyomni a gombot a nyomtatón, hogy beigazítsa a szalagot!');
+            });
+        });
+    });
+</script>

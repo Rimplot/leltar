@@ -43,9 +43,10 @@ class Sectors_model extends CI_Model
 
     public function get_sectors($id = false)
     {
-        $this->db->select('sectors.*, barcodes.barcode');
+        $this->db->select('sectors.*, barcodes.barcode, storages.name AS storage');
         $this->db->from('sectors');
         $this->db->join('barcodes', 'barcodes.id = sectors.barcode_id');
+        $this->db->join('storages', 'storages.id = sectors.storage_id');
 
         if ($id === false) {
             $query = $this->db->get();
