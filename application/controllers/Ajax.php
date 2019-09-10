@@ -14,11 +14,18 @@ class Ajax extends CI_Controller
         $quantity = ($this->input->post('quantity')) ? $this->input->post('quantity') : NULL;
         $result = $this->inventory_model->inventory(
             $this->input->post('session_id'),
-            $this->input->post('barcode'),
+            $this->input->post('barcode_id'),
             $this->input->post('sector'),
             $quantity
         );
         
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    }
+
+    public function check_type() {
+        $result = $this->inventory_model->check_type($this->input->post('barcode'));
+
         header('Content-Type: application/json');
         echo json_encode($result);
     }

@@ -7,18 +7,18 @@ class Inventory_model extends CI_Model
         $this->load->database();
     }
 
-    public function inventory($session_id = null, $barcode = null, $sector_id = null, $quantity = null) {
+    public function inventory($session_id = null, $barcode_id = null, $sector_id = null, $quantity = null) {
         if ($session_id == "") {
             $session_id = null;
         }
         
-        if ($barcode !== null && $sector_id !== null) {
+        if ($barcode_id !== null && $sector_id !== null) {
             $this->load->model('items_model');
             
-            // get the id of the item with barcode == $barcode
+            // get the id of the item with barcode_id == $barcode_id
             $this->db->select('*');
             $this->db->from('instances');
-            $this->db->where('barcode', $barcode);
+            $this->db->where('barcode_id', $barcode_id);
             $query = $this->db->get();
             $item = $query->row_array();
             
@@ -56,7 +56,7 @@ class Inventory_model extends CI_Model
                     $this->db->select(
                         'inventory.*,
                         items.name,
-                        instances.barcode,
+                        barcodes.barcode,
                         categories.name AS category,
                         categories.id AS category_id,
                         storages.name AS storage,
@@ -68,6 +68,7 @@ class Inventory_model extends CI_Model
                     $this->db->where('inventory.id', $inventory_id);
                     $this->db->join('instances', 'instances.id = inventory.item_id');
                     $this->db->join('items', 'items.id = instances.item_id');
+                    $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
                     $this->db->join('categories', 'categories.id = items.category_id', 'left');
                     $this->db->join('sessions', 'sessions.id = inventory.session_id');
                     $this->db->join('sectors', 'sectors.id = inventory.sector_id');
@@ -92,7 +93,7 @@ class Inventory_model extends CI_Model
                     $this->db->select(
                         'inventory.*,
                         items.name,
-                        instances.barcode,
+                        barcodes.barcode,
                         items.category_id,
                         categories.name AS category,
                         storages.name AS storage,
@@ -103,6 +104,7 @@ class Inventory_model extends CI_Model
                     $this->db->where('inventory.id', $inventory['id']);
                     $this->db->join('instances', 'instances.id = inventory.item_id');
                     $this->db->join('items', 'items.id = instances.item_id');
+                    $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
                     $this->db->join('categories', 'categories.id = items.category_id');
                     $this->db->join('sessions', 'sessions.id = inventory.session_id');
                     $this->db->join('sectors', 'sectors.id = inventory.sector_id');
@@ -121,7 +123,7 @@ class Inventory_model extends CI_Model
         $this->db->select(
             'inventory.*,
             items.name,
-            instances.barcode,
+            barcodes.barcode,
             items.category_id,
             categories.name AS category,
             storages.name AS storage,
@@ -135,6 +137,7 @@ class Inventory_model extends CI_Model
         $this->db->where('latest', 1);
         $this->db->join('instances', 'instances.id = inventory.item_id');
         $this->db->join('items', 'items.id = instances.item_id');
+        $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
         $this->db->join('categories', 'categories.id = items.category_id', 'left');
         $this->db->join('sessions', 'sessions.id = inventory.session_id', 'left');
         $this->db->join('sectors', 'sectors.id = inventory.sector_id');
@@ -143,5 +146,22 @@ class Inventory_model extends CI_Model
         if ($limit !== 0) $this->db->limit($limit);
         
         return $this->db->get()->result_array();
+    }
+
+    public function check_type($barcode) {
+        $this->db
+            ->select('*')
+            ->from('barcodes')
+            ->where('barcode', $barcode);
+        $query = $this->db->get();
+
+        if ($query->num_rows()) {
+            $result = $query->row_array();
+            $result['found'] = true;
+        } else {
+            $result = array('found' => false);
+        }
+
+        return $result;
     }
 }

@@ -171,40 +171,33 @@
 			if (e.which === 13) {
                 timeout = null;
 
+                var session = $sessionSelect.val();
 				var barcode = $(this).val().toUpperCase();
                 var sector = $sectionSelect.val();
 
-				$.ajax({
-					url: "<?php echo base_url(); ?>" + "ajax/inventory",
+                $.ajax({
+					url: "<?php echo base_url(); ?>" + "ajax/check_type",
 					type: "post",
 					dataType: "json",
 					data: {
-                        'session_id': $sessionSelect.val(),
-						'barcode': barcode,
-						'sector': sector
+						'barcode': barcode
 					},
 					success: function(data) {
-						if (data.success) {
-							var $row = $('#' + barcode);
-							if ($row.length) {
-								$row.prependTo('#results > tbody');
-								var $rowData = $row.children().filter('td');
-								$rowData.eq(3).text(data.time);
-								$rowData.eq(4).html('<a href="' + '<?php echo base_url(); ?>' + 'sessions/' + data.session_id + '">' + data.session + '</a>');
-								$rowData.eq(5).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a>');
-							}
-							else {
-								$('#results').find('tbody').prepend(
-                                    '<tr id="' + data.barcode + '">' +
-                                        '<th scope="row">' + data.id + '</th>' +
-                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'items/' + data.item_id + '">' + data.name + '</a></td>' +
-                                        '<td>' + data.barcode + '</td>' +
-                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'categories/' + data.category_id + '">' + data.category + '<a/></td>' +
-                                        '<td>' + data.time + '</td>' +
-                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'sessions/' + data.session_id + '">' + data.session + '</a></td>' +
-                                        '<td><a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a></td>' +
-                                    '</tr>');
-							}
+						if (data.found) {
+							switch (data.type) {
+                                case "<?php echo BARCODE_TYPE_ID['item']; ?>":
+                                    var barcode_id = data.id;
+                                    postInventory(barcode, barcode_id, session, sector);
+                                    break;
+                                case "<?php echo BARCODE_TYPE_ID['box']; ?>":
+                                    alert('doboz');
+                                    break;
+                                case "<?php echo BARCODE_TYPE_ID['sector']; ?>":
+                                    alert('szektor');
+                                    break;
+                                default:
+                                    break;
+                            }
 						}
 						else {
 							alert('Ismeretlen eszköz');
@@ -240,4 +233,47 @@
             }, 100);
 		});
 	});
+
+    function postInventory(barcode, barcode_id, session, sector) {
+        $.ajax({
+            url: "<?php echo base_url(); ?>" + "ajax/inventory",
+            type: "post",
+            dataType: "json",
+            data: {
+                'session_id': session,
+                'barcode_id': barcode_id,
+                'sector': sector
+            },
+            success: function(data) {
+                if (data.success) {
+                    var $row = $('#' + barcode);
+                    if ($row.length) {
+                        $row.prependTo('#results > tbody');
+                        var $rowData = $row.children().filter('td');
+                        $rowData.eq(3).text(data.time);
+                        $rowData.eq(4).html('<a href="' + '<?php echo base_url(); ?>' + 'sessions/' + data.session_id + '">' + data.session + '</a>');
+                        $rowData.eq(5).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a>');
+                    }
+                    else {
+                        $('#results').find('tbody').prepend(
+                            '<tr id="' + data.barcode + '">' +
+                                '<th scope="row">' + data.id + '</th>' +
+                                '<td><a href="' + '<?php echo base_url(); ?>' + 'items/' + data.item_id + '">' + data.name + '</a></td>' +
+                                '<td>' + data.barcode + '</td>' +
+                                '<td><a href="' + '<?php echo base_url(); ?>' + 'categories/' + data.category_id + '">' + data.category + '<a/></td>' +
+                                '<td>' + data.time + '</td>' +
+                                '<td><a href="' + '<?php echo base_url(); ?>' + 'sessions/' + data.session_id + '">' + data.session + '</a></td>' +
+                                '<td><a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a></td>' +
+                            '</tr>');
+                    }
+                }
+                else {
+                    alert('Ismeretlen eszköz');
+                }
+            },
+            error: function(data) {
+                alert('Hiba! Nincs kapcsolat az adatbázissal.')
+            }
+        });
+    }
 </script>
