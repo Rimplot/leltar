@@ -82,6 +82,7 @@ class Sessions_model extends CI_Model
             $this->db->select('
                 items.name,
                 instances.*,
+                barcodes.barcode,
                 inventory.time,
                 storages.name AS storage,
                 storages.id AS storage_id,
@@ -93,6 +94,7 @@ class Sessions_model extends CI_Model
             $this->db->order_by('time', 'DESC');
             $this->db->join('instances', 'instances.id = inventory.item_id');
             $this->db->join('items', 'items.id = instances.item_id');
+            $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
             $this->db->join('sessions', 'sessions.id = inventory.session_id', 'left');
             $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
             $this->db->join('storages', 'storages.id = sectors.storage_id');

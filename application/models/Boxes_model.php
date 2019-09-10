@@ -89,9 +89,10 @@ class Boxes_model extends CI_Model
 
     public function get_items_in_box($id = null) {
         if ($id !== null) {
-            $this->db->select('instances.*, items.category_id, items.type_id, items.name AS name');
+            $this->db->select('instances.*, items.category_id, items.type_id, items.name AS name, barcodes.barcode');
             $this->db->from('instances');
             $this->db->join('items', 'items.id = instances.item_id');
+            $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
             $this->db->where('box_id', $id);
             $query = $this->db->get();
 

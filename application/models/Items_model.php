@@ -36,7 +36,7 @@ class Items_model extends CI_Model
             'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
             'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')
         );
-        $data['item_id'] = ($id === null) ? $this->db->insert_id() : $id;
+        $data['item_id'] = ($id === null) ? $item_id : $id;
         $this->db->insert('instances', $data);
 
         if ($this->db->affected_rows() > 0) {

@@ -84,7 +84,7 @@ class Items extends MY_Controller
         if ($multiple_instances && $mode) {
             $data['page'] = 'edit_instance';
             $data['page_title'] = "Példány szerkesztése";
-            $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
+            //$this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
         }
         else if ($multiple_instances) {
             $data['page'] = 'edit_main_item';
@@ -95,7 +95,7 @@ class Items extends MY_Controller
             $data['page'] = 'edit_item';
             $data['page_title'] = "Eszköz szerkesztése";
             $this->form_validation->set_rules('name', 'Név', 'required');
-            $this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
+            //$this->form_validation->set_rules('barcode', 'Vonalkód', 'required');
         }
 
         if ($this->form_validation->run() === false) {

@@ -70,9 +70,10 @@ class Categories_model extends CI_Model
 
     public function get_items_in_category($id = null) {
         if ($id !== null) {
-            $this->db->select('items.*, instances.*');
+            $this->db->select('items.*, instances.*, barcodes.barcode');
             $this->db->from('items');
             $this->db->join('instances', 'instances.item_id = items.id');
+            $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
             $this->db->where('items.category_id', $id);
             $query = $this->db->get();
 

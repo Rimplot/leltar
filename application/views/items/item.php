@@ -342,7 +342,7 @@ $args = array(
 <script>
     $(document).ready(function() {
         $('#btnInventory').click(function() {
-            var barcode = "<?php echo $item['barcode']; ?>";
+            var barcode_id = "<?php echo $item['barcode_id']; ?>";
 
             $.ajax({
                 url: "<?php echo base_url(); ?>" + "ajax/inventory",
@@ -350,7 +350,7 @@ $args = array(
                 dataType: "json",
                 data: {
                     'session_id': "",
-                    'barcode': barcode,
+                    'barcode_id': barcode_id,
                     'sector': $('#sector').val(),
                     'quantity': $('#quantity').val()
                 },
