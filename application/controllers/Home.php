@@ -32,6 +32,9 @@ class Home extends CI_Controller
                 $this->load->view($data['page'], $data);
                 $this->load->view('templates/footer');
             }
+            else if ($this->session->redirect_url) {
+                redirect($this->session->redirect_url);
+            }
             else {
                 redirect($_SERVER['REQUEST_URI']);
             }
