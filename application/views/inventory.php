@@ -83,6 +83,28 @@
 </div>
 
 
+<!-- Box Content Modal -->
+<div class="modal fade" id="boxContentModal" tabindex="-1" role="dialog" aria-labelledby="boxContentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="boxContentModalLabel">Doboz tartalma</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="boxContentItems" id="boxContentItems"></ul>
+                <input type="text" name="barcode" id="secondaryBarcodeTextInput" title="barcode" style="position: absolute; top: -1000px;">
+            </div>
+            <div class="modal-footer">
+                <button id="modalBtnSkip" class="btn btn-outline-danger">Hiányzó elemek átugrása</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <audio id="beep">
     <source src="<?php echo base_url(); ?>assets/beep.mp3" type="audio/mp3">
 </audio>
@@ -103,6 +125,11 @@
         positionClass: 'nfc-bottom-right',
         theme: 'info'
     });
+    const warningNotification = window.createNotification({
+        showDuration: 3500,
+        positionClass: 'nfc-bottom-right',
+        theme: 'warning'
+    });
 
     var storagesArr = JSON.parse('<?php echo json_encode($storages); ?>');
     var storages = [];
@@ -112,15 +139,18 @@
     }
 
 	$(document).ready(function(){
-		var scanning = false;
+        var scanning = false;
+        var boxContentShown = false;
         var timeout = null;
+        var content = null;
 
 		var $stopBtn = $('#btnStop');
 		var $startBtn = $('#btnStart');
 		var $storageSelect = $('#storageSelect');
 		var $sectionSelect = $('#sectionSelect');
         var $sessionSelect = $('#sessionSelect');
-		var $barcodeTextInput = $('#barcodeTextInput');
+        var $barcodeTextInput = $('#barcodeTextInput');
+        var $secondaryBarcodeTextInput = $('#secondaryBarcodeTextInput');
 		var $message = $('#text');
         var $sessionName = $('input[name="session_name"]');
 
@@ -186,7 +216,7 @@
 		});
 
 		$barcodeTextInput.keypress(function(e){
-			if (e.which === 13) {
+			if (e.which === 13 && $(this).val() !== "") {
                 timeout = null;
 
                 var session = $sessionSelect.val();
@@ -207,34 +237,99 @@
                                     var barcode_id = data.id;
                                     var quantity = null;
 
-                                    if (data.stock) {
-                                        quantity = prompt('Mennyiség:')
-                                    }
+                                    if (boxContentShown) {
+                                        var found = false;
+                                        content.forEach(item => {
+                                            if (item.barcode == barcode) {
+                                                found = true;
+                                                if ($('#boxContentItems #' + item.id).hasClass('check')) {
+                                                    infoNotification({
+                                                        title: "Már leltárazva",
+                                                        message: "Új adatbevitelre nem került sor."
+                                                    });
+                                                } else {
+                                                    if (data.stock) {
+                                                        quantity = prompt('Mennyiség:')
+                                                    }
 
-                                    postInventory(barcode, barcode_id, session, sector, quantity);
+                                                    postInventory(barcode, barcode_id, session, sector, quantity);
+                                                    $('#boxContentItems #' + item.id).addClass('check');
+                                                    
+                                                    var complete = true;
+                                                    $('ul#boxContentItems li').each(function() {
+                                                        if (!$(this).hasClass('check')) {
+                                                            complete = false;
+                                                        }
+                                                    });
+
+                                                    if (complete) {
+                                                        $('#boxContentModal').modal('hide');
+                                                        successNotification({
+                                                            title: "Siker!",
+                                                            message: "Doboz teljes tartalma leltárazva."
+                                                        });
+                                                        $('#beep')[0].play();
+                                                    }
+                                                }
+                                            }
+                                        });
+                                        if (!found) {
+                                            warningNotification({
+                                                title: "Idegen eszköz",
+                                                message: "Ennek az eszköznek nem ebben a dobozban van a helye. Nem került leltárazásra."
+                                            })
+                                        }
+                                    } else {
+                                        if (data.stock) {
+                                            quantity = prompt('Mennyiség:')
+                                        }
+
+                                        postInventory(barcode, barcode_id, session, sector, quantity);
+                                    }
                                     break;
                                 case "<?php echo BARCODE_TYPE_ID['box']; ?>":
-                                    errorNotification({
-                                        title: 'Hiba!',
-                                        message: 'Ez egy doboz.'
-                                    });
+                                    if (!boxContentShown) {
+                                        infoNotification({
+                                            title: 'Doboz',
+                                            message: data.box.name
+                                        });
+                                        content = data.items;
+                                        $('#boxContentItems').empty();
+                                        content.forEach(item => {
+                                            $('#boxContentItems').append('<li id="' + item.id + '">' + item.name + '</li>')
+                                        });
+                                        $('#boxContentModal').modal('show');
+                                        boxContentShown = true;
+                                    } else {
+                                        warningNotification({
+                                            title: 'Figyelem!',
+                                            message: 'Most egy másik doboz leltárazása van folyamatban.'
+                                        });
+                                    }
                                     break;
                                 case "<?php echo BARCODE_TYPE_ID['sector']; ?>":
-                                    if ($storageSelect.val() != data.sector.storage_id) {
-                                        if (confirm('Ez a szektor egy másik raktárban van. Biztosan át szeretnél váltani rá?')) {
-                                            switchStorage($storageSelect, $sectionSelect, data.sector.storage_id);
+                                    if (!boxContentShown) {
+                                        if ($storageSelect.val() != data.sector.storage_id) {
+                                            if (confirm('Ez a szektor egy másik raktárban van. Biztosan át szeretnél váltani rá?')) {
+                                                switchStorage($storageSelect, $sectionSelect, data.sector.storage_id);
+                                                selectSector($sectionSelect, data.sector.id);
+                                                infoNotification({
+                                                    title: 'Info',
+                                                    message: 'Szektor átváltva erre: ' + data.sector.name
+                                                });
+                                            }
+                                        }
+                                        else {
                                             selectSector($sectionSelect, data.sector.id);
                                             infoNotification({
                                                 title: 'Info',
                                                 message: 'Szektor átváltva erre: ' + data.sector.name
                                             });
                                         }
-                                    }
-                                    else {
-                                        selectSector($sectionSelect, data.sector.id);
-                                        infoNotification({
-                                            title: 'Info',
-                                            message: 'Szektor átváltva erre: ' + data.sector.name
+                                    } else {
+                                        warningNotification({
+                                            title: 'Figyelem!',
+                                            message: 'A szektor megváltoztatása egy doboz leltárazása közben nem lehetséges.'
                                         });
                                     }
                                     break;
@@ -268,19 +363,45 @@
 				$barcodeTextInput.focus();
 			}
         });*/
+
+        $secondaryBarcodeTextInput.keypress(function(e){
+            if (e.which === 13) {
+                $barcodeTextInput.val($(this).val());
+                $barcodeTextInput.trigger(
+                    jQuery.Event('keypress', { which: 13 })
+                );
+            }
+        });
         
         $(document.body).on('keydown', function(e) {
-            if(document.activeElement.tagName.toLowerCase() != 'input' && scanning) {
-                $barcodeTextInput.focus();
+            if (scanning) {
+                if (boxContentShown) {
+                    $secondaryBarcodeTextInput.focus();
+                } else {
+                    $barcodeTextInput.focus();
+                }
             }
         });
 
-		$barcodeTextInput.keyup(function (e) {
-			clearTimeout(timeout);
+        function keyUpHandler(e) {
+            clearTimeout(timeout);
+            var elem = $(this);
             timeout = setTimeout(function() {
-                $barcodeTextInput.val('');
+                elem.val('');
             }, 100);
-		});
+        }
+		$barcodeTextInput.keyup(keyUpHandler);
+        $secondaryBarcodeTextInput.keyup(keyUpHandler);
+        
+        $('#boxContentModal').on('hidden.bs.modal', function () {
+            boxContentShown = false;
+        });
+
+        $('#modalBtnSkip').click(function() {
+            if (confirm('Még nem leltáraztál le mindent a doboz tartalmából. Biztosan át szeretnéd ugrani a fennmaradó elemeket?')) {
+                $('#boxContentModal').modal('hide');
+            }
+        });
 	});
 
     function switchStorage(storageSelect, sectionSelect, storage_id) {

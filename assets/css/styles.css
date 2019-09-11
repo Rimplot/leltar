@@ -5,3 +5,10 @@ body {
 button:focus {
     outline:0;
 }
+
+ul#boxContentItems li.check:after {
+    margin-left: 5px;
+    font-family: 'Icons';
+    content: '\e033';
+    color: #5a981c;
+}

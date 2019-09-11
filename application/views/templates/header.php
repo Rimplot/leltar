@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title><?php echo $page_title; ?> | Leltár</title>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/open-iconic.min.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/notifications.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/styles.css" />
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/jquery-3.3.1.min.js"></script>
