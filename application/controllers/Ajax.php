@@ -9,6 +9,7 @@ class Ajax extends CI_Controller
         $this->load->model('items_model');
         $this->load->model('boxes_model');
         $this->load->model('sessions_model');
+        $this->load->model('sectors_model');
     }
 
     public function inventory() {
@@ -39,6 +40,10 @@ class Ajax extends CI_Controller
 
             $result['box'] = $box;
             $result['items'] = $items;
+        }
+        else if ($result['type'] == BARCODE_TYPE_ID['sector']) {
+            $sector = $this->sectors_model->get_sector_by_barcode($barcode);
+            $result['sector'] = $sector;
         }
 
         header('Content-Type: application/json');

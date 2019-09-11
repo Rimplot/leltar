@@ -64,6 +64,20 @@ class Sectors_model extends CI_Model
         }
     }
 
+    public function get_sector_by_barcode($barcode = null) {
+        if ($barcode !== null) {
+            $this->db
+                ->select('sectors.*')
+                ->from('sectors')
+                ->join('barcodes', 'barcodes.id = sectors.barcode_id')
+                ->where('barcodes.barcode', $barcode);
+            $query = $this->db->get();
+            $result = $query->row_array();
+
+            return $result;
+        }
+    }
+
     public function get_archived_sectors($id = false)
     {
         if ($id !== false) {

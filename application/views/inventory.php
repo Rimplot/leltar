@@ -14,7 +14,7 @@
 <select id="storageSelect" title="Storage select">
     <?php for ($i = 0; $i < count($storages); $i++) :
         if (count($storages[$i]['sectors']) > 0) : ?>
-            <option value="<?php echo $i; ?>"><?php echo $storages[$i]['name']; ?></option>
+            <option value="<?php echo $storages[$i]['id']; ?>"><?php echo $storages[$i]['name']; ?></option>
         <?php endif; ?>
     <?php endfor; ?>
 </select>
@@ -84,6 +84,13 @@
 
 
 <script>
+    var storagesArr = JSON.parse('<?php echo json_encode($storages); ?>');
+    var storages = [];
+
+    for (var i = 0, l = storagesArr.length; i < l; i++) {
+        storages[storagesArr[i].id] = storagesArr[i];
+    }
+
 	$(document).ready(function(){
 		var scanning = false;
         var timeout = null;
@@ -96,8 +103,6 @@
 		var $barcodeTextInput = $('#barcodeTextInput');
 		var $message = $('#text');
         var $sessionName = $('input[name="session_name"]');
-
-        var storages = JSON.parse('<?php echo json_encode($storages); ?>');
 
         $stopBtn.hide().removeClass('d-none');
         $sectionSelect.hide().removeClass('d-none')
@@ -132,22 +137,12 @@
                 $('#startSessionModal').modal('show');
             }
             else {
-                var sections = storages[$storageSelect.val()].sectors;
-
-                $sectionSelect.empty();
-                for (var i = 0, l = sections.length; i < l; i++) {
-                    $sectionSelect.append('<option value="' + sections[i].id + '">' + sections[i].name + '</option>');
-                }
-                
-                if (sections.length) {
-                    $sectionSelect.show();
-                } else {
-                    $sectionSelect.hide();
-                }
+                switchStorage($storageSelect, $sectionSelect, $storageSelect.val());
 
                 $startBtn.hide();
                 $sessionSelect.hide();
                 $storageSelect.hide();
+                $sectionSelect.show();
                 $stopBtn.show();
                 $message.show();
                 $barcodeTextInput.focus();
@@ -202,7 +197,15 @@
                                     });
                                     break;
                                 case "<?php echo BARCODE_TYPE_ID['sector']; ?>":
-                                    alert('szektor');
+                                    if ($storageSelect.val() != data.sector.storage_id) {
+                                        if (confirm('Ez a szektor egy másik raktárban van. Biztosan át szeretnél váltani rá?')) {
+                                            switchStorage($storageSelect, $sectionSelect, data.sector.storage_id);
+                                            selectSector($sectionSelect, data.sector.id);
+                                        }
+                                    }
+                                    else {
+                                        selectSector($sectionSelect, data.sector.id);
+                                    }
                                     break;
                                 default:
                                     break;
@@ -242,6 +245,20 @@
             }, 100);
 		});
 	});
+
+    function switchStorage(storageSelect, sectionSelect, storage_id) {
+        storageSelect.val(storage_id);
+        var sections = storages[storage_id].sectors;
+
+        sectionSelect.empty();
+        for (var i = 0, l = sections.length; i < l; i++) {
+            sectionSelect.append('<option value="' + sections[i].id + '">' + sections[i].name + '</option>');
+        }
+    }
+
+    function selectSector(sectionSelect, sector_id) {
+        sectionSelect.val(sector_id);
+    }
 
     function postInventory(barcode, barcode_id, session, sector, quantity) {
         $.ajax({
