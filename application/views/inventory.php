@@ -83,7 +83,27 @@
 </div>
 
 
+<audio id="beep">
+    <source src="<?php echo base_url(); ?>assets/beep.mp3" type="audio/mp3">
+</audio>
+
+
 <script>
+    const successNotification = window.createNotification({
+        showDuration: 3500,
+        positionClass: 'nfc-bottom-right'
+    });
+    const errorNotification = window.createNotification({
+        showDuration: 3500,
+        positionClass: 'nfc-bottom-right',
+        theme: 'error'
+    });
+    const infoNotification = window.createNotification({
+        showDuration: 3500,
+        positionClass: 'nfc-bottom-right',
+        theme: 'info'
+    });
+
     var storagesArr = JSON.parse('<?php echo json_encode($storages); ?>');
     var storages = [];
 
@@ -126,7 +146,10 @@
                     $startBtn.click();
                 },
                 error: function() {
-                    alert('Hiba! Nincs kapcsolat az adatbázissal.')
+                    errorNotification({
+                        title: 'Hiba!',
+                        message: 'Nincs kapcsolat az adatbázissal.'
+                    });
                 }
             });
         });
@@ -191,9 +214,9 @@
                                     postInventory(barcode, barcode_id, session, sector, quantity);
                                     break;
                                 case "<?php echo BARCODE_TYPE_ID['box']; ?>":
-                                    alert(data.box.name);
-                                    data.items.forEach(item => {
-                                        alert(item.name + ' ' + item.barcode);
+                                    errorNotification({
+                                        title: 'Hiba!',
+                                        message: 'Ez egy doboz.'
                                     });
                                     break;
                                 case "<?php echo BARCODE_TYPE_ID['sector']; ?>":
@@ -201,10 +224,18 @@
                                         if (confirm('Ez a szektor egy másik raktárban van. Biztosan át szeretnél váltani rá?')) {
                                             switchStorage($storageSelect, $sectionSelect, data.sector.storage_id);
                                             selectSector($sectionSelect, data.sector.id);
+                                            infoNotification({
+                                                title: 'Info',
+                                                message: 'Szektor átváltva erre: ' + data.sector.name
+                                            });
                                         }
                                     }
                                     else {
                                         selectSector($sectionSelect, data.sector.id);
+                                        infoNotification({
+                                            title: 'Info',
+                                            message: 'Szektor átváltva erre: ' + data.sector.name
+                                        });
                                     }
                                     break;
                                 default:
@@ -212,11 +243,17 @@
                             }
 						}
 						else {
-							alert('Ismeretlen eszköz');
+                            errorNotification({
+                                title: 'Hiba!',
+                                message: 'Ismeretlen eszköz.'
+                            });
 						}
 					},
                     error: function(data) {
-                        alert('Hiba! Nincs kapcsolat az adatbázissal.')
+                        errorNotification({
+                            title: 'Hiba!',
+                            message: 'Nincs kapcsolat az adatbázissal.'
+                        });
                     }
 				});
 
@@ -273,6 +310,12 @@
             },
             success: function(data) {
                 if (data.success) {
+                    successNotification({
+                        title: data.name,
+                        message: barcode
+                    });
+                    $('#beep')[0].play();
+
                     var $row = $('#' + barcode);
                     if ($row.length) {
                         $row.prependTo('#results > tbody');
@@ -295,11 +338,17 @@
                     }
                 }
                 else {
-                    alert('Ismeretlen eszköz');
+                    errorNotification({
+                        title: 'Hiba!',
+                        message: 'Ismeretlen eszköz.'
+                    });
                 }
             },
             error: function(data) {
-                alert('Hiba! Nincs kapcsolat az adatbázissal.')
+                errorNotification({
+                    title: 'Hiba!',
+                    message: 'Nincs kapcsolat az adatbázissal.'
+                });
             }
         });
     }

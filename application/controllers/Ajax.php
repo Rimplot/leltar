@@ -29,21 +29,23 @@ class Ajax extends CI_Controller
         $barcode = $this->input->post('barcode');
         $result = $this->inventory_model->check_type($barcode);
 
-        if ($result['type'] == BARCODE_TYPE_ID['item']) {
-            // check if it is stock
-            $item = $this->items_model->get_item_by_barcode($barcode);
-            $result['stock'] = ($item['type_id'] == ITEM_TYPE_ID['stock']);
-        }
-        else if ($result['type'] == BARCODE_TYPE_ID['box']) {
-            $box = $this->boxes_model->get_box_by_barcode($barcode);
-            $items = $this->boxes_model->get_items_in_box($box['id']);
+        if ($result['found']) {
+            if ($result['type'] == BARCODE_TYPE_ID['item']) {
+                // check if it is stock
+                $item = $this->items_model->get_item_by_barcode($barcode);
+                $result['stock'] = ($item['type_id'] == ITEM_TYPE_ID['stock']);
+            }
+            else if ($result['type'] == BARCODE_TYPE_ID['box']) {
+                $box = $this->boxes_model->get_box_by_barcode($barcode);
+                $items = $this->boxes_model->get_items_in_box($box['id']);
 
-            $result['box'] = $box;
-            $result['items'] = $items;
-        }
-        else if ($result['type'] == BARCODE_TYPE_ID['sector']) {
-            $sector = $this->sectors_model->get_sector_by_barcode($barcode);
-            $result['sector'] = $sector;
+                $result['box'] = $box;
+                $result['items'] = $items;
+            }
+            else if ($result['type'] == BARCODE_TYPE_ID['sector']) {
+                $sector = $this->sectors_model->get_sector_by_barcode($barcode);
+                $result['sector'] = $sector;
+            }
         }
 
         header('Content-Type: application/json');

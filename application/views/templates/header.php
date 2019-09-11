@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title><?php echo $page_title; ?> | Leltár</title>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/notifications.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/styles.css" />
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/bootstrap.bundle.min.js"></script>
@@ -13,6 +14,7 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/qz-tray.js"></script>
     <script type="text/javascript" src="https://cdn.rawgit.com/kjur/jsrsasign/c057d3447b194fa0a3fdcea110579454898e093d/jsrsasign-all-min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/connect-and-print.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/notifications.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
