@@ -7,6 +7,7 @@ class Ajax extends CI_Controller
         parent::__construct();
         $this->load->model('inventory_model');
         $this->load->model('items_model');
+        $this->load->model('boxes_model');
         $this->load->model('sessions_model');
     }
 
@@ -31,6 +32,13 @@ class Ajax extends CI_Controller
             // check if it is stock
             $item = $this->items_model->get_item_by_barcode($barcode);
             $result['stock'] = ($item['type_id'] == ITEM_TYPE_ID['stock']);
+        }
+        else if ($result['type'] == BARCODE_TYPE_ID['box']) {
+            $box = $this->boxes_model->get_box_by_barcode($barcode);
+            $items = $this->boxes_model->get_items_in_box($box['id']);
+
+            $result['box'] = $box;
+            $result['items'] = $items;
         }
 
         header('Content-Type: application/json');

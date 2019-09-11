@@ -196,7 +196,10 @@
                                     postInventory(barcode, barcode_id, session, sector, quantity);
                                     break;
                                 case "<?php echo BARCODE_TYPE_ID['box']; ?>":
-                                    alert('doboz');
+                                    alert(data.box.name);
+                                    data.items.forEach(item => {
+                                        alert(item.name + ' ' + item.barcode);
+                                    });
                                     break;
                                 case "<?php echo BARCODE_TYPE_ID['sector']; ?>":
                                     alert('szektor');

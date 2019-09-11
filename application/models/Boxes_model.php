@@ -87,6 +87,20 @@ class Boxes_model extends CI_Model
         }
     }
 
+    public function get_box_by_barcode($barcode = null) {
+        if ($barcode !== null) {
+            $this->db
+                ->select('boxes.*')
+                ->from('boxes')
+                ->join('barcodes', 'barcodes.id = boxes.barcode_id')
+                ->where('barcodes.barcode', $barcode);
+            $query = $this->db->get();
+            $result = $query->row_array();
+
+            return $result;
+        }
+    }
+
     public function get_items_in_box($id = null) {
         if ($id !== null) {
             $this->db->select('instances.*, items.category_id, items.type_id, items.name AS name, barcodes.barcode');
