@@ -55,7 +55,13 @@ class Owners_model extends CI_Model
         } else {
             $this->db->where('id = ' . $id);
             $query = $this->db->get();
-            return $query->row_array();
+            $result = $query->row_array();
+
+            if ($this->db->error()['code'] || !$query->num_rows()) {
+                show_404();
+            }
+
+            return $result;
         }
     }
 
@@ -68,10 +74,6 @@ class Owners_model extends CI_Model
             $this->db->where('owner_id', $id);
             $query = $this->db->get();
 
-            if ($this->db->error()['code']) {
-                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-            }
-            
             return $query->result_array();
         }
     }

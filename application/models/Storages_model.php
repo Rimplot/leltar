@@ -96,10 +96,6 @@ class Storages_model extends CI_Model
 
                 $query = $this->db->get();
 
-                if ($this->db->error()['code']) {
-                    die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-                }
-
                 $result = $query->result_array();
                 for ($i = 0; $i < count($result); $i++) {
                     $result[$i]['sector'] = $sector['name'];

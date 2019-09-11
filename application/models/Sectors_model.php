@@ -24,10 +24,6 @@ class Sectors_model extends CI_Model
 
         $this->db->insert('sectors', $data);
 
-        if ($this->db->error()['code']) {
-            die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-        }
-
         return $this->db->insert_id();
     }
 
@@ -103,10 +99,6 @@ class Sectors_model extends CI_Model
             $this->db->join('categories', 'categories.id = items.category_id', 'left');
 
             $query = $this->db->get();
-
-            if ($this->db->error()['code']) {
-                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-            }
             
             return $query->result_array();
         }

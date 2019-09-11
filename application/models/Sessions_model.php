@@ -56,8 +56,13 @@ class Sessions_model extends CI_Model
             return $result;
         } else {
             $this->db->where('id', $id);
-            $result = $this->db->get()->row_array();
+            $query = $this->db->get();
+            $result = $query->row_array();
             $result['item_num'] = count($this->get_session_items($id));
+
+            if ($this->db->error()['code'] || !$query->num_rows()) {
+                show_404();
+            }
 
             return $result;
         }
@@ -99,10 +104,6 @@ class Sessions_model extends CI_Model
             $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
             $this->db->join('storages', 'storages.id = sectors.storage_id');
             $query = $this->db->get();
-
-            if ($this->db->error()['code']) {
-                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-            }
             
             return $query->result_array();
         }

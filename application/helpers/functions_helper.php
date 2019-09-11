@@ -2,6 +2,15 @@
 
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+if (!function_exists('db_error_check')) {
+    function db_error_check() {
+        $CI =& get_instance();
+        if ($CI->db->error()['code']) {
+            die($CI->db->error()['code'] . ': ' . $CI->db->error()['message']);
+        }
+    }
+}
+
 if (!function_exists('labelBuilder')) {
     function labelBuilder($label, $args) {
         /*if ($label == NULL) {

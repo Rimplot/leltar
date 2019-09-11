@@ -89,14 +89,7 @@ class Sectors extends MY_Controller
 
     public function index()
     {
-        $data['page'] = 'sectors';
-        $data['page_title'] = "Szektorok";
-        $data['menu'] = $this->menu;
-        $data['sectors'] = $this->sectors_model->get_sectors();
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('sectors/' . $data['page'], $data);
-        $this->load->view('templates/footer');
+        show_404();
     }
 
     public function restore($storage_id = false, $sector_id = false)

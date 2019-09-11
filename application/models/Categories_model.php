@@ -64,6 +64,11 @@ class Categories_model extends CI_Model
         } else {
             $this->db->where('c1.id = ' . $id);
             $query = $this->db->get();
+            
+            if ($this->db->error()['code'] || !$query->num_rows()) {
+                show_404();
+            }
+
             return $query->row_array();
         }
     }
@@ -76,10 +81,6 @@ class Categories_model extends CI_Model
             $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
             $this->db->where('items.category_id', $id);
             $query = $this->db->get();
-
-            if ($this->db->error()['code']) {
-                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-            }
             
             return $query->result_array();
         }

@@ -131,10 +131,6 @@ class Items_model extends CI_Model
         $this->db->join('sectors', 'sectors.id = inventory.sector_id', 'left');
         $this->db->join('storages', 'storages.id = sectors.storage_id');
         $query = $this->db->get();
-
-        if ($this->db->error()['code']) {
-            die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-        }
         
         return $query;
     }

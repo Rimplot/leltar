@@ -80,6 +80,10 @@ class Boxes_model extends CI_Model
             $query = $this->db->get();
             $result = $query->row_array();
 
+            if ($this->db->error()['code'] || !$query->num_rows()) {
+                show_404();
+            }
+
             $result['item_num'] = count($this->get_items_in_box($id));
             // $result['last_seen'] = $this->items_model->get_last_seen($id);
 
@@ -109,10 +113,6 @@ class Boxes_model extends CI_Model
             $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
             $this->db->where('box_id', $id);
             $query = $this->db->get();
-
-            if ($this->db->error()['code']) {
-                die($this->db->error()['code'] . ': ' . $this->db->error()['message']);
-            }
             
             return $query->result_array();
         }
