@@ -73,25 +73,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-if (file_exists('D:/wamp/www/config.ini')) {
-    $config_full = parse_ini_file('D:/wamp/www/config.ini', true);
-    $config = $config_full['db_offline'];
-}
-else {
-    $config = parse_ini_string('
-        host = db101.websupport.sk:3312
-        username = leltar
-        password = 0x5jbpoiMHQ6hSVdbM
-        database = leltar
-    ');
-}
+$config_full = parse_ini_file(__DIR__ . '/../../../config.ini', true);
+$db_config = $config_full['database'];
+$reg_config = $config_full['reg'];
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => $config['host'],
-	'username' => $config['username'],
-	'password' => $config['password'],
-	'database' => $config['database'],
+	'hostname' => $db_config['host'],
+	'username' => $db_config['username'],
+	'password' => $db_config['password'],
+	'database' => $db_config['database'],
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['reg'] = array(
+	'dsn'	=> '',
+	'hostname' => $reg_config['host'],
+	'username' => $reg_config['username'],
+	'password' => $reg_config['password'],
+	'database' => $reg_config['database'],
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

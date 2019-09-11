@@ -23,7 +23,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = explode('/', $_SERVER['REQUEST_URI'])[0] . '/';
+if ($_SERVER['HTTP_HOST'] == "localhost") {
+    $config['base_url'] = "http://localhost/leltar/";
+}
+else {
+    $config['base_url'] = explode('/', $_SERVER['REQUEST_URI'])[0] . '/';
+}
+
 
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +106,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,7 +142,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------

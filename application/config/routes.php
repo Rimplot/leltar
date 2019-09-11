@@ -54,20 +54,41 @@ $route['items/view'] = 'items';
 $route['items/(:num)'] = 'items/view/$1';
 $route['items/(:num)/view'] = 'items/view/$1';
 $route['items/(:num)/edit'] = 'items/edit/$1';
-$route['items/(:num)/(:any)'] = 'items/view/$1/$2';
 
 $route['categories/view'] = 'categories';
 $route['categories/(:num)'] = 'categories/view/$1';
 $route['categories/(:num)/view'] = 'categories/view/$1';
 $route['categories/(:num)/edit'] = 'categories/edit/$1';
-$route['categories/(:num)/(:any)'] = 'categories/view/$1/$2';
+
+$route['labels/view'] = 'labels';
+$route['labels/(:num)'] = 'labels/view/$1';
+$route['labels/(:num)/view'] = 'labels/view/$1';
+$route['labels/(:num)/edit'] = 'labels/edit/$1';
+
+$route['boxes/view'] = 'boxes';
+$route['boxes/(:num)'] = 'boxes/view/$1';
+$route['boxes/(:num)/view'] = 'boxes/view/$1';
+$route['boxes/(:num)/edit'] = 'boxes/edit/$1';
 
 $route['storages/view'] = 'storages';
 $route['storages/(:num)'] = 'storages/view/$1';
 $route['storages/(:num)/view'] = 'storages/view/$1';
 $route['storages/(:num)/edit'] = 'storages/edit/$1';
-$route['storages/(:num)/(:any)'] = 'storages/view/$1/$2';
 
-$route['default_controller'] = 'pages';
+$route['owners/view'] = 'owners';
+$route['owners/(:num)'] = 'owners/view/$1';
+$route['owners/(:num)/view'] = 'owners/view/$1';
+$route['owners/(:num)/edit'] = 'owners/edit/$1';
+
+$route['sectors/(:num)'] = 'sectors/view/$1';
+$route['sectors/(:num)/view'] = 'sectors/view/$1';
+$route['sectors/(:num)/edit'] = 'sectors/edit/$1';
+
+$route['sessions/view'] = 'sessions';
+$route['sessions/(:num)'] = 'sessions/view/$1';
+$route['sessions/(:num)/view'] = 'sessions/view/$1';
+$route['sessions/(:num)/edit'] = 'sessions/edit/$1';
+
+$route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
