@@ -431,12 +431,6 @@
             },
             success: function(data) {
                 if (data.success) {
-                    successNotification({
-                        title: data.name,
-                        message: barcode
-                    });
-                    $('#beep')[0].play();
-
                     var $row = $('#' + barcode);
                     if ($row.length) {
                         $row.prependTo('#results > tbody');
@@ -460,6 +454,19 @@
                                 '<td><a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a></td>' +
                                '</tr>'
                         $('#results').find('tbody').prepend(row);
+                    }
+
+                    if (data.only_updated) {
+                        infoNotification({
+                            title: data.name,
+                            message: "Ez az eszköz már leltárazva volt az imént ebben a szektorban. Időpont frissítve, új bejegyzés nem került létrehozásra."
+                        });
+                    } else {
+                        successNotification({
+                            title: data.name,
+                            message: barcode
+                        });
+                        $('#beep')[0].play();
                     }
                 }
                 else {

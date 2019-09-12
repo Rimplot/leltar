@@ -76,6 +76,7 @@ class Inventory_model extends CI_Model
 
                     $result = $this->db->get()->row_array();
                     $result['success'] = true;
+                    $result['only_updated'] = false;
                 }
                 else {
                     $data = array(
@@ -112,6 +113,7 @@ class Inventory_model extends CI_Model
 
                     $result = $this->db->get()->row_array();
                     $result['success'] = true;
+                    $result['only_updated'] = true;
                 }
             }
 
