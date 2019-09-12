@@ -47,7 +47,7 @@ if (!function_exists('labelBuilder')) {
 
         $label = remove_accents($label);
 
-        return json_encode($label);
+        return $label;
     }
 }
  

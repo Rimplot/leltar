@@ -66,7 +66,7 @@ class Items_model extends CI_Model
 
     public function get_items($id = false)
     {
-        $this->db->select('items.*, instances.*, barcodes.barcode, categories.name AS category, types.name AS type, labels.content AS label, owners.name AS owner');
+        $this->db->select('items.*, instances.*, barcodes.barcode, barcodes.printed, categories.name AS category, types.name AS type, labels.content AS label, owners.name AS owner');
         $this->db->from('items');
         $this->db->join('instances', 'instances.item_id = items.id');
         $this->db->join('barcodes', 'instances.barcode_id = barcodes.id');
@@ -182,6 +182,12 @@ class Items_model extends CI_Model
         $this->db->from('barcodes');
         $this->db->where('barcode', $barcode);
         return boolval($this->db->get()->num_rows());
+    }
+    
+    public function set_barcode_printed($barcode)
+    {
+        $this->db->update('barcodes', array('printed' => 1), array('barcode' => $barcode));
+        return boolval($this->db->affected_rows());
     }
 
     public function get($id) {

@@ -60,7 +60,7 @@ qz.security.setSignaturePromise(function(toSign) {
             sig.init(pk);
             sig.updateString(toSign);
             var hex = sig.sign();
-            console.log("DEBUG: \n\n" + stob64(hextorstr(hex)));
+            // console.log("DEBUG: \n\n" + stob64(hextorstr(hex)));
             resolve(stob64(hextorstr(hex)));
         } catch (err) {
             console.error(err);

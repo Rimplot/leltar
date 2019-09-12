@@ -80,4 +80,8 @@ class Ajax extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode(array('barcode' => $barcode));
     }
+
+    public function set_barcode_printed() {
+        $this->items_model->set_barcode_printed($this->input->post('barcode'));
+    }
 }

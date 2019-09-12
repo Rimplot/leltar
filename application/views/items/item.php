@@ -224,8 +224,32 @@ $args = array(
             });
         });
 
+        var printed = <?php echo $item['printed']; ?>;
+        var label = `<?php echo labelBuilder($item['label'], $args); ?>`;
+
         $('#btnPrint').click(function() {
-            connectAndPrint(<?php echo labelBuilder($item['label'], $args); ?>);
+            if (label == "") {
+                alert('Kategória nélkül nem tudunk címkét nyomtatni.');
+                return;
+            }
+
+            if (!printed) {
+                if (confirm('A címke kinyomtatása után később már nem módosíthatod a vonalkódot. Biztosan folytatni szeretnéd?')) {
+                    connectAndPrint(label).then(() => {
+                        $.ajax({
+                            url: "<?php echo base_url(); ?>" + "ajax/set_barcode_printed",
+                            type: "post",
+                            dataType: "json",
+                            data: {
+                                'barcode': "<?php echo $item['barcode']; ?>"
+                            }
+                        });
+                    });
+                    printed = true;
+                }
+            } else {
+                connectAndPrint(label);
+            }
         });
     });
 </script>
