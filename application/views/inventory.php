@@ -446,16 +446,20 @@
                         $rowData.eq(5).html('<a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a>');
                     }
                     else {
-                        $('#results').find('tbody').prepend(
-                            '<tr id="' + data.barcode + '">' +
+                        row = '<tr id="' + data.barcode + '">' +
                                 '<th scope="row">' + data.id + '</th>' +
                                 '<td><a href="' + '<?php echo base_url(); ?>' + 'items/' + data.item_id + '">' + data.name + '</a></td>' +
-                                '<td>' + data.barcode + '</td>' +
-                                '<td><a href="' + '<?php echo base_url(); ?>' + 'categories/' + data.category_id + '">' + data.category + '<a/></td>' +
-                                '<td>' + data.time + '</td>' +
+                                '<td>' + data.barcode + '</td>';
+                        if (data.category_id) {
+                            row += '<td><a href="' + '<?php echo base_url(); ?>' + 'categories/' + data.category_id + '">' + data.category + '<a/></td>';
+                        } else {
+                            row += '<td></td>';
+                        }
+                        row +=  '<td>' + data.time + '</td>' +
                                 '<td><a href="' + '<?php echo base_url(); ?>' + 'sessions/' + data.session_id + '">' + data.session + '</a></td>' +
                                 '<td><a href="' + '<?php echo base_url(); ?>' + 'storages/' + data.storage_id + '">' + data.storage + ', ' + data.sector + '</a></td>' +
-                            '</tr>');
+                               '</tr>'
+                        $('#results').find('tbody').prepend(row);
                     }
                 }
                 else {

@@ -105,7 +105,7 @@ class Inventory_model extends CI_Model
                     $this->db->join('instances', 'instances.id = inventory.item_id');
                     $this->db->join('items', 'items.id = instances.item_id');
                     $this->db->join('barcodes', 'barcodes.id = instances.barcode_id');
-                    $this->db->join('categories', 'categories.id = items.category_id');
+                    $this->db->join('categories', 'categories.id = items.category_id', 'left');
                     $this->db->join('sessions', 'sessions.id = inventory.session_id');
                     $this->db->join('sectors', 'sectors.id = inventory.sector_id');
                     $this->db->join('storages', 'storages.id = sectors.storage_id');
