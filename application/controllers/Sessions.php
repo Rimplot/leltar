@@ -39,11 +39,12 @@ class Sessions extends MY_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'session';
-        $data['page_title'] = "Sessions";
-        $data['menu'] = $this->menu;
         $data['session'] = $this->sessions_model->get_sessions($id);
         $data['items'] = $this->sessions_model->get_session_items($id);
+
+        $data['page'] = 'session';
+        $data['page_title'] = $data['session']['name'];
+        $data['menu'] = $this->menu;
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('finished')) $this->load->view('success', array('type' => 'session', 'action' => 'finished'));

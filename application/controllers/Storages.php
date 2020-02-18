@@ -111,15 +111,16 @@ class Storages extends MY_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'storage';
-        $data['page_title'] = "Raktár";
-        $data['menu'] = $this->menu;
         $data['storage'] = $this->storages_model->get_storages($id);
         $data['sectors'] = $this->storages_model->get_sectors($id);
         for ($i = 0; $i < count($data['sectors']); $i++) {
             $data['sectors'][$i]['items_num'] = count($this->sectors_model->get_items_last_seen_in_sector($data['sectors'][$i]['id']));
         }
         $data['items'] = $this->storages_model->get_items_last_seen_in_storage($id);
+
+        $data['page'] = 'storage';
+        $data['page_title'] = $data['storage']['name'];
+        $data['menu'] = $this->menu;
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'storage', 'action' => 'created'));

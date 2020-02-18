@@ -80,11 +80,12 @@ class Labels extends MY_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'label';
-        $data['page_title'] = "Címke";
-        $data['menu'] = $this->menu;
         $data['label'] = $this->labels_model->get_labels($id);
         $data['categories'] = $this->labels_model->get_categories_with_label($id);
+        
+        $data['page'] = 'label';
+        $data['page_title'] = $data['label']['name'];
+        $data['menu'] = $this->menu;
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'label', 'action' => 'created'));

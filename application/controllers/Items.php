@@ -133,9 +133,6 @@ class Items extends MY_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'item';
-        $data['page_title'] = "Eszköz";
-        $data['menu'] = $this->menu;
         $data['item'] = $this->items_model->get_items($id);
         $data['inventory_history'] = $this->items_model->get_item_history($id);
         $data['storages'] = $this->storages_model->get_storages();
@@ -143,7 +140,7 @@ class Items extends MY_Controller
             $data['storages'][$i]['sectors'] = $this->storages_model->get_sectors($data['storages'][$i]['id']);
         }
         $data['instances'] = $this->items_model->get_instances($data['item']['item_id']);
-
+        
         $data['item']['creator_name'] = $this->users_model->get_name($data['item']['created_by']);
         if ($data['item']['last_modified_by'] !== null) {
             if ($data['item']['last_modified_by'] !== $data['item']['created_by']) {
@@ -152,6 +149,10 @@ class Items extends MY_Controller
                 $data['item']['last_modified_name'] = $data['item']['creator_name'];
             }
         }
+        
+        $data['page'] = 'item';
+        $data['page_title'] = $data['item']['name'];
+        $data['menu'] = $this->menu;
         
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'item', 'action' => 'created'));

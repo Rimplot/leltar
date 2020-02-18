@@ -78,11 +78,12 @@ class Owners extends MY_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'owner';
-        $data['page_title'] = "Tulajdonos";
-        $data['menu'] = $this->menu;
         $data['owner'] = $this->owners_model->get_owners($id);
         $data['items'] = $this->owners_model->get_items_of_owner($id);
+
+        $data['page'] = 'owner';
+        $data['page_title'] = $data['owner']['name'];
+        $data['menu'] = $this->menu;
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'owner', 'action' => 'created'));

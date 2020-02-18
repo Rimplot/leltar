@@ -82,11 +82,12 @@ class Boxes extends MY_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'box';
-        $data['page_title'] = "Doboz";
-        $data['menu'] = $this->menu;
         $data['box'] = $this->boxes_model->get_boxes($id);
         $data['items'] = $this->boxes_model->get_items_in_box($id);
+
+        $data['page'] = 'box';
+        $data['page_title'] = $data['box']['name'];
+        $data['menu'] = $this->menu;
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'box', 'action' => 'created'));

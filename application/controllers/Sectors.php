@@ -103,11 +103,12 @@ class Sectors extends MY_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'sector';
-        $data['page_title'] = "Szektor";
-        $data['menu'] = $this->menu;
         $data['sector'] = $this->sectors_model->get_sectors($id);
         $data['items'] = $this->sectors_model->get_items_last_seen_in_sector($id);
+        
+        $data['page'] = 'sector';
+        $data['page_title'] = $data['sector']['name'];
+        $data['menu'] = $this->menu;
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'sector', 'action' => 'created'));

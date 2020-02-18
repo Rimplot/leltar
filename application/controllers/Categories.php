@@ -83,11 +83,12 @@ class Categories extends MY_Controller
 
     public function view($id = false, $msg = null)
     {
-        $data['page'] = 'category';
-        $data['page_title'] = "Kategória";
-        $data['menu'] = $this->menu;
         $data['category'] = $this->categories_model->get_categories($id);
         $data['items'] = $this->categories_model->get_items_in_category($id);
+
+        $data['page'] = 'category';
+        $data['page_title'] = $data['category']['name'];
+        $data['menu'] = $this->menu;
 
         $this->load->view('templates/header', $data);
         if ($this->session->flashdata('created')) $this->load->view('success', array('type' => 'category', 'action' => 'created'));
