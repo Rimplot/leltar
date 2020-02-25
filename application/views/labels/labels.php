@@ -30,7 +30,7 @@
 <script>
     $(document).ready(function() {
         $('#btnPrint').click(function() {
-            connectAndPrint("~JC").then(function() {
+            connectAndPrint("^G1 ~JC").then(function() {
                 alert('Ne felejtsd el megnyomni a gombot a nyomtatón, hogy beigazítsa a szalagot!');
             });
         });
