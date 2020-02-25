@@ -34,7 +34,8 @@ class Items_model extends CI_Model
             'value' => ($this->input->post('value') == "") ? NULL : $this->input->post('value'),
             'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
             'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
-            'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock')
+            'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock'),
+            'properties' => ($this->input->post('properties') == "") ? NULL : $this->input->post('properties'),
         );
         $data['item_id'] = ($id === null) ? $item_id : $id;
         $this->db->insert('instances', $data);
@@ -168,6 +169,7 @@ class Items_model extends CI_Model
                 'box_id' => ($this->input->post('box') == 0) ? NULL : $this->input->post('box'),
                 'owner_id' => ($this->input->post('owner') == 0) ? NULL : $this->input->post('owner'),
                 'stock' => ($this->input->post('stock') == 0) ? NULL : $this->input->post('stock'),
+                'properties' => ($this->input->post('properties') == "") ? NULL : $this->input->post('properties'),
                 'last_modified_by' => $this->session->user['id'],
                 'last_modified_date' => date("Y-m-d H:i:s")
             );

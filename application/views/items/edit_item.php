@@ -87,6 +87,10 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="form-control-label">Tulajdonságok JSON</label>
+            <textarea class="form-control" name="properties" id="properties"><?php echo $item['properties']; ?></textarea>
+        </div>
+        <div class="form-group">
             <input type="submit" name="submit" class="btn btn-primary" value="Mentés" />
         </div>
     </div>
